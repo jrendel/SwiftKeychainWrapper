@@ -9,7 +9,7 @@
 import Foundation
 
 class KeychainWrapper {
-    private struct Internal {
+    private struct internalVars {
         static var serviceName: String = ""
     }
     
@@ -22,18 +22,18 @@ class KeychainWrapper {
     */
     class var serviceName: String {
         get {
-            if Internal.serviceName.isEmpty {
+            if internalVars.serviceName.isEmpty {
                 let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
                 if let bundleIdentifierString = bundleIdentifier {
-                    Internal.serviceName = bundleIdentifierString
+                    internalVars.serviceName = bundleIdentifierString
                 } else {
-                    Internal.serviceName = "SwiftKeychainWrapper"
+                    internalVars.serviceName = "SwiftKeychainWrapper"
                 }
             }
-            return Internal.serviceName
+            return internalVars.serviceName
         }
         set(newServiceName) {
-            Internal.serviceName = newServiceName
+            internalVars.serviceName = newServiceName
         }
     }
 
