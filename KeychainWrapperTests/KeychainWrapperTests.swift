@@ -73,6 +73,17 @@ class KeychainWrapperTests: XCTestCase {
         KeychainWrapper.removeObjectForKey(testKey)
     }
     
+    func testStringRetrievalWhenValueDoesNotExist() {
+        if let retrievedString = KeychainWrapper.stringForKey(testKey) {
+            XCTFail("String for Key should not exist")
+        } else {
+            XCTAssert(true, "Pass")
+        }
+        
+        // clean up keychain
+        KeychainWrapper.removeObjectForKey(testKey)
+    }
+
     func testNSCodingObjectSave() {
         let myTestObject = testObject()
         let objectSaved = KeychainWrapper.setObject(myTestObject, forKey: testKey)
@@ -96,6 +107,17 @@ class KeychainWrapperTests: XCTestCase {
             XCTAssertEqual(retrievedObject.objectRating, testInt, "NSCoding compliant object retrieved for key should have objectRating property equal to what it was stored with")
         } else {
             XCTFail("Object for Key not found")
+        }
+        
+        // clean up keychain
+        KeychainWrapper.removeObjectForKey(testKey)
+    }
+    
+    func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
+        if let retrievedObject = KeychainWrapper.objectForKey(testKey) as? testObject{
+            XCTFail("Object for Key should not exist")
+        } else {
+            XCTAssert(true, "Pass")
         }
         
         // clean up keychain
@@ -131,6 +153,17 @@ class KeychainWrapperTests: XCTestCase {
             }
         } else {
             XCTFail("Failed to create NSData")
+        }
+        
+        // clean up keychain
+        KeychainWrapper.removeObjectForKey(testKey)
+    }
+    
+    func testNSDataRetrievalWhenValueDoesNotExist() {
+        if let retrievedData = KeychainWrapper.dataForKey(testKey) {
+            XCTFail("Data for Key should not exist")
+        } else {
+            XCTAssert(true, "Pass")
         }
         
         // clean up keychain
