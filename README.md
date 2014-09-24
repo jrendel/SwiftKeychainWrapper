@@ -25,6 +25,7 @@ let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 
 Notes
 =====
+The one thing I am unsure of at this point, is how Swift handles bridging objects between NS objects and Core Foundation objects. In Objective C I had to bridge them with a cast, but the compiler didn't complain in Swift about bridging.
 
 Currently this is not a static library, as static libraries do not support swift code when I created this. I intend to update this project to a static library and make it a cocoapod once supported.
 
