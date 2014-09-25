@@ -53,13 +53,13 @@ class KeychainWrapper {
         return stringValue
     }
     
-    class func objectForKey(keyName: String) -> AnyObject? {
+    class func objectForKey(keyName: String) -> NSObject? {
         let dataValue: NSData? = self.dataForKey(keyName)
         
-        var objectValue: AnyObject?
+        var objectValue: NSObject?
         
         if let data = dataValue {
-            objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+            objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as NSObject?
         }
         
         return objectValue;
@@ -98,10 +98,15 @@ class KeychainWrapper {
         }
     }
     
-    class func setObject(value: AnyObject, forKey keyName: String) -> Bool {
-        let data = NSKeyedArchiver.archivedDataWithRootObject(value)
+    class func setObject(value: NSObject, forKey keyName: String) -> Bool {
+        // make sure the object is NSCoding compliant
+        if let nsCodingObject = value as? NSCoding {
+            let data = NSKeyedArchiver.archivedDataWithRootObject(nsCodingObject)
             
-        return self.setData(data, forKey: keyName)
+            return self.setData(data, forKey: keyName)
+        } else {
+            return false
+        }
     }
 
     class func setData(value: NSData, forKey keyName: String) -> Bool {

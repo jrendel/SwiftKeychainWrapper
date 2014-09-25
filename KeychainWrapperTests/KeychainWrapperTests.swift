@@ -88,11 +88,22 @@ class KeychainWrapperTests: XCTestCase {
         let myTestObject = testObject()
         let objectSaved = KeychainWrapper.setObject(myTestObject, forKey: testKey)
         
-        XCTAssertTrue(objectSaved, "Object did not save to Keychain")
+        XCTAssertTrue(objectSaved, "Object that implements NSCoding should save to Keychain")
         
         // clean up keychain
         KeychainWrapper.removeObjectForKey(testKey)
     }
+    
+    func testObjectThatIsNotNSCodingCompliantFailsSave() {
+        let myTestObject = NSObject()
+        let objectSaved = KeychainWrapper.setObject(myTestObject, forKey: testKey)
+        
+        XCTAssertFalse(objectSaved, "Object that does not implement NSCoding should not save to Keychain")
+        
+        // clean up keychain
+        KeychainWrapper.removeObjectForKey(testKey)
+    }
+    
     
     func testNSCodingObjectRetrieval() {
         var testInt: Int = 9
