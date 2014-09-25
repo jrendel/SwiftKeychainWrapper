@@ -23,12 +23,7 @@ class KeychainWrapper {
     class var serviceName: String {
         get {
             if internalVars.serviceName.isEmpty {
-                let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
-                if let bundleIdentifierString = bundleIdentifier {
-                    internalVars.serviceName = bundleIdentifierString
-                } else {
-                    internalVars.serviceName = "SwiftKeychainWrapper"
-                }
+                internalVars.serviceName = NSBundle.mainBundle().bundleIdentifier ?? "SwiftKeychainWrapper"
             }
             return internalVars.serviceName
         }
