@@ -10,7 +10,6 @@
 		961101CC19D2583500E6A6E3 /* KeychainWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961101CB19D2583500E6A6E3 /* KeychainWrapperTests.swift */; };
 		961101D119D2589000E6A6E3 /* testObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961101D019D2589000E6A6E3 /* testObject.swift */; };
 		961101D319D2589500E6A6E3 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 961101D219D2589500E6A6E3 /* KeychainWrapper.swift */; };
-		961101D519D26F2800E6A6E3 /* README.md in Sources */ = {isa = PBXBuildFile; fileRef = 961101D419D26F2800E6A6E3 /* README.md */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -136,7 +135,6 @@
 			files = (
 				961101D319D2589500E6A6E3 /* KeychainWrapper.swift in Sources */,
 				961101D119D2589000E6A6E3 /* testObject.swift in Sources */,
-				961101D519D26F2800E6A6E3 /* README.md in Sources */,
 				961101CC19D2583500E6A6E3 /* KeychainWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
