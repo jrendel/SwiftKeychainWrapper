@@ -23,12 +23,7 @@ class KeychainWrapper {
     class var serviceName: String {
         get {
             if internalVars.serviceName.isEmpty {
-                let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
-                if let bundleIdentifierString = bundleIdentifier {
-                    internalVars.serviceName = bundleIdentifierString
-                } else {
-                    internalVars.serviceName = "SwiftKeychainWrapper"
-                }
+                internalVars.serviceName = NSBundle.mainBundle().bundleIdentifier ?? "SwiftKeychainWrapper"
             }
             return internalVars.serviceName
         }
@@ -58,13 +53,13 @@ class KeychainWrapper {
         return stringValue
     }
     
-    class func objectForKey(keyName: String) -> AnyObject? {
+    class func objectForKey(keyName: String) -> NSCoding? {
         let dataValue: NSData? = self.dataForKey(keyName)
         
-        var objectValue: AnyObject?
+        var objectValue: NSCoding?
         
         if let data = dataValue {
-            objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data)
+            objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as NSCoding?
         }
         
         return objectValue;
@@ -103,7 +98,7 @@ class KeychainWrapper {
         }
     }
     
-    class func setObject(value: AnyObject, forKey keyName: String) -> Bool {
+    class func setObject(value: NSCoding, forKey keyName: String) -> Bool {
         let data = NSKeyedArchiver.archivedDataWithRootObject(value)
             
         return self.setData(data, forKey: keyName)
