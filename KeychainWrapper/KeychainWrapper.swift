@@ -69,10 +69,10 @@ class KeychainWrapper {
         var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
         // Limit search results to one
-        keychainQueryDictionary[kSecMatchLimit] = kSecMatchLimitOne
+        keychainQueryDictionary[kSecMatchLimit as String] = kSecMatchLimitOne
         
         // Specify we want NSData/CFData returned
-        keychainQueryDictionary[kSecReturnData] = kCFBooleanTrue
+        keychainQueryDictionary[kSecReturnData as String] = kCFBooleanTrue
         
         // Search
         var searchResultRef: Unmanaged<AnyObject>?
@@ -107,16 +107,16 @@ class KeychainWrapper {
     class func setData(value: NSData, forKey keyName: String) -> Bool {
         var keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
-        keychainQueryDictionary[kSecValueData] = value
+        keychainQueryDictionary[kSecValueData as String] = value
         
         // Protect the keychain entry so it's only valid when the device is unlocked
-        keychainQueryDictionary[kSecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
+        keychainQueryDictionary[kSecAttrAccessible as String] = kSecAttrAccessibleWhenUnlocked
         
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
-        } else if Int(status) == errSecDuplicateItem {
+        } else if status == errSecDuplicateItem {
             return self.updateData(value, forKey: keyName)
         } else {
             return false
@@ -130,7 +130,7 @@ class KeychainWrapper {
         //Delete
         let status: OSStatus =  SecItemDelete(keychainQueryDictionary);
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
         } else {
             return false
@@ -140,12 +140,12 @@ class KeychainWrapper {
 // MARK: Private Methods
     private class func updateData(value: NSData, forKey keyName: String) -> Bool {
         let keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
-        let updateDictionary = [kSecValueData:value]
+        let updateDictionary = [kSecValueData as String:value]
         
         // Update
         let status: OSStatus = SecItemUpdate(keychainQueryDictionary, updateDictionary)
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
         } else {
             return false
@@ -154,16 +154,16 @@ class KeychainWrapper {
     
     private class func setupKeychainQueryDictionaryForKey(keyName: String) -> NSMutableDictionary {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
-        var keychainQueryDictionary: NSMutableDictionary = [kSecClass:kSecClassGenericPassword]
+        var keychainQueryDictionary: NSMutableDictionary = [kSecClass as String:kSecClassGenericPassword]
         
         // Uniquely identify this keychain accessor
-        keychainQueryDictionary[kSecAttrService] = KeychainWrapper.serviceName
+        keychainQueryDictionary[kSecAttrService as String] = KeychainWrapper.serviceName
 
         // Uniquely identify the account who will be accessing the keychain
         var encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
             
-        keychainQueryDictionary[kSecAttrGeneric] = encodedIdentifier
-        keychainQueryDictionary[kSecAttrAccount] = encodedIdentifier
+        keychainQueryDictionary[kSecAttrGeneric as String] = encodedIdentifier
+        keychainQueryDictionary[kSecAttrAccount as String] = encodedIdentifier
         
         return keychainQueryDictionary
     }
