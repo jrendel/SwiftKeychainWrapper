@@ -114,9 +114,9 @@ class KeychainWrapper {
         
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
-        } else if Int(status) == errSecDuplicateItem {
+        } else if status == errSecDuplicateItem {
             return self.updateData(value, forKey: keyName)
         } else {
             return false
@@ -130,7 +130,7 @@ class KeychainWrapper {
         //Delete
         let status: OSStatus =  SecItemDelete(keychainQueryDictionary);
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
         } else {
             return false
@@ -145,7 +145,7 @@ class KeychainWrapper {
         // Update
         let status: OSStatus = SecItemUpdate(keychainQueryDictionary, updateDictionary)
         
-        if Int(status) == errSecSuccess {
+        if status == errSecSuccess {
             return true
         } else {
             return false
