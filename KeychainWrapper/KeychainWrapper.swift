@@ -8,8 +8,17 @@
 
 import Foundation
 
+let SecMatchLimit: String! = kSecMatchLimit as String
+let SecReturnData: String! = kSecReturnData as String
+let SecValueData: String! = kSecValueData as String
+let SecAttrAccessible: String! = kSecAttrAccessible as String
+let SecClass: String! = kSecClass as String
+let SecAttrService: String! = kSecAttrService as String
+let SecAttrGeneric: String! = kSecAttrGeneric as String
+let SecAttrAccount: String! = kSecAttrAccount as String
+
 class KeychainWrapper {
-    private struct internalVars {
+   private struct internalVars {
         static var serviceName: String = ""
     }
     
@@ -22,10 +31,10 @@ class KeychainWrapper {
     */
     class var serviceName: String {
         get {
-        if internalVars.serviceName.isEmpty {
-        internalVars.serviceName = NSBundle.mainBundle().bundleIdentifier ?? "SwiftKeychainWrapper"
-        }
-        return internalVars.serviceName
+            if internalVars.serviceName.isEmpty {
+                internalVars.serviceName = NSBundle.mainBundle().bundleIdentifier ?? "SwiftKeychainWrapper"
+            }
+            return internalVars.serviceName
         }
         set(newServiceName) {
             internalVars.serviceName = newServiceName
@@ -69,11 +78,9 @@ class KeychainWrapper {
         var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
         // Limit search results to one
-        let SecMatchLimit: String! = kSecMatchLimit as String
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
         
         // Specify we want NSData/CFData returned
-        let SecReturnData: String! = kSecReturnData as String
         keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
         
         // Search
@@ -109,20 +116,16 @@ class KeychainWrapper {
     class func setData(value: NSData, forKey keyName: String) -> Bool {
         var keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
-        let SecValueData: String! = kSecValueData as String
         keychainQueryDictionary[SecValueData] = value
         
         // Protect the keychain entry so it's only valid when the device is unlocked
-        let SecAttrAccessible: String! = kSecAttrAccessible as String
         keychainQueryDictionary[SecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
         
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
         
-        let SecSuccess: Int! = Int(errSecSuccess)
-        let SecDuplicateItem: Int! = Int(errSecDuplicateItem)
-        if Int(status) == SecSuccess {
+        if status == errSecSuccess {
             return true
-        } else if Int(status) == SecDuplicateItem {
+        } else if status == errSecDuplicateItem {
             return self.updateData(value, forKey: keyName)
         } else {
             return false
@@ -136,8 +139,7 @@ class KeychainWrapper {
         // Delete
         let status: OSStatus =  SecItemDelete(keychainQueryDictionary);
         
-        let SecSuccess: Int! = Int(errSecSuccess)
-        if Int(status) == SecSuccess {
+        if status == errSecSuccess {
             return true
         } else {
             return false
@@ -147,14 +149,12 @@ class KeychainWrapper {
     // MARK: Private Methods
     private class func updateData(value: NSData, forKey keyName: String) -> Bool {
         let keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
-        let SecValueData: String! = kSecValueData as String
         let updateDictionary = [SecValueData:value]
         
         // Update
         let status: OSStatus = SecItemUpdate(keychainQueryDictionary, updateDictionary)
-        
-        let SecSuccess: Int! = Int(errSecSuccess)
-        if Int(status) == SecSuccess {
+
+        if status == errSecSuccess {
             return true
         } else {
             return false
@@ -163,20 +163,16 @@ class KeychainWrapper {
     
     private class func setupKeychainQueryDictionaryForKey(keyName: String) -> NSMutableDictionary {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
-        let SecClass: String! = kSecClass as String
         var keychainQueryDictionary: NSMutableDictionary = [SecClass:kSecClassGenericPassword]
         
         // Uniquely identify this keychain accessor
-        let SecAttrService: String! = kSecAttrService as String
         keychainQueryDictionary[SecAttrService] = KeychainWrapper.serviceName
         
         // Uniquely identify the account who will be accessing the keychain
         var encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
         
-        let SecAttrGeneric: String! = kSecAttrGeneric as String
         keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
         
-        let SecAttrAccount: String! = kSecAttrAccount as String
         keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
         
         return keychainQueryDictionary
