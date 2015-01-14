@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 jasonrendel. All rights reserved.
 //
 
-import UIKit
+import SwiftKeychainWrapper
 import XCTest
 
 let testKey = "myTestKey"
