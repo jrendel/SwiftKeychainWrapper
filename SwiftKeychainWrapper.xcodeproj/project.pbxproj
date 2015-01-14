@@ -95,8 +95,8 @@
 		9694C2BE1A66097F005B3030 /* SwiftKeychainWrapperTests */ = {
 			isa = PBXGroup;
 			children = (
-				9694C2CE1A660F9C005B3030 /* KeychainWrapperTests.swift */,
 				9694C2CF1A660F9C005B3030 /* testObject.swift */,
+				9694C2CE1A660F9C005B3030 /* KeychainWrapperTests.swift */,
 				9694C2BF1A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapperTests;
@@ -176,7 +176,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 961101BF19D2581700E6A6E3 /* Build configuration list for PBXProject "KeychainWrapper" */;
+			buildConfigurationList = 961101BF19D2581700E6A6E3 /* Build configuration list for PBXProject "SwiftKeychainWrapper" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -445,7 +445,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		961101BF19D2581700E6A6E3 /* Build configuration list for PBXProject "KeychainWrapper" */ = {
+		961101BF19D2581700E6A6E3 /* Build configuration list for PBXProject "SwiftKeychainWrapper" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				961101C019D2581700E6A6E3 /* Debug */,
