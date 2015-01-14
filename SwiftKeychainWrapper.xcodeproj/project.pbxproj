@@ -12,6 +12,8 @@
 		9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */; };
 		9694C2D01A660F9C005B3030 /* KeychainWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CE1A660F9C005B3030 /* KeychainWrapperTests.swift */; };
 		9694C2D11A660F9C005B3030 /* testObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CF1A660F9C005B3030 /* testObject.swift */; };
+		9694C3311A66183F005B3030 /* KeychainObjcWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9694C32F1A66183F005B3030 /* KeychainObjcWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		9694C3321A66183F005B3030 /* KeychainObjcWrapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 9694C3301A66183F005B3030 /* KeychainObjcWrapper.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,6 +36,8 @@
 		9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
 		9694C2CE1A660F9C005B3030 /* KeychainWrapperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperTests.swift; sourceTree = "<group>"; };
 		9694C2CF1A660F9C005B3030 /* testObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = testObject.swift; sourceTree = "<group>"; };
+		9694C32F1A66183F005B3030 /* KeychainObjcWrapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeychainObjcWrapper.h; sourceTree = "<group>"; };
+		9694C3301A66183F005B3030 /* KeychainObjcWrapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeychainObjcWrapper.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +83,8 @@
 			children = (
 				9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */,
 				9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */,
+				9694C32F1A66183F005B3030 /* KeychainObjcWrapper.h */,
+				9694C3301A66183F005B3030 /* KeychainObjcWrapper.m */,
 				9694C2B21A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapper;
@@ -117,6 +123,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9694C3311A66183F005B3030 /* KeychainObjcWrapper.h in Headers */,
 				9694C2B51A66097F005B3030 /* SwiftKeychainWrapper.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -217,6 +224,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */,
+				9694C3321A66183F005B3030 /* KeychainObjcWrapper.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,7 +251,9 @@
 		961101C019D2581700E6A6E3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -251,6 +261,8 @@
 		961101C119D2581700E6A6E3 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 			};
 			name = Release;
 		};
@@ -301,6 +313,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -348,6 +362,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";

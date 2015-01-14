@@ -84,18 +84,22 @@ public class KeychainWrapper {
         keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
         
         // Search
-        var searchResultRef: Unmanaged<AnyObject>?
-        var keychainValue: NSData?
-        
-        let status: OSStatus = SecItemCopyMatching(keychainQueryDictionary, &searchResultRef)
-        
-        if status == noErr {
-            if let resultRef = searchResultRef {
-                keychainValue = resultRef.takeUnretainedValue() as? NSData
-            }
-        }
-        
-        return keychainValue;
+//        var searchResultRef: Unmanaged<AnyObject>?
+//        var keychainValue: NSData?
+//        
+//        let status: OSStatus = SecItemCopyMatching(keychainQueryDictionary, &searchResultRef)
+//        
+//        if status == noErr {
+//            if let resultRef = searchResultRef {
+//                keychainValue = resultRef.takeUnretainedValue() as? NSData
+//            }
+//        }
+//        
+//        return keychainValue;
+        // use the objective c wrapper for now as a work around to a known issue where data retrievale fails
+        // for Swift optimized builds.
+        // http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles
+        return  KeychainObjcWrapper.dataForDictionary(keychainQueryDictionary)
     }
     
     // MARK: Setting Values
