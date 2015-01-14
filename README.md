@@ -1,3 +1,5 @@
+* See Develop branch for latest updates.
+
 KeychainWrapper
 ===============
 A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to user defaults. Written in Swift.
