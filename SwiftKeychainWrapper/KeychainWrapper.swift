@@ -92,6 +92,7 @@ public class KeychainWrapper {
 //        if status == noErr {
 //            if let resultRef = searchResultRef {
 //                keychainValue = resultRef.takeUnretainedValue() as? NSData
+//                resultRef.autorelease()
 //            }
 //        }
 //        
