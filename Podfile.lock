@@ -1,0 +1,20 @@
+PODS:
+  - SwiftKeychainWrapper (1.0.4)
+
+DEPENDENCIES:
+  - SwiftKeychainWrapper (from `https://github.com/jrendel/SwiftKeychainWrapper`, branch `develop`)
+
+EXTERNAL SOURCES:
+  SwiftKeychainWrapper:
+    :branch: develop
+    :git: https://github.com/jrendel/SwiftKeychainWrapper
+
+CHECKOUT OPTIONS:
+  SwiftKeychainWrapper:
+    :commit: 69b387878153293e7e022bcc397440819fb0901b
+    :git: https://github.com/jrendel/SwiftKeychainWrapper
+
+SPEC CHECKSUMS:
+  SwiftKeychainWrapper: 917610cb7113c0ba3a3dd4c175912753f34a5279
+
+COCOAPODS: 0.36.0.beta.2

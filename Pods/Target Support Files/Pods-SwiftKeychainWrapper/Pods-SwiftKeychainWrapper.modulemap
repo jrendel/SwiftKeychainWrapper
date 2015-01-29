@@ -1,0 +1,6 @@
+framework module SwiftKeychainWrapper {
+  umbrella header "Pods-SwiftKeychainWrapper-umbrella.h"
+
+  export *
+  module * { export * }
+}
