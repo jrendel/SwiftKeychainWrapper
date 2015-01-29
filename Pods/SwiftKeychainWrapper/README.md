@@ -23,7 +23,7 @@ let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 ```
 
 Notes
-=====
+======
 v1.0.4-dev has been tagged in the develop branch
 
 This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
@@ -35,6 +35,8 @@ http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-prof
 This is not an ideal solution, so as recommended, I've added an objective c wrapper/helper for the keychain data retrieval. This allows the KeychainWrapper to work as expected with Swift compile optimizations enabled. 
 
 I'll push this version to master once I get a chance to test the Cocoapods integration or hear feedback that its working.
+
+======
 
 v1.0.2 has been updated for Xcode 6.1
 
