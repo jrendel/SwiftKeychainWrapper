@@ -11,10 +11,10 @@ EXTERNAL SOURCES:
 
 CHECKOUT OPTIONS:
   SwiftKeychainWrapper:
-    :commit: 7fb6e660310b1b36688c3b7dff82cbdadc09363d
+    :commit: 208f4f832fe8e6d27b5b0b156f59ffe71cfc3787
     :git: https://github.com/jrendel/SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
-  SwiftKeychainWrapper: 1a89e3d70852a2766001c73575f133a2de6954c5
+  SwiftKeychainWrapper: e81ed7b854c42b750062b6192d94126f972ee8ef
 
 COCOAPODS: 0.36.0.beta.2
