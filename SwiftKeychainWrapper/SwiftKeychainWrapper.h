@@ -15,5 +15,5 @@ FOUNDATION_EXPORT double SwiftKeychainWrapperVersionNumber;
 FOUNDATION_EXPORT const unsigned char SwiftKeychainWrapperVersionString[];
 
 // In this header, you should import all the public headers of your framework using statements like #import <SwiftKeychainWrapper/PublicHeader.h>
-#import <SwiftKeychainWrapper/KeychainObjcWrapper.h>
+
 
