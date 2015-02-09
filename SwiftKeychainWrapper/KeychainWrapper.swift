@@ -76,6 +76,7 @@ public class KeychainWrapper {
 
     public class func dataForKey(keyName: String) -> NSData? {
         var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        var result: AnyObject?
 
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
@@ -84,18 +85,11 @@ public class KeychainWrapper {
         keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
 
         // Search
-        var searchResultRef: Unmanaged<AnyObject>?
-        var keychainValue: NSData?
-
-        let status: OSStatus = SecItemCopyMatching(keychainQueryDictionary, &searchResultRef)
-
-        if status == noErr {
-            if let resultRef = searchResultRef {
-                keychainValue = resultRef.takeUnretainedValue() as? NSData
-            }
+        let status = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(keychainQueryDictionary, UnsafeMutablePointer($0))
         }
 
-        return keychainValue;
+        return status == noErr ? result as? NSData : nil
     }
 
     // MARK: Setting Values
