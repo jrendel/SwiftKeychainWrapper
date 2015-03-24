@@ -16,10 +16,12 @@ let SecClass: String! = kSecClass as String
 let SecAttrService: String! = kSecAttrService as String
 let SecAttrGeneric: String! = kSecAttrGeneric as String
 let SecAttrAccount: String! = kSecAttrAccount as String
+let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
 
 public class KeychainWrapper {
    private struct internalVars {
         static var serviceName: String = ""
+        static var accessGroup: String = ""
     }
 
     // MARK: Public Properties
@@ -38,6 +40,20 @@ public class KeychainWrapper {
         }
         set(newServiceName) {
             internalVars.serviceName = newServiceName
+        }
+    }
+
+    /*!
+    @var accesGroup
+    @abstract Used for the SecAttrAccessGroup property to identify to which Keychain Sharing Group this entry belongs
+    @discussion Access Group defaults to an empty string and is not used until a valid value is set
+    */
+    public class var accessGroup: String {
+        get {
+            return internalVars.accessGroup
+        }
+        set(newAccessGroup){
+            internalVars.accessGroup = newAccessGroup
         }
     }
 
@@ -161,6 +177,11 @@ public class KeychainWrapper {
 
         // Uniquely identify this keychain accessor
         keychainQueryDictionary[SecAttrService] = KeychainWrapper.serviceName
+
+        // Set the keychain access group if defined
+        if !KeychainWrapper.accessGroup.isEmpty {
+            keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
+        }
 
         // Uniquely identify the account who will be accessing the keychain
         var encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
