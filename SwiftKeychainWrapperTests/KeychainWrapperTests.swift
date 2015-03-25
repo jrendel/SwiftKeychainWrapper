@@ -18,6 +18,9 @@ let testString2 = "Test 2 String"
 let defaultServiceName = KeychainWrapper.serviceName
 let testServiceName = "myTestService"
 
+let defaultAccessGroup = KeychainWrapper.accessGroup
+let testAccessGroup = "myTestAccessGroup"
+
 class KeychainWrapperTests: XCTestCase {
 	
 	override func setUp() {
@@ -34,6 +37,9 @@ class KeychainWrapperTests: XCTestCase {
 		
 		// reset keychain service name to default
 		KeychainWrapper.serviceName = defaultServiceName
+
+                // reset keychain access group to default
+                KeychainWrapper.accessGroup = defaultAccessGroup
 		
 		super.tearDown()
 	}
@@ -51,8 +57,18 @@ class KeychainWrapperTests: XCTestCase {
         KeychainWrapper.serviceName = testServiceName;
         
         XCTAssertEqual(KeychainWrapper.serviceName, testServiceName, "Service Name should have been set to our custom service name")
-	}
+    }
     
+    func testDefaultAccessGroup() {
+        XCTAssertTrue(KeychainWrapper.accessGroup.isEmpty, "Access Group should be empty when nothing is set")
+    }
+
+    func testSettingAccessGroup() {
+        KeychainWrapper.accessGroup = testAccessGroup
+
+        XCTAssertEqual(KeychainWrapper.accessGroup, testAccessGroup, "Access Group should have been set to our custom access group")
+    }
+
     func testHasValueForKey() {
         XCTAssertFalse(KeychainWrapper.hasValueForKey(testKey), "Keychain should not have a value for the test key")
         
