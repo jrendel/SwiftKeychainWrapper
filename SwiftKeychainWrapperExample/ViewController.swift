@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+        KeychainWrapper.accessGroup = "group.myAccessGroup"
     }
 
     override func didReceiveMemoryWarning() {
@@ -27,7 +28,11 @@ class ViewController: UIViewController {
     @IBAction func saveTapped(sender: AnyObject) {
         if countElements(textfield.text) > 0 {
             //KeychainWrapper.save
-            KeychainWrapper.setString(textfield.text, forKey: "key")
+            if KeychainWrapper.setString(textfield.text, forKey: "key") {
+                println("save successful")
+            } else {
+                println("save failed")
+            }
         }
     }
    

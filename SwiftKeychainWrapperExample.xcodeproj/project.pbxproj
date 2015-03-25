@@ -39,6 +39,7 @@
 		47E82D5C1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeychainWrapperExampleTests.swift; sourceTree = "<group>"; };
 		69A949C6B455BF986C695139 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		755C8B995C546F17A93A487F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
+		965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SwiftKeychainWrapperExample.entitlements; sourceTree = "<group>"; };
 		CA049F5B828BB8C0AAEC7476 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -92,6 +93,7 @@
 		47E82D431A78046800B5A9F5 /* SwiftKeychainWrapperExample */ = {
 			isa = PBXGroup;
 			children = (
+				965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */,
 				47E82D461A78046800B5A9F5 /* AppDelegate.swift */,
 				47E82D481A78046800B5A9F5 /* ViewController.swift */,
 				47E82D4A1A78046800B5A9F5 /* Main.storyboard */,
@@ -187,6 +189,12 @@
 				TargetAttributes = {
 					47E82D401A78046800B5A9F5 = {
 						CreatedOnToolsVersion = 6.1.1;
+						DevelopmentTeam = FN2SBP9CUL;
+						SystemCapabilities = {
+							com.apple.ApplicationGroups.iOS = {
+								enabled = 1;
+							};
+						};
 					};
 					47E82D551A78046900B5A9F5 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -366,6 +374,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				PROVISIONING_PROFILE = "a40a0b96-6c6d-4aba-b878-5337bd792720";
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = 2;
@@ -402,6 +411,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
+				PROVISIONING_PROFILE = "a40a0b96-6c6d-4aba-b878-5337bd792720";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
 				VALIDATE_PRODUCT = YES;
@@ -413,9 +423,13 @@
 			baseConfigurationReference = 755C8B995C546F17A93A487F /* Pods.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SwiftKeychainWrapperExample/SwiftKeychainWrapperExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftKeychainWrapperExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -425,9 +439,13 @@
 			baseConfigurationReference = 69A949C6B455BF986C695139 /* Pods.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = SwiftKeychainWrapperExample/SwiftKeychainWrapperExample.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = SwiftKeychainWrapperExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -447,6 +465,7 @@
 				INFOPLIST_FILE = SwiftKeychainWrapperExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKeychainWrapperExample.app/SwiftKeychainWrapperExample";
 			};
 			name = Debug;
@@ -462,6 +481,7 @@
 				INFOPLIST_FILE = SwiftKeychainWrapperExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKeychainWrapperExample.app/SwiftKeychainWrapperExample";
 			};
 			name = Release;

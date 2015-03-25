@@ -1,6 +1,6 @@
 {
   "name": "SwiftKeychainWrapper",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "license": "MIT",
   "summary": "A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to user defaults. Written in Swift.",
   "homepage": "https://github.com/jrendel/SwiftKeychainWrapper",
@@ -9,7 +9,7 @@
   },
   "source": {
     "git": "https://github.com/jrendel/SwiftKeychainWrapper.git",
-    "tag": "1.0.5"
+    "tag": "1.0.6"
   },
   "platforms": {
     "ios": "8.0",

@@ -24,18 +24,16 @@ let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 
 Notes
 ======
+v1.0.6 has been released with support for Access Groups
+
+Access Groups do not work on the simulator. Apps that are built for the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Attempting to set an access group will result in a failure when attempting to Add or Update keychain items. Because of this, the Keychain Wrapper detects if it is being using on a simulator and will not set an access group property if one is set. This allows the Keychain Wrapper to still be used on the simulator for development of your app. To properly test Keychain Access Groups, you will need to test on a device.
+
 v1.0.5 has been tagged in master
 
 This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
 
 To see an example of usage with Cocoapods, I've created the repo SwiftKeychainWrapperExample: 
 https://github.com/jrendel/SwiftKeychainWrapperExample
-
-In addition to adding Cocoapods support, there is a known issue with Swift keychain access causing it to fail. I don't know the full extent of the issue, but one "work around" is to turn off Swift compile optimization for release and the problem goes away:
-
-http://stackoverflow.com/questions/26355630/swift-keychain-and-provisioning-profiles
-
-This is not an ideal solution, so as recommended, I've added an objective c wrapper/helper for the keychain data retrieval. This allows the KeychainWrapper to work as expected with Swift compile optimizations enabled. 
 
 ======
 
