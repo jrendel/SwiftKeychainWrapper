@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SwiftKeychainWrapper'
-  s.version = '1.0.5'
+  s.version = '1.0.6'
   s.license = 'MIT'
   s.summary = 'A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to user defaults. Written in Swift.'
   s.homepage = 'https://github.com/jrendel/SwiftKeychainWrapper'
