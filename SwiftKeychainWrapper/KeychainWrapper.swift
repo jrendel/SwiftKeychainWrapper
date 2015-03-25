@@ -222,6 +222,7 @@ public class KeychainWrapper {
 
         // Set the keychain access group if defined
         if !KeychainWrapper.accessGroup.isEmpty {
+            // check if running iOS on OS X architecture (ie on simulator)
             #if (arch(i386) || arch(x86_64)) && os(iOS)
                 // Ignore the access group if running on the iPhone simulator.
                 //
