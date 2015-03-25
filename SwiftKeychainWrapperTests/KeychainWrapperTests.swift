@@ -38,8 +38,8 @@ class KeychainWrapperTests: XCTestCase {
 		// reset keychain service name to default
 		KeychainWrapper.serviceName = defaultServiceName
 
-                // reset keychain access group to default
-                KeychainWrapper.accessGroup = defaultAccessGroup
+        // reset keychain access group to default
+        KeychainWrapper.accessGroup = defaultAccessGroup
 		
 		super.tearDown()
 	}
@@ -97,6 +97,29 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testStringRetrieval() {
+        KeychainWrapper.setString(testString, forKey: testKey)
+        
+        if let retrievedString = KeychainWrapper.stringForKey(testKey) {
+            XCTAssertEqual(retrievedString, testString, "String retrieved for key should equal string saved for key")
+        } else {
+            XCTFail("String for Key not found")
+        }
+    }
+    
+    func testStringSaveToAccessGroupDoesNotFailOnSimulator() {
+        // Unit Tests run on the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Trying to set an access group on the simulator will cause the keychain access to fail, so KeychainWrapper takes into account when being used on the simulator and does not set the Access Group property. This tests confirms that it will work on the simulator.
+        KeychainWrapper.accessGroup = testAccessGroup
+        let stringSaved = KeychainWrapper.setString(testString, forKey: testKey)
+        
+        XCTAssertTrue(stringSaved, "String did not save to Keychain")
+        
+        // clean up keychain
+        KeychainWrapper.removeObjectForKey(testKey)
+    }
+    
+    func testStringRetrievalFromAccessGroup() {
+        // Unit Tests run on the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Trying to set an access group on the simulator will cause the keychain access to fail, so KeychainWrapper takes into account when being used on the simulator and does not set the Access Group property. This tests confirms that it will work on the simulator.
+        KeychainWrapper.accessGroup = testAccessGroup
         KeychainWrapper.setString(testString, forKey: testKey)
         
         if let retrievedString = KeychainWrapper.stringForKey(testKey) {

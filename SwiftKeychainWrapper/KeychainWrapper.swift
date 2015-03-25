@@ -19,7 +19,7 @@ let SecAttrGeneric: String! = kSecAttrGeneric as String
 let SecAttrAccount: String! = kSecAttrAccount as String
 let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
 
-/// KeychainWrapper is an class to help make Keychain access in Swift more straightforward.
+/// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
 public class KeychainWrapper {
     // MARK: Private static Properties
     private struct internalVars {
@@ -157,7 +157,7 @@ public class KeychainWrapper {
     /// :param: forKey The key to save the object under.
     /// :returns: True if the save was successful, false otherwise.
     public class func setData(value: NSData, forKey keyName: String) -> Bool {
-        var keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName)
 
         keychainQueryDictionary[SecValueData] = value
 
@@ -180,7 +180,7 @@ public class KeychainWrapper {
     /// :param: keyName The key value to remove data for.
     /// :returns: True if successful, false otherwise.
     public class func removeObjectForKey(keyName: String) -> Bool {
-        let keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName)
 
         // Delete
         let status: OSStatus =  SecItemDelete(keychainQueryDictionary);
@@ -196,7 +196,7 @@ public class KeychainWrapper {
     
     /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
     private class func updateData(value: NSData, forKey keyName: String) -> Bool {
-        let keychainQueryDictionary: NSMutableDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName)
         let updateDictionary = [SecValueData:value]
 
         // Update
@@ -213,16 +213,27 @@ public class KeychainWrapper {
     ///
     /// :param: keyName The key this query is for
     /// :returns: A dictionary with all the needed properties setup to access the keychain on iOS
-    private class func setupKeychainQueryDictionaryForKey(keyName: String) -> NSMutableDictionary {
+    private class func setupKeychainQueryDictionaryForKey(keyName: String) -> [String:AnyObject] {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
-        var keychainQueryDictionary: NSMutableDictionary = [SecClass:kSecClassGenericPassword]
+        var keychainQueryDictionary: [String:AnyObject] = [SecClass:kSecClassGenericPassword]
 
         // Uniquely identify this keychain accessor
         keychainQueryDictionary[SecAttrService] = KeychainWrapper.serviceName
 
         // Set the keychain access group if defined
         if !KeychainWrapper.accessGroup.isEmpty {
-            keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
+            #if (arch(i386) || arch(x86_64)) && os(iOS)
+                // Ignore the access group if running on the iPhone simulator.
+                //
+                // Apps that are built for the simulator aren't signed, so there's no keychain access group
+                // for the simulator to check. This means that all apps can see all keychain items when run
+                // on the simulator.
+                //
+                // If a SecItem contains an access group attribute, SecItemAdd and SecItemUpdate on the
+                // simulator will return -25243 (errSecNoAccessForItem).
+                #else
+                keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
+            #endif
         }
 
         // Uniquely identify the account who will be accessing the keychain
@@ -235,3 +246,4 @@ public class KeychainWrapper {
         return keychainQueryDictionary
     }
 }
+
