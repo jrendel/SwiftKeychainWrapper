@@ -106,29 +106,6 @@ class KeychainWrapperTests: XCTestCase {
         }
     }
     
-    func testStringSaveToAccessGroupDoesNotFailOnSimulator() {
-        // Unit Tests run on the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Trying to set an access group on the simulator will cause the keychain access to fail, so KeychainWrapper takes into account when being used on the simulator and does not set the Access Group property. This tests confirms that it will work on the simulator.
-        KeychainWrapper.accessGroup = testAccessGroup
-        let stringSaved = KeychainWrapper.setString(testString, forKey: testKey)
-        
-        XCTAssertTrue(stringSaved, "String did not save to Keychain")
-        
-        // clean up keychain
-        KeychainWrapper.removeObjectForKey(testKey)
-    }
-    
-    func testStringRetrievalFromAccessGroup() {
-        // Unit Tests run on the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Trying to set an access group on the simulator will cause the keychain access to fail, so KeychainWrapper takes into account when being used on the simulator and does not set the Access Group property. This tests confirms that it will work on the simulator.
-        KeychainWrapper.accessGroup = testAccessGroup
-        KeychainWrapper.setString(testString, forKey: testKey)
-        
-        if let retrievedString = KeychainWrapper.stringForKey(testKey) {
-            XCTAssertEqual(retrievedString, testString, "String retrieved for key should equal string saved for key")
-        } else {
-            XCTFail("String for Key not found")
-        }
-    }
-    
     func testStringRetrievalWhenValueDoesNotExist() {
         if let retrievedString = KeychainWrapper.stringForKey(testKey) {
             XCTFail("String for Key should not exist")
