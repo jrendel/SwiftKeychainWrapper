@@ -222,19 +222,7 @@ public class KeychainWrapper {
 
         // Set the keychain access group if defined
         if !KeychainWrapper.accessGroup.isEmpty {
-            // check if running iOS on OS X architecture (ie on simulator)
-            #if (arch(i386) || arch(x86_64)) && os(iOS)
-                // Ignore the access group if running on the iPhone simulator.
-                //
-                // Apps that are built for the simulator aren't signed, so there's no keychain access group
-                // for the simulator to check. This means that all apps can see all keychain items when run
-                // on the simulator.
-                //
-                // If a SecItem contains an access group attribute, SecItemAdd and SecItemUpdate on the
-                // simulator will return -25243 (errSecNoAccessForItem).
-                #else
-                keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
-            #endif
+            keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
         }
 
         // Uniquely identify the account who will be accessing the keychain
