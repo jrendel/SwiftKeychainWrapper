@@ -212,8 +212,11 @@ class KeychainWrapperTests: XCTestCase {
             KeychainWrapper.setData(data, forKey: testKey)
             
             if let retrievedData = KeychainWrapper.dataForKey(testKey) {
-                let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) as String
-                XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
+                if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+                    XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
+                } else {
+                    XCTFail("Got null string.")
+                }
             } else {
                 XCTFail("Data for Key not found")
             }
