@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description = <<-DESC
    A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to NSUserDefaults. Supports Access Groups. Written in Swift.'
  DESC
-  s.module_name = "KeychainWrapper"
+  s.module_name = "SwiftKeychainWrapper"
   s.homepage = 'https://github.com/jrendel/SwiftKeychainWrapper'
   s.license = 'MIT'
   s.authors = { 'Jason Rendel' => 'jason@jasonrendel.com' }
