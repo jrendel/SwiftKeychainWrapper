@@ -26,7 +26,7 @@ class ViewController: UIViewController {
 
 
     @IBAction func saveTapped(sender: AnyObject) {
-        if countElements(textfield.text) > 0 {
+        if count(textfield.text) > 0 {
             //KeychainWrapper.save
             if KeychainWrapper.setString(textfield.text, forKey: "key") {
                 println("save successful")

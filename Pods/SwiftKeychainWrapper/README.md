@@ -24,6 +24,9 @@ let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 
 Release Notes
 ======
+v1.0.8
+Update for Swift 1.2
+
 v1.0.7
 Determined that once provisioned correctly for access groups, using KeychainWrapper on the simulator with access groups works. So I removed the simulator related check and unit tests previously added.
 
