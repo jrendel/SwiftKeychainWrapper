@@ -3,8 +3,27 @@
 //  KeychainWrapper
 //
 //  Created by Jason Rendel on 9/23/14.
-//  Copyright (c) 2014 jasonrendel. All rights reserved.
+//  Copyright (c) 2014 Jason Rendel. All rights reserved.
 //
+//    The MIT License (MIT)
+//
+//    Permission is hereby granted, free of charge, to any person obtaining a copy
+//    of this software and associated documentation files (the "Software"), to deal
+//    in the Software without restriction, including without limitation the rights
+//    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+//    copies of the Software, and to permit persons to whom the Software is
+//    furnished to do so, subject to the following conditions:
+//
+//    The above copyright notice and this permission notice shall be included in all
+//    copies or substantial portions of the Software.
+//
+//    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+//    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+//    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+//    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+//    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+//    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+//    SOFTWARE.
 
 import Foundation
 
@@ -65,8 +84,8 @@ public class KeychainWrapper {
     /// :param: keyName The key to check for.
     /// :returns: True if a value exists for the key. False otherwise.
     public class func hasValueForKey(keyName: String) -> Bool {
-        var keychainData: NSData? = self.dataForKey(keyName)
-        if let data = keychainData {
+        let keychainData: NSData? = self.dataForKey(keyName)
+        if keychainData != nil {
             return true
         } else {
             return false
@@ -78,7 +97,7 @@ public class KeychainWrapper {
     /// :param: keyName The key to lookup data for.
     /// :returns: The String associated with the key if it exists. If no data exists, or the data found cannot be encoded as a string, returns nil.
     public class func stringForKey(keyName: String) -> String? {
-        var keychainData: NSData? = self.dataForKey(keyName)
+        let keychainData: NSData? = self.dataForKey(keyName)
         var stringValue: String?
         if let data = keychainData {
             stringValue = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
@@ -226,7 +245,7 @@ public class KeychainWrapper {
         }
 
         // Uniquely identify the account who will be accessing the keychain
-        var encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
+        let encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
 
         keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
 
@@ -235,4 +254,3 @@ public class KeychainWrapper {
         return keychainQueryDictionary
     }
 }
-

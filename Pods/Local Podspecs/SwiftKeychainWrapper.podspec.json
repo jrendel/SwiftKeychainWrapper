@@ -1,6 +1,6 @@
 {
   "name": "SwiftKeychainWrapper",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "summary": "Static wrapper for the iOS Keychain written in Swift.",
   "description": "   A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to NSUserDefaults. Supports Access Groups. Written in Swift.'\n",
   "module_name": "SwiftKeychainWrapper",
@@ -14,7 +14,7 @@
   },
   "source": {
     "git": "https://github.com/jrendel/SwiftKeychainWrapper.git",
-    "tag": "1.0.9"
+    "tag": "1.0.10"
   },
   "source_files": "SwiftKeychainWrapper/*.{h,swift}"
 }
