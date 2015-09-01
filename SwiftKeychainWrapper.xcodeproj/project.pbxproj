@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		966E4AB01B96693F00A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AAF1B96693F00A8DCEB /* LICENSE */; };
 		9694C2B51A66097F005B3030 /* SwiftKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9694C2BB1A66097F005B3030 /* SwiftKeychainWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */; };
 		9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */; };
@@ -26,6 +27,7 @@
 
 /* Begin PBXFileReference section */
 		961101D419D26F2800E6A6E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		966E4AAF1B96693F00A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKeychainWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9694C2B31A66097F005B3030 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SwiftKeychainWrapper.h; sourceTree = "<group>"; };
@@ -58,6 +60,7 @@
 		961101BB19D2581700E6A6E3 = {
 			isa = PBXGroup;
 			children = (
+				966E4AAF1B96693F00A8DCEB /* LICENSE */,
 				961101D419D26F2800E6A6E3 /* README.md */,
 				9694C2B11A66097F005B3030 /* SwiftKeychainWrapper */,
 				9694C2BE1A66097F005B3030 /* SwiftKeychainWrapperTests */,
@@ -167,6 +170,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastUpgradeCheck = 0610;
+				ORGANIZATIONNAME = "Jason Rendel";
 				TargetAttributes = {
 					9694C2AF1A66097F005B3030 = {
 						CreatedOnToolsVersion = 6.1.1;
@@ -199,6 +203,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				966E4AB01B96693F00A8DCEB /* LICENSE in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
