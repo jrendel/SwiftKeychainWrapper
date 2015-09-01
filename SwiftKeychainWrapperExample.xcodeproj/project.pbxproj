@@ -14,6 +14,7 @@
 		47E82D511A78046800B5A9F5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4F1A78046800B5A9F5 /* LaunchScreen.xib */; };
 		47E82D5D1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D5C1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift */; };
 		668BA9277C32D26A5D193A42 /* Pods.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA049F5B828BB8C0AAEC7476 /* Pods.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		966E4AB31B966A5500A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AB21B966A5500A8DCEB /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -40,6 +41,7 @@
 		69A949C6B455BF986C695139 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
 		755C8B995C546F17A93A487F /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 		965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SwiftKeychainWrapperExample.entitlements; sourceTree = "<group>"; };
+		966E4AB21B966A5500A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../KeychainWrapper/LICENSE; sourceTree = "<group>"; };
 		CA049F5B828BB8C0AAEC7476 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -73,6 +75,7 @@
 		47E82D381A78046800B5A9F5 = {
 			isa = PBXGroup;
 			children = (
+				966E4AB21B966A5500A8DCEB /* LICENSE */,
 				47E82D431A78046800B5A9F5 /* SwiftKeychainWrapperExample */,
 				47E82D591A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests */,
 				47E82D421A78046800B5A9F5 /* Products */,
@@ -228,6 +231,7 @@
 			files = (
 				47E82D4C1A78046800B5A9F5 /* Main.storyboard in Resources */,
 				47E82D511A78046800B5A9F5 /* LaunchScreen.xib in Resources */,
+				966E4AB31B966A5500A8DCEB /* LICENSE in Resources */,
 				47E82D4E1A78046800B5A9F5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
