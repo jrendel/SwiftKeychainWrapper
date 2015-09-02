@@ -251,4 +251,14 @@ class KeychainWrapperTests: XCTestCase {
             XCTAssert(true, "Pass")
         }
     }
+
+    func testAddStringWithAccessibility() {
+        KeychainWrapper.setString(testString, forKey: testKey, withAccessibility: kSecAttrAccessibleAfterFirstUnlock as String)
+        XCTAssertEqual(KeychainWrapper.accessibilityOfKey(testKey)!, kSecAttrAccessibleAfterFirstUnlock as String, "Keychain should have the correct accessibility for key")
+    }
+
+    func testAddStringWithInvalidAccessibility() {
+        KeychainWrapper.setString(testString, forKey: testKey, withAccessibility: "Invalid")
+        XCTAssertNil(KeychainWrapper.accessibilityOfKey(testKey), "Keychain should have the correct accessibility for key")
+    }
 }
