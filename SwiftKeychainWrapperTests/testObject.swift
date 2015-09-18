@@ -33,7 +33,7 @@ class testObject: NSObject, NSCoding {
     
     override init() { }
     
-    required init(coder decoder: NSCoder) {
+    required init?(coder decoder: NSCoder) {
         if let name = decoder.decodeObjectForKey("objectName") as? String {
             self.objectName = name
         }
