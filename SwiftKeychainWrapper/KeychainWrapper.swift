@@ -28,15 +28,15 @@
 import Foundation
 
 
-let SecMatchLimit: String! = kSecMatchLimit as String
-let SecReturnData: String! = kSecReturnData as String
-let SecValueData: String! = kSecValueData as String
-let SecAttrAccessible: String! = kSecAttrAccessible as String
-let SecClass: String! = kSecClass as String
-let SecAttrService: String! = kSecAttrService as String
-let SecAttrGeneric: String! = kSecAttrGeneric as String
-let SecAttrAccount: String! = kSecAttrAccount as String
-let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
+private let SecMatchLimit: String! = kSecMatchLimit as String
+private let SecReturnData: String! = kSecReturnData as String
+private let SecValueData: String! = kSecValueData as String
+private let SecAttrAccessible: String! = kSecAttrAccessible as String
+private let SecClass: String! = kSecClass as String
+private let SecAttrService: String! = kSecAttrService as String
+private let SecAttrGeneric: String! = kSecAttrGeneric as String
+private let SecAttrAccount: String! = kSecAttrAccount as String
+private let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
 
 /// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
 public class KeychainWrapper {
