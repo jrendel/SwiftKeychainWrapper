@@ -28,15 +28,16 @@
 import Foundation
 
 
-let SecMatchLimit: String! = kSecMatchLimit as String
-let SecReturnData: String! = kSecReturnData as String
-let SecValueData: String! = kSecValueData as String
-let SecAttrAccessible: String! = kSecAttrAccessible as String
-let SecClass: String! = kSecClass as String
-let SecAttrService: String! = kSecAttrService as String
-let SecAttrGeneric: String! = kSecAttrGeneric as String
-let SecAttrAccount: String! = kSecAttrAccount as String
-let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
+private let SecMatchLimit: String! = kSecMatchLimit as String
+private let SecReturnData: String! = kSecReturnData as String
+private let SecReturnPersistentRef: String! = kSecReturnPersistentRef as String
+private let SecValueData: String! = kSecValueData as String
+private let SecAttrAccessible: String! = kSecAttrAccessible as String
+private let SecClass: String! = kSecClass as String
+private let SecAttrService: String! = kSecAttrService as String
+private let SecAttrGeneric: String! = kSecAttrGeneric as String
+private let SecAttrAccount: String! = kSecAttrAccount as String
+private let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
 
 /// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
 public class KeychainWrapper {
@@ -145,6 +146,30 @@ public class KeychainWrapper {
 
         return status == noErr ? result as? NSData : nil
     }
+    
+    
+    /// Returns a persistent data reference object for a specified key.
+    ///
+    /// - parameter keyName: The key to lookup data for.
+    /// - returns: The persistent data reference object associated with the key if it exists. If no data exists, returns nil.
+    public class func dataRefForKey(keyName: String) -> NSData? {
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        var result: AnyObject?
+        
+        // Limit search results to one
+        keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
+        
+        // Specify we want persistent NSData/CFData reference returned
+        keychainQueryDictionary[SecReturnPersistentRef] = kCFBooleanTrue
+        
+        // Search
+        let status = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(keychainQueryDictionary, UnsafeMutablePointer($0))
+        }
+        
+        return status == noErr ? result as? NSData : nil
+    }
+    
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given keyname, the string will be overwritten with the new value.
     ///

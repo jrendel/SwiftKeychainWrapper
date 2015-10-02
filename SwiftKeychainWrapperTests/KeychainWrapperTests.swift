@@ -126,7 +126,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testStringRetrievalWhenValueDoesNotExist() {
-        if let retrievedString = KeychainWrapper.stringForKey(testKey) {
+        if let _ = KeychainWrapper.stringForKey(testKey) {
             XCTFail("String for Key should not exist")
         } else {
             XCTAssert(true, "Pass")
@@ -189,8 +189,8 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrieval() {
-        var testInt: Int = 9
-        var myTestObject = testObject()
+        let testInt: Int = 9
+        let myTestObject = testObject()
         myTestObject.objectName = testString
         myTestObject.objectRating = testInt
         
@@ -205,7 +205,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
-        if let retrievedObject = KeychainWrapper.objectForKey(testKey) as? testObject{
+        if let _ = KeychainWrapper.objectForKey(testKey) as? testObject{
             XCTFail("Object for Key should not exist")
         } else {
             XCTAssert(true, "Pass")
@@ -225,28 +225,38 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSDataRetrieval() {
-        let testData = testString.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        if let data = testData {
-            KeychainWrapper.setData(data, forKey: testKey)
-            
-            if let retrievedData = KeychainWrapper.dataForKey(testKey) {
-                if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
-                    XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
-                } else {
-                    XCTFail("Output Data for key does not match input. ")
-                }
-            } else {
-                XCTFail("Data for Key not found")
-            }
-        } else {
+        guard let testData = testString.dataUsingEncoding(NSUTF8StringEncoding) else {
             XCTFail("Failed to create NSData")
+            return
+        }
+        
+        KeychainWrapper.setData(testData, forKey: testKey)
+        
+        guard let retrievedData = KeychainWrapper.dataForKey(testKey) else {
+            XCTFail("Data for Key not found")
+            return
+        }
+        
+        if KeychainWrapper.dataRefForKey(testKey) == nil {
+            XCTFail("Data references for Key not found")
+        }
+        
+        if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+            XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
+        } else {
+            XCTFail("Output Data for key does not match input. ")
         }
     }
     
     func testNSDataRetrievalWhenValueDoesNotExist() {
-        if let retrievedData = KeychainWrapper.dataForKey(testKey) {
+        if let _ = KeychainWrapper.dataForKey(testKey) {
             XCTFail("Data for Key should not exist")
+        } else {
+            XCTAssert(true, "Pass")
+        }
+        
+        if let _ = KeychainWrapper.dataRefForKey(testKey) {
+            XCTFail("Data ref for Key should not exist")
         } else {
             XCTAssert(true, "Pass")
         }
