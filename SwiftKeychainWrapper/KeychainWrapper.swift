@@ -44,7 +44,7 @@ public class KeychainWrapper {
     private struct internalVars {
         static var serviceName: String = ""
         static var accessGroup: String = ""
-        static var accessLevel: AccessLevel = AccessLevel.WhenUnlocked
+        static var accessLevel: CFStringRef = kSecAttrAccessibleWhenUnlocked
     }
 
     // MARK: Public Properties
@@ -78,18 +78,28 @@ public class KeychainWrapper {
         }
     }
     
-    public class var accessLevelValue: CFStringRef {
+    public class var accessLevel: AccessLevel {
         get {
-            switch internalVars.accessLevel {
+            if CFStringCompare(internalVars.accessLevel, kSecAttrAccessibleAfterFirstUnlock, CFStringCompareFlags.CompareCaseInsensitive) == CFComparisonResult.CompareEqualTo {
+                return AccessLevel.AfterFirstUnlock
+            } else {
+                return AccessLevel.WhenUnlocked
+            }
+        }
+        set(newAccessLevel){
+            switch newAccessLevel {
             case AccessLevel.AfterFirstUnlock:
-                return kSecAttrAccessibleAfterFirstUnlock
+                internalVars.accessLevel = kSecAttrAccessibleAfterFirstUnlock
             default:
-                return kSecAttrAccessibleWhenUnlocked
+                internalVars.accessLevel = kSecAttrAccessibleWhenUnlocked
             }
         }
     }
-    public class func setAccessLevel (level: AccessLevel){
-        internalVars.accessLevel = level
+    
+    private class var accessLevelValue: CFStringRef {
+        get {
+            return internalVars.accessLevel
+        }
     }
 
     // MARK: Public Methods
