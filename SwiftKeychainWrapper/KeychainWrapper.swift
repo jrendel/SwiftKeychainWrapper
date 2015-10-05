@@ -44,6 +44,7 @@ public class KeychainWrapper {
     private struct internalVars {
         static var serviceName: String = ""
         static var accessGroup: String = ""
+        static var accessLevel: AccessLevel = AccessLevel.WhenUnlocked
     }
 
     // MARK: Public Properties
@@ -75,6 +76,20 @@ public class KeychainWrapper {
         set(newAccessGroup){
             internalVars.accessGroup = newAccessGroup
         }
+    }
+    
+    public class var accessLevelValue: CFStringRef {
+        get {
+            switch internalVars.accessLevel {
+            case AccessLevel.AfterFirstUnlock:
+                return kSecAttrAccessibleAfterFirstUnlock
+            default:
+                return kSecAttrAccessibleWhenUnlocked
+            }
+        }
+    }
+    public class func setAccessLevel (level: AccessLevel){
+        internalVars.accessLevel = level
     }
 
     // MARK: Public Methods
@@ -180,8 +195,8 @@ public class KeychainWrapper {
 
         keychainQueryDictionary[SecValueData] = value
 
-        // Protect the keychain entry so it's only valid when the device is unlocked
-        keychainQueryDictionary[SecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
+        // Protect the keychain entry so it's only valid when the device is unlocked or when the device is unlocked after it was restarted (only recommended for watchkit extensions that need access when app runs in background)
+        keychainQueryDictionary[SecAttrAccessible] = self.accessLevelValue
 
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
 
@@ -252,5 +267,10 @@ public class KeychainWrapper {
         keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
 
         return keychainQueryDictionary
+    }
+    
+    public enum AccessLevel : String {
+        case WhenUnlocked = "WhenUnlocked"
+        case AfterFirstUnlock = "AfterFirstUnlock"
     }
 }
