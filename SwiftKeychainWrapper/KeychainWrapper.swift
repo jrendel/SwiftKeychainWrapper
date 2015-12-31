@@ -45,6 +45,7 @@ public class KeychainWrapper {
     private struct internalVars {
         static var serviceName: String = ""
         static var accessGroup: String = ""
+        static var accessLevel: CFStringRef = kSecAttrAccessibleWhenUnlocked
     }
 
     // MARK: Public Properties
@@ -75,6 +76,30 @@ public class KeychainWrapper {
         }
         set(newAccessGroup){
             internalVars.accessGroup = newAccessGroup
+        }
+    }
+    
+    public class var accessLevel: AccessLevel {
+        get {
+            if CFStringCompare(internalVars.accessLevel, kSecAttrAccessibleAfterFirstUnlock, CFStringCompareFlags.CompareCaseInsensitive) == CFComparisonResult.CompareEqualTo {
+                return AccessLevel.AfterFirstUnlock
+            } else {
+                return AccessLevel.WhenUnlocked
+            }
+        }
+        set(newAccessLevel){
+            switch newAccessLevel {
+            case AccessLevel.AfterFirstUnlock:
+                internalVars.accessLevel = kSecAttrAccessibleAfterFirstUnlock
+            default:
+                internalVars.accessLevel = kSecAttrAccessibleWhenUnlocked
+            }
+        }
+    }
+    
+    private class var accessLevelValue: CFStringRef {
+        get {
+            return internalVars.accessLevel
         }
     }
 
@@ -205,8 +230,8 @@ public class KeychainWrapper {
 
         keychainQueryDictionary[SecValueData] = value
 
-        // Protect the keychain entry so it's only valid when the device is unlocked
-        keychainQueryDictionary[SecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
+        // Protect the keychain entry so it's only valid when the device is unlocked or when the device is unlocked after it was restarted (only recommended for watchkit extensions that need access when app runs in background)
+        keychainQueryDictionary[SecAttrAccessible] = self.accessLevelValue
 
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
 
@@ -277,5 +302,10 @@ public class KeychainWrapper {
         keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
 
         return keychainQueryDictionary
+    }
+    
+    public enum AccessLevel : String {
+        case WhenUnlocked = "WhenUnlocked"
+        case AfterFirstUnlock = "AfterFirstUnlock"
     }
 }
