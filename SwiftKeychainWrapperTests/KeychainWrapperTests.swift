@@ -126,11 +126,8 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testStringRetrievalWhenValueDoesNotExist() {
-        if let _ = KeychainWrapper.stringForKey(testKey) {
-            XCTFail("String for Key should not exist")
-        } else {
-            XCTAssert(true, "Pass")
-        }
+        let retrievedString = KeychainWrapper.stringForKey(testKey)
+        XCTAssertNil(retrievedString, "String for Key should not exist")
     }
 
 	func testMultipleStringSave() {
@@ -205,11 +202,8 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
-        if let _ = KeychainWrapper.objectForKey(testKey) as? testObject{
-            XCTFail("Object for Key should not exist")
-        } else {
-            XCTAssert(true, "Pass")
-        }
+        let retrievedObject = KeychainWrapper.objectForKey(testKey) as? testObject
+        XCTAssertNil(retrievedObject, "Object for Key should not exist")
     }
     
     func testNSDataSave() {
@@ -249,16 +243,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSDataRetrievalWhenValueDoesNotExist() {
-        if let _ = KeychainWrapper.dataForKey(testKey) {
-            XCTFail("Data for Key should not exist")
-        } else {
-            XCTAssert(true, "Pass")
-        }
-        
-        if let _ = KeychainWrapper.dataRefForKey(testKey) {
-            XCTFail("Data ref for Key should not exist")
-        } else {
-            XCTAssert(true, "Pass")
-        }
+        let retrievedData = KeychainWrapper.dataForKey(testKey)
+        XCTAssertNil(retrievedData, "Data for Key should not exist")
     }
 }
