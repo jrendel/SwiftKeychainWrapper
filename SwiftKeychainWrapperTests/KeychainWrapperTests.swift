@@ -219,27 +219,34 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSDataRetrieval() {
-        let testData = testString.dataUsingEncoding(NSUTF8StringEncoding)
-        
-        if let data = testData {
-            KeychainWrapper.setData(data, forKey: testKey)
-            
-            if let retrievedData = KeychainWrapper.dataForKey(testKey) {
-                if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
-                    XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
-                } else {
-                    XCTFail("Output Data for key does not match input. ")
-                }
-            } else {
-                XCTFail("Data for Key not found")
-            }
-        } else {
+        guard let testData = testString.dataUsingEncoding(NSUTF8StringEncoding) else {
             XCTFail("Failed to create NSData")
+            return
+        }
+        
+        KeychainWrapper.setData(testData, forKey: testKey)
+        
+        guard let retrievedData = KeychainWrapper.dataForKey(testKey) else {
+            XCTFail("Data for Key not found")
+            return
+        }
+        
+        if KeychainWrapper.dataRefForKey(testKey) == nil {
+            XCTFail("Data references for Key not found")
+        }
+        
+        if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+            XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
+        } else {
+            XCTFail("Output Data for key does not match input. ")
         }
     }
     
     func testNSDataRetrievalWhenValueDoesNotExist() {
         let retrievedData = KeychainWrapper.dataForKey(testKey)
         XCTAssertNil(retrievedData, "Data for Key should not exist")
+        
+        let retrievedDataRef = KeychainWrapper.dataRefForKey(testKey)
+        XCTAssertNil(retrievedDataRef, "Data ref for Key should not exist")
     }
 }
