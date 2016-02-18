@@ -44,7 +44,7 @@ Access Groups do not work on the simulator. Apps that are built for the simulato
 v1.0.5
 This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
 
-To see an example of usage with Cocoapods, I've created the repo SwiftKeychainWrapperExample: 
+To see an example of usage with CocoaPods, I've created the repo SwiftKeychainWrapperExample: 
 https://github.com/jrendel/SwiftKeychainWrapperExample
 
 v1.0.2 
