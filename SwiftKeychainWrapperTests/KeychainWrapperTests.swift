@@ -28,20 +28,19 @@
 import SwiftKeychainWrapper
 import XCTest
 
-let testKey = "myTestKey"
-let testString = "This is a test"
-
-let testKey2 = "testKey2"
-let testString2 = "Test 2 String"
-
-let defaultServiceName = KeychainWrapper.serviceName
-let testServiceName = "myTestService"
-
-let defaultAccessGroup = KeychainWrapper.accessGroup
-let testAccessGroup = "myTestAccessGroup"
-
 class KeychainWrapperTests: XCTestCase {
-	
+    let testKey = "myTestKey"
+    let testString = "This is a test"
+    
+    let testKey2 = "testKey2"
+    let testString2 = "Test 2 String"
+    
+    let defaultServiceName = KeychainWrapper.serviceName
+    let testServiceName = "myTestService"
+    
+    let defaultAccessGroup = KeychainWrapper.accessGroup
+    let testAccessGroup = "myTestAccessGroup"
+    
 	override func setUp() {
 		super.setUp()
 		// Put setup code here. This method is called before the invocation of each test method in the class.

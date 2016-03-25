@@ -236,7 +236,57 @@ public class KeychainWrapper {
         }
     }
 
+    /// Remove all keychain data added through KeychainWrapper. Will only delete items matching the currnt ServiceName and AccessGroup if one is set.
+    public class func removeAllKeys() -> Bool {
+        //let keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        
+        // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
+        var keychainQueryDictionary: [String:AnyObject] = [SecClass:kSecClassGenericPassword]
+        
+        // Uniquely identify this keychain accessor
+        keychainQueryDictionary[SecAttrService] = KeychainWrapper.serviceName
+        
+        // Set the keychain access group if defined
+        if !KeychainWrapper.accessGroup.isEmpty {
+            keychainQueryDictionary[SecAttrAccessGroup] = KeychainWrapper.accessGroup
+        }
+        
+        let status: OSStatus = SecItemDelete(keychainQueryDictionary as CFDictionaryRef)
+        
+        if status == errSecSuccess {
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    /// Remove all keychain data, including data not added through keychain wrapper.
+    ///
+    /// WARNING: This will remove data you did not add via SwiftKeychainWrapper.
+    ///
+    public class func wipeKeychain() {
+        deleteKeychainSecClass(kSecClassGenericPassword) // Generic password items
+        deleteKeychainSecClass(kSecClassInternetPassword) // Internet password items
+        deleteKeychainSecClass(kSecClassCertificate) // Certificate items
+        deleteKeychainSecClass(kSecClassKey) // Cryptographic key items
+        deleteKeychainSecClass(kSecClassIdentity) // Identity items
+    }
+
     // MARK: Private Methods
+    
+    /// Remove all items for a given Keychain Item Class
+    ///
+    ///
+    private class func deleteKeychainSecClass(secClass: AnyObject ) -> Bool {
+        let query = [ kSecClass as String : secClass ]
+        let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
+        
+        if status == errSecSuccess {
+            return true
+        } else {
+            return false
+        }
+    }
     
     /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
     private class func updateData(value: NSData, forKey keyName: String) -> Bool {
