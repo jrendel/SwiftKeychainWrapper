@@ -47,6 +47,10 @@ public class KeychainWrapper {
         static var accessGroup: String = ""
     }
 
+    public init() {
+        
+    }
+    
     // MARK: Public Properties
     
     /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier. 
@@ -236,7 +240,7 @@ public class KeychainWrapper {
         }
     }
 
-    /// Remove all keychain data added through KeychainWrapper. Will only delete items matching the currnt ServiceName and AccessGroup if one is set.
+    /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
     public class func removeAllKeys() -> Bool {
         //let keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
@@ -262,7 +266,7 @@ public class KeychainWrapper {
     
     /// Remove all keychain data, including data not added through keychain wrapper.
     ///
-    /// WARNING: This will remove data you did not add via SwiftKeychainWrapper.
+    /// - important: This may remove custom keychain entries you did not add via SwiftKeychainWrapper.
     ///
     public class func wipeKeychain() {
         deleteKeychainSecClass(kSecClassGenericPassword) // Generic password items
