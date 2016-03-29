@@ -7,9 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		474429821CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */; };
 		96405CF41CA57F460080FF45 /* KeychainWrapperDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */; };
-		96405CF61CA58C890080FF45 /* KeychainWrapperAccessTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96405CF51CA58C890080FF45 /* KeychainWrapperAccessTests.swift */; };
-		96405CF81CA58CB50080FF45 /* KeychainWrapperAccess.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96405CF71CA58CB50080FF45 /* KeychainWrapperAccess.swift */; };
 		966E4AB01B96693F00A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AAF1B96693F00A8DCEB /* LICENSE */; };
 		9694C2B51A66097F005B3030 /* SwiftKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9694C2BB1A66097F005B3030 /* SwiftKeychainWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */; };
@@ -29,10 +28,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscriptTests.swift; sourceTree = "<group>"; };
 		961101D419D26F2800E6A6E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperDeleteTests.swift; sourceTree = "<group>"; };
-		96405CF51CA58C890080FF45 /* KeychainWrapperAccessTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperAccessTests.swift; sourceTree = "<group>"; };
-		96405CF71CA58CB50080FF45 /* KeychainWrapperAccess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperAccess.swift; sourceTree = "<group>"; };
 		966E4AAF1B96693F00A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKeychainWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9694C2B31A66097F005B3030 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -88,7 +86,6 @@
 			children = (
 				9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */,
 				9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */,
-				96405CF71CA58CB50080FF45 /* KeychainWrapperAccess.swift */,
 				9694C2B21A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapper;
@@ -108,7 +105,7 @@
 				9694C2CF1A660F9C005B3030 /* testObject.swift */,
 				9694C2CE1A660F9C005B3030 /* KeychainWrapperTests.swift */,
 				96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */,
-				96405CF51CA58C890080FF45 /* KeychainWrapperAccessTests.swift */,
+				474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */,
 				9694C2BF1A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapperTests;
@@ -233,7 +230,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */,
-				96405CF81CA58CB50080FF45 /* KeychainWrapperAccess.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,8 +239,8 @@
 			files = (
 				9694C2D11A660F9C005B3030 /* testObject.swift in Sources */,
 				96405CF41CA57F460080FF45 /* KeychainWrapperDeleteTests.swift in Sources */,
-				96405CF61CA58C890080FF45 /* KeychainWrapperAccessTests.swift in Sources */,
 				9694C2D01A660F9C005B3030 /* KeychainWrapperTests.swift in Sources */,
+				474429821CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

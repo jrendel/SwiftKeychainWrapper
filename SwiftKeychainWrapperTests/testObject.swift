@@ -27,7 +27,7 @@
 
 import Foundation
 
-class testObject: NSObject, NSCoding {
+class TestObject: NSObject, NSCoding {
     var objectName = "Name"
     var objectRating = 0
     

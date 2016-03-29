@@ -78,7 +78,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testDefaultAccessGroup() {
-        XCTAssertTrue(KeychainWrapper.accessGroup.isEmpty, "Access Group should be empty when nothing is set")
+        XCTAssertNil(KeychainWrapper.accessGroup, "Access Group should be nil when nothing is set")
     }
 
     func testSettingAccessGroup() {
@@ -178,7 +178,7 @@ class KeychainWrapperTests: XCTestCase {
 	}
 	
     func testNSCodingObjectSave() {
-        let myTestObject = testObject()
+        let myTestObject = TestObject()
         let objectSaved = KeychainWrapper.setObject(myTestObject, forKey: testKey)
         
         XCTAssertTrue(objectSaved, "Object that implements NSCoding should save to Keychain")
@@ -186,13 +186,13 @@ class KeychainWrapperTests: XCTestCase {
     
     func testNSCodingObjectRetrieval() {
         let testInt: Int = 9
-        let myTestObject = testObject()
+        let myTestObject = TestObject()
         myTestObject.objectName = testString
         myTestObject.objectRating = testInt
         
         KeychainWrapper.setObject(myTestObject, forKey: testKey)
         
-        if let retrievedObject = KeychainWrapper.objectForKey(testKey) as? testObject{
+        if let retrievedObject = KeychainWrapper.objectForKey(testKey) as? TestObject{
             XCTAssertEqual(retrievedObject.objectName, testString, "NSCoding compliant object retrieved for key should have objectName property equal to what it was stored with")
             XCTAssertEqual(retrievedObject.objectRating, testInt, "NSCoding compliant object retrieved for key should have objectRating property equal to what it was stored with")
         } else {
@@ -201,7 +201,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
-        let retrievedObject = KeychainWrapper.objectForKey(testKey) as? testObject
+        let retrievedObject = KeychainWrapper.objectForKey(testKey) as? TestObject
         XCTAssertNil(retrievedObject, "Object for Key should not exist")
     }
     
