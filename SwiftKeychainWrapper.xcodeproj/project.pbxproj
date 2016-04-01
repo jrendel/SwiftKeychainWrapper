@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		474429821CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */; };
 		477728B91CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */; };
+		477728BB1CAF306300905FE4 /* KeychainWrapper+Experimental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */; };
 		96405CF41CA57F460080FF45 /* KeychainWrapperDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */; };
 		966E4AB01B96693F00A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AAF1B96693F00A8DCEB /* LICENSE */; };
 		9694C2B51A66097F005B3030 /* SwiftKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -31,6 +32,7 @@
 /* Begin PBXFileReference section */
 		474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscriptTests.swift; sourceTree = "<group>"; };
 		477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperPrimitiveValueTests.swift; sourceTree = "<group>"; };
+		477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeychainWrapper+Experimental.swift"; sourceTree = "<group>"; };
 		961101D419D26F2800E6A6E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperDeleteTests.swift; sourceTree = "<group>"; };
 		966E4AAF1B96693F00A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -88,6 +90,7 @@
 			children = (
 				9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */,
 				9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */,
+				477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */,
 				9694C2B21A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapper;
@@ -233,6 +236,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */,
+				477728BB1CAF306300905FE4 /* KeychainWrapper+Experimental.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -367,55 +367,13 @@ public class KeychainWrapper {
     }
 }
 
-// MARK:- Subscript Extension Functions
-public extension KeychainWrapper {
-    public subscript(keyName: String) -> String? {
-        guard let data = self.dataForKey(keyName) else {
-            return nil
-        }
-        
-        return NSString(data: data, encoding: NSUTF8StringEncoding) as String?
-    }
-    
-    /// subscript convenience access currently supports String, NSData and NSCoding return type.
-    // subscript does not work with generics?
-    //public subscript<T: Any>(keyName: String) -> T? {
-        
-    public func get<T: Any>(keyName: String) -> T? {
-        guard let data = self.dataForKey(keyName) else {
-            return nil
-        }
-        
-        if T.self == NSData.self {
-            return data as? T
-        }
-        
-        if T.self == String.self, let stringValue = NSString(data: data, encoding: NSUTF8StringEncoding) as String? {
-            return stringValue as? T
-        }
-        
-        // TODO: does not work for protocol. Sees T as TestObject in unit test... can't use ==, need to figure out if "is" works or better way
-        if T.self == NSCoding.self {
-            if let objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSCoding {
-                return objectValue as? T
-            }
-        }
-        
-        // Unsupported type
-        return nil
-    }
-    
-}
-
 // MARK: - Deprecated Class Functions 
 // TODO: Should these really be deprecated or are they acceptable for convenience? Convenience or bloat?
 
 public extension KeychainWrapper {
 
     /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier.
-    ///
-    /// This is a static property and only needs to be set once
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Use KeychainWrapper.standardKeychainAccess().serviceName. Changing serviceName will not be supported in the future. Instead create a new KeychainWrapper instance with a custom service name.")
     public class var serviceName: String {
         get {
             return sharedKeychainWrapper.serviceName
@@ -430,7 +388,7 @@ public extension KeychainWrapper {
     /// Access Group defaults to an empty string and is not used until a valid value is set.
     ///
     /// This is a static property and only needs to be set once. To remove the access group property after one has been set, set this to an empty string.
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Use KeychainWrapper.standardKeychainAccess().accessGroup. Changing accessGroup will not be supported in the future. Instead create a new KeychainWrapper instance with a custom accessGroup.")
     public class var accessGroup: String? {
         get {
             return sharedKeychainWrapper.accessGroup
@@ -440,47 +398,47 @@ public extension KeychainWrapper {
         }
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func hasValueForKey(keyName: String) -> Bool {
         return sharedKeychainWrapper.hasValueForKey(keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func stringForKey(keyName: String) -> String? {
         return sharedKeychainWrapper.stringForKey(keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func objectForKey(keyName: String) -> NSCoding? {
         return sharedKeychainWrapper.objectForKey(keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func dataForKey(keyName: String) -> NSData? {
         return sharedKeychainWrapper.dataForKey(keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func dataRefForKey(keyName: String) -> NSData? {
         return sharedKeychainWrapper.dataRefForKey(keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setString(value: String, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setString(value, forKey: keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setObject(value: NSCoding, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setObject(value, forKey: keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setData(value: NSData, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setData(value, forKey: keyName)
     }
     
-    @available(*, deprecated=2.0)
+    @available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func removeObjectForKey(keyName: String) -> Bool {
         return sharedKeychainWrapper.removeObjectForKey(keyName)
     }
