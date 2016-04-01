@@ -25,8 +25,8 @@
 //    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 //    SOFTWARE.
 
-import SwiftKeychainWrapper
 import XCTest
+import SwiftKeychainWrapper
 
 class KeychainWrapperTests: XCTestCase {
     let testKey = "myTestKey"

@@ -69,21 +69,51 @@ public class KeychainWrapper {
     }
     
 
-    // MARK: Public Methods
+    // MARK:- Public Methods
     
     /// Checks if keychain data exists for a specified key.
     ///
     /// - parameter keyName: The key to check for.
     /// - returns: True if a value exists for the key. False otherwise.
     public func hasValueForKey(keyName: String) -> Bool {
-        let keychainData: NSData? = self.dataForKey(keyName)
-        if keychainData != nil {
+        if let _ = self.dataForKey(keyName) {
             return true
         } else {
             return false
         }
     }
-
+    
+    // MARK: Public Getters
+    public func integerForKey(keyName: String) -> Int? {
+        guard let objectValue = self.objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.integerValue
+    }
+    
+    public func floatForKey(keyName: String) -> Float? {
+       guard let objectValue = self.objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.floatValue
+    }
+    
+    public func doubleForKey(keyName: String) -> Double? {
+        guard let objectValue = objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+            return nil
+        }
+        return numberValue.doubleValue
+    }
+    
+    public func boolForKey(keyName: String) -> Bool? {
+        guard let objectValue = objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+            return nil
+        }
+        return numberValue.boolValue
+    }
+    
     /// Returns a string value for a specified key.
     ///
     /// - parameter keyName: The key to lookup data for.
@@ -97,7 +127,6 @@ public class KeychainWrapper {
 
         return stringValue
     }
-
     
     /// Returns an object that conforms to NSCoding for a specified key.
     ///
@@ -161,6 +190,23 @@ public class KeychainWrapper {
         return status == noErr ? result as? NSData : nil
     }
     
+    // MARK: Public Setters
+    
+    public func setInteger(value: Int, forKey keyName: String) -> Bool {
+        return self.setObject(NSNumber(integer: value), forKey: keyName)
+    }
+    
+    public func setFloat(value: Float, forKey keyName: String) -> Bool {
+        return self.setObject(NSNumber(float: value), forKey: keyName)
+    }
+    
+    public func setDouble(value: Double, forKey keyName: String) -> Bool {
+        return self.setObject(NSNumber(double: value), forKey: keyName)
+    }
+    
+    public func setBool(value: Bool, forKey keyName: String) -> Bool {
+        return self.setObject(NSNumber(bool: value), forKey: keyName)
+    }
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given keyname, the string will be overwritten with the new value.
     ///
@@ -263,7 +309,7 @@ public class KeychainWrapper {
         deleteKeychainSecClass(kSecClassIdentity) // Identity items
     }
 
-    // MARK: Private Methods
+    // MARK:- Private Methods
     
     /// Remove all items for a given Keychain Item Class
     ///
