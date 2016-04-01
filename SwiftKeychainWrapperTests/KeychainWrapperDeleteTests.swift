@@ -26,24 +26,24 @@ class KeychainWrapperDeleteTests: XCTestCase {
 
     func testRemoveAllKeysDeletesSpecificKey() {
         // save a value we can test delete on
-        let stringSaved = KeychainWrapper.setString(testString, forKey: testKey)
+        let stringSaved = KeychainWrapper.standardKeychainAccess().setString(testString, forKey: testKey)
         
         XCTAssertTrue(stringSaved, "String did not save to Keychain")
         
         // delete all
-        let removeSuccessful = KeychainWrapper.removeAllKeys()
+        let removeSuccessful = KeychainWrapper.standardKeychainAccess().removeAllKeys()
         
         XCTAssertTrue(removeSuccessful, "Failed to remove all Keys")
         
         // confirm our test value was deleted
-        let retrievedValue = KeychainWrapper.stringForKey(testKey)
+        let retrievedValue = KeychainWrapper.standardKeychainAccess().stringForKey(testKey)
         
         XCTAssertNil(retrievedValue, "Test value was not deleted")
     }
     
     func testWipeKeychainDeletesSpecificKey() {
         // save a value we can test delete on
-        let stringSaved = KeychainWrapper.setString(testString, forKey: testKey)
+        let stringSaved = KeychainWrapper.standardKeychainAccess().setString(testString, forKey: testKey)
         
         XCTAssertTrue(stringSaved, "String did not save to Keychain")
         
@@ -51,12 +51,12 @@ class KeychainWrapperDeleteTests: XCTestCase {
         KeychainWrapper.wipeKeychain()
         
         // confirm our test value was deleted
-        let retrievedValue = KeychainWrapper.stringForKey(testKey)
+        let retrievedValue = KeychainWrapper.standardKeychainAccess().stringForKey(testKey)
         
         XCTAssertNil(retrievedValue, "Test value was not deleted")
         
         // clean up keychain
-        KeychainWrapper.removeObjectForKey(testKey)
+        KeychainWrapper.standardKeychainAccess().removeObjectForKey(testKey)
     }
     
     func testRemoveAllKeysOnlyRemovesKeysForCurrentServiceName() {

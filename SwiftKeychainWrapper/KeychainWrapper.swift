@@ -67,7 +67,6 @@ public class KeychainWrapper {
     public class func standardKeychainAccess() -> KeychainWrapper {
         return sharedKeychainWrapper
     }
-    
 
     // MARK:- Public Methods
     
@@ -85,7 +84,7 @@ public class KeychainWrapper {
     
     // MARK: Public Getters
     public func integerForKey(keyName: String) -> Int? {
-        guard let objectValue = self.objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+        guard let numberValue = self.objectForKey(keyName) as? NSNumber else {
             return nil
         }
         
@@ -93,7 +92,7 @@ public class KeychainWrapper {
     }
     
     public func floatForKey(keyName: String) -> Float? {
-       guard let objectValue = self.objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+       guard let numberValue = self.objectForKey(keyName) as? NSNumber else {
             return nil
         }
         
@@ -101,16 +100,18 @@ public class KeychainWrapper {
     }
     
     public func doubleForKey(keyName: String) -> Double? {
-        guard let objectValue = objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+        guard let numberValue = objectForKey(keyName) as? NSNumber else {
             return nil
         }
+        
         return numberValue.doubleValue
     }
     
     public func boolForKey(keyName: String) -> Bool? {
-        guard let objectValue = objectForKey(keyName), numberValue = objectValue as? NSNumber else {
+        guard let numberValue = objectForKey(keyName) as? NSNumber else {
             return nil
         }
+        
         return numberValue.boolValue
     }
     
@@ -119,13 +120,11 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - returns: The String associated with the key if it exists. If no data exists, or the data found cannot be encoded as a string, returns nil.
     public func stringForKey(keyName: String) -> String? {
-        let keychainData: NSData? = self.dataForKey(keyName)
-        var stringValue: String?
-        if let data = keychainData {
-            stringValue = NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+        guard let keychainData = self.dataForKey(keyName) else {
+            return nil
         }
 
-        return stringValue
+        return String(data: keychainData, encoding: NSUTF8StringEncoding) as String?
     }
     
     /// Returns an object that conforms to NSCoding for a specified key.
@@ -133,15 +132,11 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - returns: The decoded object associated with the key if it exists. If no data exists, or the data found cannot be decoded, returns nil.
     public func objectForKey(keyName: String) -> NSCoding? {
-        let dataValue: NSData? = self.dataForKey(keyName)
-
-        var objectValue: NSCoding?
-
-        if let data = dataValue {
-            objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSCoding
+        guard let keychainData = self.dataForKey(keyName) else {
+            return nil
         }
 
-        return objectValue;
+        return NSKeyedUnarchiver.unarchiveObjectWithData(keychainData) as? NSCoding
     }
 
     
@@ -274,17 +269,17 @@ public class KeychainWrapper {
     }
 
     /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
-    public class func removeAllKeys() -> Bool {
+    public func removeAllKeys() -> Bool {
         //let keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
         
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
         var keychainQueryDictionary: [String:AnyObject] = [SecClass:kSecClassGenericPassword]
         
         // Uniquely identify this keychain accessor
-        keychainQueryDictionary[SecAttrService] = KeychainWrapper.serviceName
+        keychainQueryDictionary[SecAttrService] = self.serviceName
         
         // Set the keychain access group if defined
-        if let accessGroup = KeychainWrapper.accessGroup {
+        if let accessGroup = self.accessGroup {
             keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
         }
         
@@ -314,7 +309,7 @@ public class KeychainWrapper {
     /// Remove all items for a given Keychain Item Class
     ///
     ///
-    private class func deleteKeychainSecClass(secClass: AnyObject ) -> Bool {
+    private class func deleteKeychainSecClass(secClass: AnyObject) -> Bool {
         let query = [ kSecClass as String : secClass ]
         let status: OSStatus = SecItemDelete(query as CFDictionaryRef)
         
