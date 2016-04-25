@@ -7,6 +7,7 @@
 //
 
 import XCTest
+import SwiftKeychainWrapper
 
 class KeychainWrapperTests: XCTestCase {
     
@@ -20,16 +21,12 @@ class KeychainWrapperTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
+    func testCustomInstance() {
+        let uniqueServiceName = NSUUID().UUIDString
+        let uniqueAccessGroup = NSUUID().UUIDString
+        let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
+        
+        XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.standardKeychainAccess().serviceName, "Custom instance initialized with unique service name, should not match standardKeychainAccess Service Name")
+        XCTAssertNotEqual(customKeychainWrapperInstance.accessGroup, KeychainWrapper.standardKeychainAccess().accessGroup, "Custom instance initialized with unique access group, should not match standardKeychainAccess Access Group")
     }
-    
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measureBlock {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
 }
