@@ -82,9 +82,25 @@ public class KeychainWrapper {
         }
     }
     
+    public func hasValueForKey(keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        if let _ = self.dataForKey(keyName, withOptions: options) {
+            return true
+        } else {
+            return false
+        }
+    }
+    
     // MARK: Public Getters
     public func integerForKey(keyName: String) -> Int? {
         guard let numberValue = self.objectForKey(keyName) as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.integerValue
+    }
+    
+    public func integerForKey(keyName: String, withOptions options: KeychainItemOptions) -> Int? {
+        guard let numberValue = self.objectForKey(keyName, withOptions: options) as? NSNumber else {
             return nil
         }
         
@@ -99,6 +115,14 @@ public class KeychainWrapper {
         return numberValue.floatValue
     }
     
+    public func floatForKey(keyName: String, withOptions options: KeychainItemOptions) -> Float? {
+        guard let numberValue = self.objectForKey(keyName, withOptions: options) as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.floatValue
+    }
+    
     public func doubleForKey(keyName: String) -> Double? {
         guard let numberValue = objectForKey(keyName) as? NSNumber else {
             return nil
@@ -107,8 +131,24 @@ public class KeychainWrapper {
         return numberValue.doubleValue
     }
     
+    public func doubleForKey(keyName: String, withOptions options: KeychainItemOptions) -> Double? {
+        guard let numberValue = objectForKey(keyName, withOptions: options) as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.doubleValue
+    }
+    
     public func boolForKey(keyName: String) -> Bool? {
         guard let numberValue = objectForKey(keyName) as? NSNumber else {
+            return nil
+        }
+        
+        return numberValue.boolValue
+    }
+    
+    public func boolForKey(keyName: String, withOptions options: KeychainItemOptions) -> Bool? {
+        guard let numberValue = objectForKey(keyName, withOptions: options) as? NSNumber else {
             return nil
         }
         
@@ -127,6 +167,14 @@ public class KeychainWrapper {
         return String(data: keychainData, encoding: NSUTF8StringEncoding) as String?
     }
     
+    public func stringForKey(keyName: String, withOptions options: KeychainItemOptions) -> String? {
+        guard let keychainData = self.dataForKey(keyName, withOptions: options) else {
+            return nil
+        }
+        
+        return String(data: keychainData, encoding: NSUTF8StringEncoding) as String?
+    }
+    
     /// Returns an object that conforms to NSCoding for a specified key.
     ///
     /// - parameter keyName: The key to lookup data for.
@@ -136,6 +184,14 @@ public class KeychainWrapper {
             return nil
         }
 
+        return NSKeyedUnarchiver.unarchiveObjectWithData(keychainData) as? NSCoding
+    }
+    
+    public func objectForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSCoding? {
+        guard let keychainData = self.dataForKey(keyName) else {
+            return nil
+        }
+        
         return NSKeyedUnarchiver.unarchiveObjectWithData(keychainData) as? NSCoding
     }
 
@@ -162,6 +218,24 @@ public class KeychainWrapper {
         return status == noErr ? result as? NSData : nil
     }
     
+    public func dataForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSData? {
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        var result: AnyObject?
+        
+        // Limit search results to one
+        keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
+        
+        // Specify we want NSData/CFData returned
+        keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
+        
+        // Search
+        let status = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(keychainQueryDictionary, UnsafeMutablePointer($0))
+        }
+        
+        return status == noErr ? result as? NSData : nil
+    }
+    
     
     /// Returns a persistent data reference object for a specified key.
     ///
@@ -185,22 +259,56 @@ public class KeychainWrapper {
         return status == noErr ? result as? NSData : nil
     }
     
+    public func dataRefForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSData? {
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, options)
+        var result: AnyObject?
+        
+        // Limit search results to one
+        keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
+        
+        // Specify we want persistent NSData/CFData reference returned
+        keychainQueryDictionary[SecReturnPersistentRef] = kCFBooleanTrue
+        
+        // Search
+        let status = withUnsafeMutablePointer(&result) {
+            SecItemCopyMatching(keychainQueryDictionary, UnsafeMutablePointer($0))
+        }
+        
+        return status == noErr ? result as? NSData : nil
+    }
+    
     // MARK: Public Setters
     
     public func setInteger(value: Int, forKey keyName: String) -> Bool {
         return self.setObject(NSNumber(integer: value), forKey: keyName)
     }
     
+    public func setInteger(value: Int, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        return self.setObject(NSNumber(integer: value), forKey: keyName, withOptions: options)
+    }
+    
     public func setFloat(value: Float, forKey keyName: String) -> Bool {
         return self.setObject(NSNumber(float: value), forKey: keyName)
+    }
+    
+    public func setFloat(value: Float, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        return self.setObject(NSNumber(float: value), forKey: keyName, withOptions: options)
     }
     
     public func setDouble(value: Double, forKey keyName: String) -> Bool {
         return self.setObject(NSNumber(double: value), forKey: keyName)
     }
     
+    public func setDouble(value: Double, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        return self.setObject(NSNumber(double: value), forKey: keyName, withOptions: options)
+    }
+    
     public func setBool(value: Bool, forKey keyName: String) -> Bool {
         return self.setObject(NSNumber(bool: value), forKey: keyName)
+    }
+    
+    public func setBool(value: Bool, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        return self.setObject(NSNumber(bool: value), forKey: keyName, withOptions: options)
     }
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given keyname, the string will be overwritten with the new value.
@@ -215,6 +323,14 @@ public class KeychainWrapper {
             return false
         }
     }
+    
+    public func setString(value: String, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        if let data = value.dataUsingEncoding(NSUTF8StringEncoding) {
+            return self.setData(data, forKey: keyName, withOptions: options)
+        } else {
+            return false
+        }
+    }
 
     /// Save an NSCoding compliant object to the keychain associated with a specified key. If an object already exists for the given keyname, the object will be overwritten with the new value.
     ///
@@ -225,6 +341,12 @@ public class KeychainWrapper {
         let data = NSKeyedArchiver.archivedDataWithRootObject(value)
         
         return self.setData(data, forKey: keyName)
+    }
+    
+    public func setObject(value: NSCoding, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        let data = NSKeyedArchiver.archivedDataWithRootObject(value)
+        
+        return self.setData(data, forKey: keyName, withOptions: options)
     }
 
     /// Save a NSData object to the keychain associated with a specified key. If data already exists for the given keyname, the data will be overwritten with the new value.
@@ -242,6 +364,28 @@ public class KeychainWrapper {
 
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
 
+        if status == errSecSuccess {
+            return true
+        } else if status == errSecDuplicateItem {
+            return self.updateData(value, forKey: keyName)
+        } else {
+            return false
+        }
+    }
+    
+    /// Save a NSData object to the keychain associated with a specified key. If data already exists for the given keyname, the data will be overwritten with the new value.
+    ///
+    /// - parameter value: The NSData object to save.
+    /// - parameter forKey: The key to save the object under.
+    /// - parameter withOptions: The KeychainItemOptions to use when setting the keychain item.
+    /// - returns: True if the save was successful, false otherwise.
+    public func setData(value: NSData, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
+        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, options)
+        
+        keychainQueryDictionary[SecValueData] = value
+        
+        let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
+        
         if status == errSecSuccess {
             return true
         } else if status == errSecDuplicateItem {
@@ -358,6 +502,30 @@ public class KeychainWrapper {
 
         keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
 
+        return keychainQueryDictionary
+    }
+    
+    private func setupKeychainQueryDictionaryForKey(keyName: String, _ options: KeychainItemOptions) -> [String:AnyObject] {
+        var keychainQueryDictionary: [String:AnyObject] = [
+            SecClass: options.itemClass.keychainAttrValue,
+            SecAttrAccessible: options.itemAccessibility.keychainAttrValue
+        ]
+        
+        // Uniquely identify this keychain accessor
+        keychainQueryDictionary[SecAttrService] = self.serviceName
+        
+        // Set the keychain access group if defined
+        if let accessGroup = self.accessGroup {
+            keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
+        }
+        
+        // Uniquely identify the account who will be accessing the keychain
+        let encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
+        
+        keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
+        
+        keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
+        
         return keychainQueryDictionary
     }
 }
