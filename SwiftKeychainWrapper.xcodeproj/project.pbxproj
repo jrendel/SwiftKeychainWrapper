@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1AC6BBDA1CCD272C00DE429B /* KeychainOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1AC6BBD91CCD272C00DE429B /* KeychainOptions.swift */; };
 		474429821CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */; };
 		477728B91CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */; };
 		477728BB1CAF306300905FE4 /* KeychainWrapper+Experimental.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */; };
@@ -30,6 +31,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		1AC6BBD91CCD272C00DE429B /* KeychainOptions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainOptions.swift; sourceTree = "<group>"; };
 		474429811CAAA6FD0042B03E /* KeychainWrapperSubscriptTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperSubscriptTests.swift; sourceTree = "<group>"; };
 		477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperPrimitiveValueTests.swift; sourceTree = "<group>"; };
 		477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "KeychainWrapper+Experimental.swift"; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */,
 				9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */,
 				477728BA1CAF306300905FE4 /* KeychainWrapper+Experimental.swift */,
+				1AC6BBD91CCD272C00DE429B /* KeychainOptions.swift */,
 				9694C2B21A66097F005B3030 /* Supporting Files */,
 			);
 			path = SwiftKeychainWrapper;
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */,
+				1AC6BBDA1CCD272C00DE429B /* KeychainOptions.swift in Sources */,
 				477728BB1CAF306300905FE4 /* KeychainWrapper+Experimental.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
