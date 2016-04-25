@@ -72,7 +72,7 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testSettingServiceName() {
-        KeychainWrapper.serviceName = testServiceName;
+        KeychainWrapper.serviceName = testServiceName
         
         XCTAssertEqual(KeychainWrapper.serviceName, testServiceName, "Service Name should have been set to our custom service name")
     }
