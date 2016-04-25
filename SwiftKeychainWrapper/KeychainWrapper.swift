@@ -188,7 +188,7 @@ public class KeychainWrapper {
     }
     
     public func objectForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSCoding? {
-        guard let keychainData = self.dataForKey(keyName) else {
+        guard let keychainData = self.dataForKey(keyName, withOptions: options) else {
             return nil
         }
         
@@ -219,7 +219,7 @@ public class KeychainWrapper {
     }
     
     public func dataForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSData? {
-        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
         var result: AnyObject?
         
         // Limit search results to one
@@ -260,7 +260,7 @@ public class KeychainWrapper {
     }
     
     public func dataRefForKey(keyName: String, withOptions options: KeychainItemOptions) -> NSData? {
-        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, options)
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
         var result: AnyObject?
         
         // Limit search results to one
@@ -380,7 +380,7 @@ public class KeychainWrapper {
     /// - parameter withOptions: The KeychainItemOptions to use when setting the keychain item.
     /// - returns: True if the save was successful, false otherwise.
     public func setData(value: NSData, forKey keyName: String, withOptions options: KeychainItemOptions) -> Bool {
-        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, options)
+        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
         
         keychainQueryDictionary[SecValueData] = value
         
@@ -505,7 +505,7 @@ public class KeychainWrapper {
         return keychainQueryDictionary
     }
     
-    private func setupKeychainQueryDictionaryForKey(keyName: String, _ options: KeychainItemOptions) -> [String:AnyObject] {
+    private func setupKeychainQueryDictionaryForKey(keyName: String, withOptions options: KeychainItemOptions) -> [String:AnyObject] {
         var keychainQueryDictionary: [String:AnyObject] = [
             SecClass: options.itemClass.keychainAttrValue,
             SecAttrAccessible: options.itemAccessibility.keychainAttrValue
