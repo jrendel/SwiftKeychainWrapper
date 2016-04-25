@@ -359,9 +359,6 @@ public class KeychainWrapper {
 
         keychainQueryDictionary[SecValueData] = value
 
-        // Protect the keychain entry so it's only valid when the device is unlocked
-        keychainQueryDictionary[SecAttrAccessible] = kSecAttrAccessibleWhenUnlocked
-
         let status: OSStatus = SecItemAdd(keychainQueryDictionary, nil)
 
         if status == errSecSuccess {
@@ -484,25 +481,16 @@ public class KeychainWrapper {
     /// - parameter keyName: The key this query is for
     /// - returns: A dictionary with all the needed properties setup to access the keychain on iOS
     private func setupKeychainQueryDictionaryForKey(keyName: String) -> [String:AnyObject] {
-        // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
-        var keychainQueryDictionary: [String:AnyObject] = [SecClass:kSecClassGenericPassword]
-
-        // Uniquely identify this keychain accessor
-        keychainQueryDictionary[SecAttrService] = self.serviceName
-
-        // Set the keychain access group if defined
-        if let accessGroup = self.accessGroup {
-            keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
-        }
-
-        // Uniquely identify the account who will be accessing the keychain
-        let encodedIdentifier: NSData? = keyName.dataUsingEncoding(NSUTF8StringEncoding)
-
-        keychainQueryDictionary[SecAttrGeneric] = encodedIdentifier
-
-        keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
-
-        return keychainQueryDictionary
+        
+        // Setup default access as generic password (rather than a certificate, internet password, etc)
+        let defaultSecClass = KeychainItemClass.GenericPassword
+        
+        // Protect the keychain entry so it's only valid when the device is unlocked
+        let defaultAccessibility = KeychainItemAccessibility.WhenUnlocked
+        
+        let defaultKeychainItemOptions = KeychainItemOptions(itemClass: defaultSecClass, itemAccessibility: defaultAccessibility)
+        
+        return self.setupKeychainQueryDictionaryForKey(keyName, withOptions: defaultKeychainItemOptions)
     }
     
     private func setupKeychainQueryDictionaryForKey(keyName: String, withOptions options: KeychainItemOptions) -> [String:AnyObject] {
