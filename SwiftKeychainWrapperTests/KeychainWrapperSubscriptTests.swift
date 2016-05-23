@@ -11,6 +11,7 @@ import SwiftKeychainWrapper
 
 class KeychainWrapperSubscriptTests: XCTestCase {
     let testKey = "myTestKey"
+    let testKey2 = "myTestKey2"
     let testString = "This is a test"
     
     override func setUp() {
@@ -68,5 +69,58 @@ class KeychainWrapperSubscriptTests: XCTestCase {
             XCTFail("Output Data for key does not match input. ")
         }
     }
+
+    func testIntegerValueSubscript() {
+        let testInt: Int = 967
+        KeychainWrapper.standardKeychainAccess().setInteger(testInt, forKey: testKey)
+        
+        if let retrievedInteger: Int = KeychainWrapper.standardKeychainAccess().get(testKey) {
+            XCTAssertEqual(retrievedInteger, testInt, "Int retrieved for key should equal Int saved for key")
+        } else {
+            XCTFail("Int for Key not found")
+        }
+    }
+    
+    func testFloatValueSubscript() {
+        let testFloat: Float = 87.00
+        KeychainWrapper.standardKeychainAccess().setFloat(testFloat, forKey: testKey)
+        
+        if let retrievedFloat: Float = KeychainWrapper.standardKeychainAccess().get(testKey) {
+            XCTAssertEqual(retrievedFloat, testFloat, "Float retrieved for key should equal Float saved for key")
+        } else {
+            XCTFail("Float for Key not found")
+        }
+    }
+    
+    func testDoubleValueSubscript() {
+        let testDouble: Double = 42.00
+        KeychainWrapper.standardKeychainAccess().setDouble(testDouble, forKey: testKey)
+        
+        if let retrievedDouble: Double = KeychainWrapper.standardKeychainAccess().get(testKey) {
+            XCTAssertEqual(retrievedDouble, testDouble, "Double retrieved for key should equal Double saved for key")
+        } else {
+            XCTFail("Double for Key not found")
+        }
+    }
+
+    func testBoolValueSubscript() {
+        let testBoolFalse: Bool = false
+        let testBoolTrue: Bool = true
+        KeychainWrapper.standardKeychainAccess().setBool(testBoolFalse, forKey: testKey)
+        KeychainWrapper.standardKeychainAccess().setBool(testBoolTrue, forKey: testKey2)
+        
+        if let retrievedBool: Bool = KeychainWrapper.standardKeychainAccess().get(testKey) {
+            XCTAssertEqual(retrievedBool, testBoolFalse, "Bool value retrieved for first key should equal Bool value saved for first key")
+        } else {
+            XCTFail("Bool for First Key not found")
+        }
+        
+        if let retrievedBool2: Bool = KeychainWrapper.standardKeychainAccess().get(testKey2) {
+            XCTAssertEqual(retrievedBool2, testBoolTrue, "Bool value retrieved for second key should equal Bool value saved for second key")
+        } else {
+            XCTFail("Bool for Second Key not found")
+        }
+    }
+
 
 }

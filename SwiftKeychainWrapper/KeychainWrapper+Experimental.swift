@@ -28,7 +28,7 @@ public extension KeychainWrapper {
     }
     
     /// subscript convenience access currently supports String, NSData and NSCoding return type.
-    
+    /// Primitive Types: Integer, Float, Double, Bool
     public func get<T: Any>(keyName: String) -> T? {
         guard let data = self.dataForKey(keyName) else {
             return nil
@@ -47,6 +47,23 @@ public extension KeychainWrapper {
             if let objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSCoding {
                 return objectValue as? T
             }
+        }
+        
+        // Primitive Types
+        if T.self == Int.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+            return numberValue.integerValue as? T
+        }
+        
+        if T.self == Float.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+            return numberValue.floatValue as? T
+        }
+        
+        if T.self == Double.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+            return numberValue.doubleValue as? T
+        }
+        
+        if T.self == Bool.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+            return numberValue.boolValue as? T
         }
         
         // Unsupported type
