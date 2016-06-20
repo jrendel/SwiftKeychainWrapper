@@ -232,9 +232,7 @@ private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString
         .WhenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
     ]
     
-    if #available(iOSApplicationExtension 8, *) {
-        lookup[.WhenPasscodeSetThisDeviceOnly] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
-    }
+    lookup[.WhenPasscodeSetThisDeviceOnly] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
     
     return lookup
 }()
