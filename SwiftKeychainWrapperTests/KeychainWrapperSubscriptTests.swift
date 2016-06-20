@@ -51,7 +51,7 @@ class KeychainWrapperSubscriptTests: XCTestCase {
     }
     
     func testNSDataSubscript() {
-        guard let testData = testString.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let testData = testString.data(using: .utf8) else {
             XCTFail("Failed to create NSData")
             return
         }
@@ -63,7 +63,7 @@ class KeychainWrapperSubscriptTests: XCTestCase {
             return
         }
         
-        if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+        if let retrievedString = NSString(data: retrievedData as Data, encoding: String.Encoding.utf8.rawValue) {
             XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
         } else {
             XCTFail("Output Data for key does not match input. ")
@@ -72,7 +72,7 @@ class KeychainWrapperSubscriptTests: XCTestCase {
 
     func testIntegerValueSubscript() {
         let testInt: Int = 967
-        KeychainWrapper.standardKeychainAccess().setInteger(testInt, forKey: testKey)
+        KeychainWrapper.standardKeychainAccess().setObject(testInt, forKey: testKey)
         
         if let retrievedInteger: Int = KeychainWrapper.standardKeychainAccess().get(testKey) {
             XCTAssertEqual(retrievedInteger, testInt, "Int retrieved for key should equal Int saved for key")
@@ -83,7 +83,7 @@ class KeychainWrapperSubscriptTests: XCTestCase {
     
     func testFloatValueSubscript() {
         let testFloat: Float = 87.00
-        KeychainWrapper.standardKeychainAccess().setFloat(testFloat, forKey: testKey)
+        KeychainWrapper.standardKeychainAccess().setObject(testFloat, forKey: testKey)
         
         if let retrievedFloat: Float = KeychainWrapper.standardKeychainAccess().get(testKey) {
             XCTAssertEqual(retrievedFloat, testFloat, "Float retrieved for key should equal Float saved for key")
@@ -94,7 +94,7 @@ class KeychainWrapperSubscriptTests: XCTestCase {
     
     func testDoubleValueSubscript() {
         let testDouble: Double = 42.00
-        KeychainWrapper.standardKeychainAccess().setDouble(testDouble, forKey: testKey)
+        KeychainWrapper.standardKeychainAccess().setObject(testDouble, forKey: testKey)
         
         if let retrievedDouble: Double = KeychainWrapper.standardKeychainAccess().get(testKey) {
             XCTAssertEqual(retrievedDouble, testDouble, "Double retrieved for key should equal Double saved for key")
@@ -106,8 +106,8 @@ class KeychainWrapperSubscriptTests: XCTestCase {
     func testBoolValueSubscript() {
         let testBoolFalse: Bool = false
         let testBoolTrue: Bool = true
-        KeychainWrapper.standardKeychainAccess().setBool(testBoolFalse, forKey: testKey)
-        KeychainWrapper.standardKeychainAccess().setBool(testBoolTrue, forKey: testKey2)
+        KeychainWrapper.standardKeychainAccess().setObject(testBoolFalse, forKey: testKey)
+        KeychainWrapper.standardKeychainAccess().setObject(testBoolTrue, forKey: testKey2)
         
         if let retrievedBool: Bool = KeychainWrapper.standardKeychainAccess().get(testKey) {
             XCTAssertEqual(retrievedBool, testBoolFalse, "Bool value retrieved for first key should equal Bool value saved for first key")

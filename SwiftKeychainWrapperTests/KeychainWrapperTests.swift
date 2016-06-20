@@ -22,8 +22,8 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testCustomInstance() {
-        let uniqueServiceName = NSUUID().UUIDString
-        let uniqueAccessGroup = NSUUID().UUIDString
+        let uniqueServiceName = NSUUID().uuidString
+        let uniqueAccessGroup = NSUUID().uuidString
         let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
         
         XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.standardKeychainAccess().serviceName, "Custom instance initialized with unique service name, should not match standardKeychainAccess Service Name")

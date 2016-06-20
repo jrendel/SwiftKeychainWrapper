@@ -14,11 +14,11 @@ import Foundation
 public extension KeychainWrapper {
     public subscript(keyName: String) -> String? {
         get {
-            guard let data = self.dataForKey(keyName) else {
+            guard let data = self.data(forKey: keyName) else {
                 return nil
             }
             
-            return NSString(data: data, encoding: NSUTF8StringEncoding) as String?
+            return NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String?
         }
         set(value) {
             if let value = value {
@@ -29,8 +29,8 @@ public extension KeychainWrapper {
     
     /// subscript convenience access currently supports String, NSData and NSCoding return type.
     /// Primitive Types: Integer, Float, Double, Bool
-    public func get<T: Any>(keyName: String) -> T? {
-        guard let data = self.dataForKey(keyName) else {
+    public func get<T: Any>(_ keyName: String) -> T? {
+        guard let data = self.data(forKey: keyName) else {
             return nil
         }
         
@@ -38,31 +38,31 @@ public extension KeychainWrapper {
             return data as? T
         }
         
-        if T.self == String.self, let stringValue = NSString(data: data, encoding: NSUTF8StringEncoding) as String? {
+        if T.self == String.self, let stringValue = NSString(data: data, encoding: String.Encoding.utf8.rawValue) as String? {
             return stringValue as? T
         }
         
         // TODO: does not work for protocol. Sees T as TestObject in unit test... can't use ==, need to figure out if "is" works or better way
         if T.self == NSCoding.self {
-            if let objectValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSCoding {
+            if let objectValue = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSCoding {
                 return objectValue as? T
             }
         }
         
         // Primitive Types
-        if T.self == Int.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
-            return numberValue.integerValue as? T
+        if T.self == Int.self, let numberValue = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber {
+            return numberValue.intValue as? T
         }
         
-        if T.self == Float.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+        if T.self == Float.self, let numberValue = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber {
             return numberValue.floatValue as? T
         }
         
-        if T.self == Double.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+        if T.self == Double.self, let numberValue = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber {
             return numberValue.doubleValue as? T
         }
         
-        if T.self == Bool.self, let numberValue = NSKeyedUnarchiver.unarchiveObjectWithData(data) as? NSNumber {
+        if T.self == Bool.self, let numberValue = NSKeyedUnarchiver.unarchiveObject(with: data) as? NSNumber {
             return numberValue.boolValue as? T
         }
         

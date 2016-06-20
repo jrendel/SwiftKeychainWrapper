@@ -50,8 +50,8 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 		// Put teardown code here. This method is called after the invocation of each test method in the class.
 		
 		// clean up keychain
-		KeychainWrapper.removeObjectForKey(testKey)
-		KeychainWrapper.removeObjectForKey(testKey2)
+		KeychainWrapper.removeObject(forKey: testKey)
+		KeychainWrapper.removeObject(forKey: testKey2)
 		
 		// reset keychain service name to default
 		KeychainWrapper.serviceName = defaultServiceName
@@ -63,7 +63,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 	}
 	
     func testDefaultServiceName() {
-        let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
+        let bundleIdentifier = Bundle.main().bundleIdentifier
         if let bundleIdentifierString = bundleIdentifier {
             XCTAssertEqual(KeychainWrapper.serviceName, bundleIdentifierString, "Service Name should be equal to the bundle identifier when it is accessible")
         } else {
@@ -88,21 +88,21 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
     }
 
     func testHasValueForKey() {
-        XCTAssertFalse(KeychainWrapper.hasValueForKey(testKey), "Keychain should not have a value for the test key")
+        XCTAssertFalse(KeychainWrapper.hasValue(forKey: testKey), "Keychain should not have a value for the test key")
         
         KeychainWrapper.setString(testString, forKey: testKey)
         
-        XCTAssertTrue(KeychainWrapper.hasValueForKey(testKey), "Keychain should have a value for the test key after it is set")
+        XCTAssertTrue(KeychainWrapper.hasValue(forKey: testKey), "Keychain should have a value for the test key after it is set")
     }
     
     func testRemoveObjectFromKeychain() {
         KeychainWrapper.setString(testString, forKey: testKey)
         
-        XCTAssertTrue(KeychainWrapper.hasValueForKey(testKey), "Keychain should have a value for the test key after it is set")
+        XCTAssertTrue(KeychainWrapper.hasValue(forKey: testKey), "Keychain should have a value for the test key after it is set")
         
-        KeychainWrapper.removeObjectForKey(testKey)
+        KeychainWrapper.removeObject(forKey: testKey)
         
-        XCTAssertFalse(KeychainWrapper.hasValueForKey(testKey), "Keychain should not have a value for the test key after it is removed")
+        XCTAssertFalse(KeychainWrapper.hasValue(forKey: testKey), "Keychain should not have a value for the test key after it is removed")
     }
     
     func testStringSave() {
@@ -111,13 +111,13 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
         XCTAssertTrue(stringSaved, "String did not save to Keychain")
         
         // clean up keychain
-        KeychainWrapper.removeObjectForKey(testKey)
+        KeychainWrapper.removeObject(forKey: testKey)
     }
     
     func testStringRetrieval() {
         KeychainWrapper.setString(testString, forKey: testKey)
         
-        if let retrievedString = KeychainWrapper.stringForKey(testKey) {
+        if let retrievedString = KeychainWrapper.string(forKey: testKey) {
             XCTAssertEqual(retrievedString, testString, "String retrieved for key should equal string saved for key")
         } else {
             XCTFail("String for Key not found")
@@ -125,7 +125,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
     }
     
     func testStringRetrievalWhenValueDoesNotExist() {
-        let retrievedString = KeychainWrapper.stringForKey(testKey)
+        let retrievedString = KeychainWrapper.string(forKey: testKey)
         XCTAssertNil(retrievedString, "String for Key should not exist")
     }
 
@@ -140,13 +140,13 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 			XCTFail("String for testKey2 did not save")
 		}
 		
-		if let string1Retrieved = KeychainWrapper.stringForKey(testKey) {
+		if let string1Retrieved = KeychainWrapper.string(forKey: testKey) {
 			XCTAssertEqual(string1Retrieved, testString, "String retrieved for testKey should match string saved to testKey")
 		} else {
 			XCTFail("String for testKey could not be retrieved")
 		}
 		
-		if let string2Retrieved = KeychainWrapper.stringForKey(testKey2) {
+		if let string2Retrieved = KeychainWrapper.string(forKey: testKey2) {
 			XCTAssertEqual(string2Retrieved, testString2, "String retrieved for testKey2 should match string saved to testKey2")
 		} else {
 			XCTFail("String for testKey2 could not be retrieved")
@@ -160,7 +160,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 			XCTFail("String for testKey did not save")
 		}
 		
-		if let string1Retrieved = KeychainWrapper.stringForKey(testKey) {
+		if let string1Retrieved = KeychainWrapper.string(forKey: testKey) {
 			XCTAssertEqual(string1Retrieved, testString, "String retrieved for testKey after first save should match first string saved testKey")
 		} else {
 			XCTFail("String for testKey could not be retrieved")
@@ -170,7 +170,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 			XCTFail("String for testKey did not update")
 		}
 		
-		if let string2Retrieved = KeychainWrapper.stringForKey(testKey) {
+		if let string2Retrieved = KeychainWrapper.string(forKey: testKey) {
 			XCTAssertEqual(string2Retrieved, testString2, "String retrieved for testKey after update should match secind string saved to testKey")
 		} else {
 			XCTFail("String for testKey could not be retrieved after update")
@@ -192,7 +192,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
         
         KeychainWrapper.setObject(myTestObject, forKey: testKey)
         
-        if let retrievedObject = KeychainWrapper.objectForKey(testKey) as? TestObject{
+        if let retrievedObject = KeychainWrapper.object(forKey: testKey) as? TestObject{
             XCTAssertEqual(retrievedObject.objectName, testString, "NSCoding compliant object retrieved for key should have objectName property equal to what it was stored with")
             XCTAssertEqual(retrievedObject.objectRating, testInt, "NSCoding compliant object retrieved for key should have objectRating property equal to what it was stored with")
         } else {
@@ -201,12 +201,12 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
     }
     
     func testNSCodingObjectRetrievalWhenValueDoesNotExist() {
-        let retrievedObject = KeychainWrapper.objectForKey(testKey) as? TestObject
+        let retrievedObject = KeychainWrapper.object(forKey: testKey) as? TestObject
         XCTAssertNil(retrievedObject, "Object for Key should not exist")
     }
     
     func testNSDataSave() {
-        let testData = testString.dataUsingEncoding(NSUTF8StringEncoding)
+        let testData = testString.data(using: String.Encoding.utf8)
         
         if let data = testData {
             let dataSaved = KeychainWrapper.setData(data, forKey: testKey)
@@ -218,23 +218,23 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
     }
     
     func testNSDataRetrieval() {
-        guard let testData = testString.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let testData = testString.data(using: .utf8) else {
             XCTFail("Failed to create NSData")
             return
         }
         
         KeychainWrapper.setData(testData, forKey: testKey)
         
-        guard let retrievedData = KeychainWrapper.dataForKey(testKey) else {
+        guard let retrievedData = KeychainWrapper.data(forKey: testKey) else {
             XCTFail("Data for Key not found")
             return
         }
         
-        if KeychainWrapper.dataRefForKey(testKey) == nil {
+        if KeychainWrapper.dataRef(forKey: testKey) == nil {
             XCTFail("Data references for Key not found")
         }
         
-        if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+        if let retrievedString = NSString(data: retrievedData as Data, encoding: String.Encoding.utf8.rawValue) {
             XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
         } else {
             XCTFail("Output Data for key does not match input. ")
@@ -242,10 +242,10 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
     }
     
     func testNSDataRetrievalWhenValueDoesNotExist() {
-        let retrievedData = KeychainWrapper.dataForKey(testKey)
+        let retrievedData = KeychainWrapper.data(forKey: testKey)
         XCTAssertNil(retrievedData, "Data for Key should not exist")
         
-        let retrievedDataRef = KeychainWrapper.dataRefForKey(testKey)
+        let retrievedDataRef = KeychainWrapper.dataRef(forKey: testKey)
         XCTAssertNil(retrievedDataRef, "Data ref for Key should not exist")
     }
 }
