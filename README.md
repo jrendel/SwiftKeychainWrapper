@@ -14,12 +14,12 @@ let saveSuccessful: Bool = KeychainWrapper.setString("Some String", forKey: "myK
 
 Retrieve a string value from keychain:
 ```Swift
-let retrievedString: String? = KeychainWrapper.stringForKey("myKey")
+let retrievedString: String? = KeychainWrapper.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
 ```Swift
-let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
+let removeSuccessful: Bool = KeychainWrapper.removeObject(forKey: "myKey")
 ```
 
 Release Notes
