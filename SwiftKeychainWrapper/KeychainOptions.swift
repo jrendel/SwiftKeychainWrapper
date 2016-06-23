@@ -222,22 +222,15 @@ public enum KeychainItemAccessibility {
     case WhenUnlockedThisDeviceOnly
 }
 
-private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString] = {
-    var lookup: [KeychainItemAccessibility:CFString] = [
-        .AfterFirstUnlock: kSecAttrAccessibleAfterFirstUnlock,
-        .AfterFirstUnlockThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
-        .Always: kSecAttrAccessibleAlways,
-        .AlwaysThisDeviceOnly : kSecAttrAccessibleAlwaysThisDeviceOnly,
-        .WhenUnlocked: kSecAttrAccessibleWhenUnlocked,
-        .WhenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-    ]
-    
-    if #available(iOSApplicationExtension 8, *) {
-        lookup[.WhenPasscodeSetThisDeviceOnly] = kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly
-    }
-    
-    return lookup
-}()
+private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString] = [
+    .AfterFirstUnlock: kSecAttrAccessibleAfterFirstUnlock,
+    .AfterFirstUnlockThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+    .Always: kSecAttrAccessibleAlways,
+    .WhenPasscodeSetThisDeviceOnly: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
+    .AlwaysThisDeviceOnly : kSecAttrAccessibleAlwaysThisDeviceOnly,
+    .WhenUnlocked: kSecAttrAccessibleWhenUnlocked,
+    .WhenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
+]
 
 extension KeychainItemAccessibility : KeychainAttrRepresentable {
     internal var keychainAttrValue: CFString {
