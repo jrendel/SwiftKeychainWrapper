@@ -26,7 +26,7 @@ class KeychainWrapperTests: XCTestCase {
         let uniqueAccessGroup = NSUUID().UUIDString
         let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
         
-        XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.standardKeychainAccess().serviceName, "Custom instance initialized with unique service name, should not match standardKeychainAccess Service Name")
-        XCTAssertNotEqual(customKeychainWrapperInstance.accessGroup, KeychainWrapper.standardKeychainAccess().accessGroup, "Custom instance initialized with unique access group, should not match standardKeychainAccess Access Group")
+        XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.defaultKeychainWrapper().serviceName, "Custom instance initialized with unique service name, should not match defaultKeychainWrapper Service Name")
+        XCTAssertNotEqual(customKeychainWrapperInstance.accessGroup, KeychainWrapper.defaultKeychainWrapper().accessGroup, "Custom instance initialized with unique access group, should not match defaultKeychainWrapper Access Group")
     }
 }

@@ -1,6 +1,6 @@
 //
-//  KeychainWrapperStandardAccessTests.swift
-//  KeychainWrapperStandardAccessTests
+//  KeychainWrapperStaticAccessorTests.swift
+//  KeychainWrapperStaticAccessorTests
 //
 //  Created by Jason Rendel on 9/23/14.
 //  Copyright (c) 2014 Jason Rendel. All rights reserved.
@@ -28,7 +28,7 @@
 import XCTest
 import SwiftKeychainWrapper
 
-class KeychainWrapperStandardAccessTests: XCTestCase {
+class KeychainWrapperStaticAccessorTests: XCTestCase {
     let testKey = "myTestKey"
     let testString = "This is a test"
     

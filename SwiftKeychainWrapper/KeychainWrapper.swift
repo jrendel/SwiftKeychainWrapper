@@ -67,8 +67,8 @@ public class KeychainWrapper {
         self.accessGroup = accessGroup
     }
     
-    /// Standard access keychain
-    public class func standardKeychainAccess() -> KeychainWrapper {
+    /// Default access keychain wrapper access
+    public class func defaultKeychainWrapper() -> KeychainWrapper {
         return sharedKeychainWrapper
     }
 
@@ -414,47 +414,38 @@ public extension KeychainWrapper {
         }
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func hasValueForKey(keyName: String) -> Bool {
         return sharedKeychainWrapper.hasValueForKey(keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func stringForKey(keyName: String) -> String? {
         return sharedKeychainWrapper.stringForKey(keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func objectForKey(keyName: String) -> NSCoding? {
         return sharedKeychainWrapper.objectForKey(keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func dataForKey(keyName: String) -> NSData? {
         return sharedKeychainWrapper.dataForKey(keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func dataRefForKey(keyName: String) -> NSData? {
         return sharedKeychainWrapper.dataRefForKey(keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setString(value: String, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setString(value, forKey: keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setObject(value: NSCoding, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setObject(value, forKey: keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func setData(value: NSData, forKey keyName: String) -> Bool {
         return sharedKeychainWrapper.setData(value, forKey: keyName)
     }
     
-    //@available(*, deprecated=2.0, message="Access via KeychainWrapper.standardKeychainAccess()")
     public class func removeObjectForKey(keyName: String) -> Bool {
         return sharedKeychainWrapper.removeObjectForKey(keyName)
     }
