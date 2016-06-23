@@ -1,6 +1,6 @@
 //
-//  KeychainWrapperDeprecatedTests.swift
-//  KeychainWrapperDeprecatedTests
+//  KeychainWrapperStandardAccessTests.swift
+//  KeychainWrapperStandardAccessTests
 //
 //  Created by Jason Rendel on 9/23/14.
 //  Copyright (c) 2014 Jason Rendel. All rights reserved.
@@ -28,7 +28,7 @@
 import XCTest
 import SwiftKeychainWrapper
 
-class KeychainWrapperDeprecatedTests: XCTestCase {
+class KeychainWrapperStandardAccessTests: XCTestCase {
     let testKey = "myTestKey"
     let testString = "This is a test"
     
@@ -154,7 +154,6 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 	}
 	
 	func testMultipleStringsSavedToSameKey() {
-		KeychainWrapper.serviceName = "com.yaddayadda.whatever"
 		
 		if !KeychainWrapper.setString(testString, forKey: testKey) {
 			XCTFail("String for testKey did not save")
