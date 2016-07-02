@@ -1,29 +1,65 @@
 SwiftKeychainWrapper
 ===============
-A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to user defaults. Written in Swift.
+A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
-Supports adding and retrieving Strings, NSData and objects that implement NSCoding. 
+Provides a defaultKeychainWrapper() function to access singleton instance that is setup to work for most needs. 
 
-Usage
+If you need to customize the keychain access to use a custom identifier or access group, you can create your own instance instead of using the singleton access.
+
+By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keycain.
+
+Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility and item class for that key.
+
+General Usage
 =====
 
 Add a string value to keychain:
 ```Swift
-let saveSuccessful: Bool = KeychainWrapper.setString("Some String", forKey: "myKey")
+let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().setString("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
 ```Swift
-let retrievedString: String? = KeychainWrapper.stringForKey("myKey")
+let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper().stringForKey("myKey")
 ```
 
 Remove a string value from keychain:
 ```Swift
-let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
+let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().removeObjectForKey("myKey")
 ```
+
+Convenience Usage (backwards compatibility for pre 2.0 releases)
+=====
+
+I find the singleton pattern can be cumbersome to use at times, so have added static accessors to the class as a convenient way to access the shared instance. This also allows the class to maintain backwards compatibility with previous releases of the library. Using this pattern, the examples above would be:
+
+```Swift
+let saveSuccessful: Bool = KeychainWrapper.setString("Some String", forKey: "myKey")
+
+let retrievedString: String? = KeychainWrapper.stringForKey("myKey")
+
+let removeSuccessful: Bool = KeychainWrapper..removeObjectForKey("myKey")
+```
+
+Custom Instance
+=====
+
+// TODO
+
+
+Custom Key Options
+=====
+
+// TODO
+
 
 Release Notes
 ======
+v2.0
+Further changes to more closesly align the api with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance for convenience and to maintain backwards compatibility.
+Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
+Addtional options have been provided to alter the keychain type and accessibility for each key value saved.
+
 v1.0.11
 Update for Swift 2.0
 
