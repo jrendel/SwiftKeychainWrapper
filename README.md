@@ -73,35 +73,36 @@ Custom Key Options
 
 Release Notes
 ======
-v2.0
+v2.0 </br>
 Further changes to more closesly align the api with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance for convenience and to maintain backwards compatibility.
 Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
 Addtional options have been provided to alter the keychain type and accessibility for each key value saved.
 
-v1.0.11
+v1.0.11 </br>
 Update for Swift 2.0
 
-v1.0.10
+v1.0.10 </br>
 Update License info. Merged Pull Request with Carthage support.
 
-v1.0.8
+v1.0.8 </br>
 Update for Swift 1.2
 
-v1.0.7
+v1.0.7 </br>
 Determined that once provisioned correctly for access groups, using KeychainWrapper on the simulator with access groups works. So I removed the simulator related check and unit tests previously added.
 
-v1.0.6 Support for Access Groups
+v1.0.6  </br>
+Support for Access Groups
 SwiftKeychainWrapperExample has been updated to show usage with an Access Group: https://github.com/jrendel/SwiftKeychainWrapperExample
 
 Access Groups do not work on the simulator. Apps that are built for the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Attempting to set an access group will result in a failure when attempting to Add or Update keychain items. Because of this, the Keychain Wrapper detects if it is being using on a simulator and will not set an access group property if one is set. This allows the Keychain Wrapper to still be used on the simulator for development of your app. To properly test Keychain Access Groups, you will need to test on a device.
 
-v1.0.5
+v1.0.5 </br>
 This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
 
 To see an example of usage with CocoaPods, I've created the repo SwiftKeychainWrapperExample: 
 https://github.com/jrendel/SwiftKeychainWrapperExample
 
-v1.0.2 
+v1.0.2  </br>
 Updated for Xcode 6.1
 
 ======
