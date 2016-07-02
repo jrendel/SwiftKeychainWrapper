@@ -28,24 +28,42 @@ Remove a string value from keychain:
 let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().removeObjectForKey("myKey")
 ```
 
-Convenience Usage (backwards compatibility for pre 2.0 releases)
+Convenience Accessors 
 =====
 
-I find the singleton pattern can be cumbersome to use at times, so have added static accessors to the class as a convenient way to access the shared instance. This also allows the class to maintain backwards compatibility with previous releases of the library. Using this pattern, the examples above would be:
+I find the singleton pattern can be cumbersome to use at times, so have added static accessors to the class as a convenient way to access the shared instance. This also allows the class to maintain backwards compatibility with previous releases of the library (prior to 2.0 all functions were static). Using this pattern, the examples above would be:
 
 ```Swift
 let saveSuccessful: Bool = KeychainWrapper.setString("Some String", forKey: "myKey")
 
 let retrievedString: String? = KeychainWrapper.stringForKey("myKey")
 
-let removeSuccessful: Bool = KeychainWrapper..removeObjectForKey("myKey")
+let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 ```
 
 Custom Instance
 =====
 
-// TODO
+When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keycahin under different identifiers.
 
+To share keychain items between your applications, you may specify an access group and use that same access group in each application.
+
+To set a custom service name identifier or access group, you may now create your own instance of the keychain wrapper as follows:
+
+```Swift
+let uniqueServiceName = "customServiceName"
+let uniqueAccessGroup = "sharedAccessGroupName"
+let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
+```
+The custom instance can then be used in place of the shared instance or static accessors:
+
+```
+let saveSuccessful: Bool = customKeychainWrapperInstance.setString("Some String", forKey: "myKey")
+
+let retrievedString: String? = customKeychainWrapperInstance.stringForKey("myKey")
+
+let removeSuccessful: Bool = customKeychainWrapperInstance.removeObjectForKey("myKey")
+```
 
 Custom Key Options
 =====
