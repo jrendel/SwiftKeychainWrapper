@@ -63,7 +63,7 @@ class KeychainWrapperDeprecatedTests: XCTestCase {
 	}
 	
     func testDefaultServiceName() {
-        let bundleIdentifier = Bundle.main().bundleIdentifier
+        let bundleIdentifier = Bundle.main.bundleIdentifier
         if let bundleIdentifierString = bundleIdentifier {
             XCTAssertEqual(KeychainWrapper.serviceName, bundleIdentifierString, "Service Name should be equal to the bundle identifier when it is accessible")
         } else {

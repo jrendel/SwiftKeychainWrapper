@@ -51,7 +51,7 @@ public class KeychainWrapper {
     private (set) public var accessGroup: String?
     
     private static let defaultServiceName: String = {
-        return Bundle.main().bundleIdentifier ?? "SwiftKeychainWrapper"
+        return Bundle.main.bundleIdentifier ?? "SwiftKeychainWrapper"
     }()
 
     private convenience init() {
