@@ -10,7 +10,7 @@ import XCTest
 import SwiftKeychainWrapper
 
 class KeychainWrapperPrimitiveValueTests: XCTestCase {
-    let testKey = "myTestKey"
+    let testKey = "primitiveValueTestKey"
     let testInteger: Int = 42
     let testBool: Bool = false
     let testFloat: Float = 5.25

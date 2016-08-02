@@ -74,7 +74,7 @@ Custom Key Options
 Release Notes
 ======
 v2.0 </br>
-Further changes to more closesly align the api with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance for convenience and to maintain backwards compatibility.
+Further changes to more closely align the API with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance for convenience and to maintain backwards compatibility.
 Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
 Addtional options have been provided to alter the keychain type and accessibility for each key value saved.
 

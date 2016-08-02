@@ -10,7 +10,7 @@ import XCTest
 import SwiftKeychainWrapper
 
 class KeychainWrapperDeleteTests: XCTestCase {
-    let testKey = "myTestKey"
+    let testKey = "deleteTestKey"
     let testString = "This is a test"
     
     override func setUp() {
@@ -23,7 +23,6 @@ class KeychainWrapperDeleteTests: XCTestCase {
         super.tearDown()
     }
     
-
     func testRemoveAllKeysDeletesSpecificKey() {
         // save a value we can test delete on
         let stringSaved = KeychainWrapper.defaultKeychainWrapper().setString(testString, forKey: testKey)

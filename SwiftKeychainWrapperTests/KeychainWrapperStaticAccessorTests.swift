@@ -29,10 +29,10 @@ import XCTest
 import SwiftKeychainWrapper
 
 class KeychainWrapperStaticAccessorTests: XCTestCase {
-    let testKey = "myTestKey"
+    let testKey = "acessorTestKey"
     let testString = "This is a test"
     
-    let testKey2 = "testKey2"
+    let testKey2 = "acessorTestKey2"
     let testString2 = "Test 2 String"
     
     let defaultServiceName = KeychainWrapper.serviceName
