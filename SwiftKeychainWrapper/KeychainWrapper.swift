@@ -255,7 +255,7 @@ public class KeychainWrapper {
         if status == errSecSuccess {
             return true
         } else if status == errSecDuplicateItem {
-            return self.updateData(value, forKey: keyName)
+            return self.updateData(value, forKey: keyName, withOptions: options)
         } else {
             return false
         }
@@ -267,7 +267,7 @@ public class KeychainWrapper {
     /// - parameter withOptions: Optional KeychainItemOptions to use when looking up the keychain item.
     /// - returns: True if successful, false otherwise.
     public func removeObjectForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName)
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
 
         // Delete
         let status: OSStatus = SecItemDelete(keychainQueryDictionary)
@@ -332,8 +332,8 @@ public class KeychainWrapper {
     }
     
     /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
-    private func updateData(value: NSData, forKey keyName: String) -> Bool {
-        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName)
+    private func updateData(value: NSData, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
         let updateDictionary = [SecValueData:value]
 
         // Update
