@@ -1,3 +1,7 @@
 use_frameworks!
 platform :ios, '8.0'
-pod 'SwiftKeychainWrapper'
+
+
+target 'SwiftKeychainWrapperExample' do
+	pod 'SwiftKeychainWrapper'
+end

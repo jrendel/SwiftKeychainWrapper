@@ -32,10 +32,11 @@ class ViewController: UIViewController {
 
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var saveButton: UIButton!
+    
+    let keychainWrapper = KeychainWrapper(serviceName: KeychainWrapper.defaultKeychainWrapper().serviceName, accessGroup: "group.myAccessGroup")
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        KeychainWrapper.accessGroup = "group.myAccessGroup"
     }
 
     override func didReceiveMemoryWarning() {
@@ -45,12 +46,12 @@ class ViewController: UIViewController {
 
 
     @IBAction func saveTapped(sender: AnyObject) {
-        if count(textfield.text) > 0 {
+        if textfield.text?.characters.count > 0 {
             //KeychainWrapper.save
-            if KeychainWrapper.setString(textfield.text, forKey: "key") {
-                println("save successful")
+            if KeychainWrapper.defaultKeychainWrapper().setString(textfield.text!, forKey: "key") {
+                print("save successful")
             } else {
-                println("save failed")
+                print("save failed")
             }
         }
     }
@@ -60,7 +61,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func loadTapped(sender: AnyObject) {
-        textfield.text = KeychainWrapper.stringForKey("key")
+        textfield.text = KeychainWrapper.defaultKeychainWrapper().stringForKey("key")
     }
     
 }

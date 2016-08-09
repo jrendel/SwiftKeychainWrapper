@@ -1,10 +1,12 @@
 PODS:
-  - SwiftKeychainWrapper (1.0.10)
+  - SwiftKeychainWrapper (2.0.0)
 
 DEPENDENCIES:
   - SwiftKeychainWrapper
 
 SPEC CHECKSUMS:
-  SwiftKeychainWrapper: a31c053e0e6a56aca32e85816a0e579d25b525c8
+  SwiftKeychainWrapper: 3575838215fa36c816899c301a7afe370bd94814
 
-COCOAPODS: 0.38.2
+PODFILE CHECKSUM: 37ce22e022c30bb3e19e80062e5d49c0735c0f84
+
+COCOAPODS: 1.0.1
