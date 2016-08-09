@@ -66,7 +66,10 @@ You can use [CocoaPods](http://cocoapods.org/) to install SwiftKeychainWrapper b
 ``` ruby
 use_frameworks!
 platform :ios, '8.0'
-pod 'SwiftKeychainWrapper'
+
+target 'target_name' do
+   pod 'SwiftKeychainWrapper'
+end
 ```
 
 To use the keychain wrapper in your app, import SwiftKeychainWrapper into the file(s) where you want to use it.
