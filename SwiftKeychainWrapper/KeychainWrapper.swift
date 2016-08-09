@@ -79,8 +79,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to check for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when retrieving the keychain item.
     /// - returns: True if a value exists for the key. False otherwise.
-    public func hasValueForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        if let _ = self.dataForKey(keyName, withOptions: options) {
+    public func hasValueForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        if let _ = self.dataForKey(keyName, withAccessibility: accessibility) {
             return true
         } else {
             return false
@@ -89,32 +89,32 @@ public class KeychainWrapper {
     
     // MARK: Public Getters
     
-    public func integerForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Int? {
-        guard let numberValue = self.objectForKey(keyName, withOptions: options) as? NSNumber else {
+    public func integerForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Int? {
+        guard let numberValue = self.objectForKey(keyName, withAccessibility: accessibility) as? NSNumber else {
             return nil
         }
         
         return numberValue.integerValue
     }
     
-    public func floatForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Float? {
-        guard let numberValue = self.objectForKey(keyName, withOptions: options) as? NSNumber else {
+    public func floatForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Float? {
+        guard let numberValue = self.objectForKey(keyName, withAccessibility: accessibility) as? NSNumber else {
             return nil
         }
         
         return numberValue.floatValue
     }
     
-    public func doubleForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Double? {
-        guard let numberValue = objectForKey(keyName, withOptions: options) as? NSNumber else {
+    public func doubleForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Double? {
+        guard let numberValue = objectForKey(keyName, withAccessibility: accessibility) as? NSNumber else {
             return nil
         }
         
         return numberValue.doubleValue
     }
     
-    public func boolForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool? {
-        guard let numberValue = objectForKey(keyName, withOptions: options) as? NSNumber else {
+    public func boolForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool? {
+        guard let numberValue = objectForKey(keyName, withAccessibility: accessibility) as? NSNumber else {
             return nil
         }
         
@@ -126,8 +126,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when retrieving the keychain item.
     /// - returns: The String associated with the key if it exists. If no data exists, or the data found cannot be encoded as a string, returns nil.
-    public func stringForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> String? {
-        guard let keychainData = self.dataForKey(keyName, withOptions: options) else {
+    public func stringForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> String? {
+        guard let keychainData = self.dataForKey(keyName, withAccessibility: accessibility) else {
             return nil
         }
         
@@ -139,8 +139,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when retrieving the keychain item.
     /// - returns: The decoded object associated with the key if it exists. If no data exists, or the data found cannot be decoded, returns nil.
-    public func objectForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> NSCoding? {
-        guard let keychainData = self.dataForKey(keyName, withOptions: options) else {
+    public func objectForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> NSCoding? {
+        guard let keychainData = self.dataForKey(keyName, withAccessibility: accessibility) else {
             return nil
         }
         
@@ -153,8 +153,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when retrieving the keychain item.
     /// - returns: The NSData object associated with the key if it exists. If no data exists, returns nil.
-    public func dataForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> NSData? {
-        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
+    public func dataForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> NSData? {
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withAccessibility: accessibility)
         var result: AnyObject?
         
         // Limit search results to one
@@ -177,8 +177,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key to lookup data for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when retrieving the keychain item.
     /// - returns: The persistent data reference object associated with the key if it exists. If no data exists, returns nil.
-    public func dataRefForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> NSData? {
-        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
+    public func dataRefForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> NSData? {
+        var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName, withAccessibility: accessibility)
         var result: AnyObject?
         
         // Limit search results to one
@@ -197,20 +197,20 @@ public class KeychainWrapper {
     
     // MARK: Public Setters
     
-    public func setInteger(value: Int, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        return self.setObject(NSNumber(integer: value), forKey: keyName, withOptions: options)
+    public func setInteger(value: Int, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        return self.setObject(NSNumber(integer: value), forKey: keyName, withAccessibility: accessibility)
     }
     
-    public func setFloat(value: Float, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        return self.setObject(NSNumber(float: value), forKey: keyName, withOptions: options)
+    public func setFloat(value: Float, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        return self.setObject(NSNumber(float: value), forKey: keyName, withAccessibility: accessibility)
     }
     
-    public func setDouble(value: Double, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        return self.setObject(NSNumber(double: value), forKey: keyName, withOptions: options)
+    public func setDouble(value: Double, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        return self.setObject(NSNumber(double: value), forKey: keyName, withAccessibility: accessibility)
     }
     
-    public func setBool(value: Bool, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        return self.setObject(NSNumber(bool: value), forKey: keyName, withOptions: options)
+    public func setBool(value: Bool, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        return self.setObject(NSNumber(bool: value), forKey: keyName, withAccessibility: accessibility)
     }
 
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given keyname, the string will be overwritten with the new value.
@@ -219,9 +219,9 @@ public class KeychainWrapper {
     /// - parameter forKey: The key to save the String under.
     /// - parameter withOptions: Optional KeychainItemOptions to use when setting the keychain item.
     /// - returns: True if the save was successful, false otherwise.
-    public func setString(value: String, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
+    public func setString(value: String, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         if let data = value.dataUsingEncoding(NSUTF8StringEncoding) {
-            return self.setData(data, forKey: keyName, withOptions: options)
+            return self.setData(data, forKey: keyName, withAccessibility: accessibility)
         } else {
             return false
         }
@@ -233,10 +233,10 @@ public class KeychainWrapper {
     /// - parameter forKey: The key to save the object under.
     /// - parameter withOptions: Optional KeychainItemOptions to use when setting the keychain item.
     /// - returns: True if the save was successful, false otherwise.
-    public func setObject(value: NSCoding, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
+    public func setObject(value: NSCoding, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         let data = NSKeyedArchiver.archivedDataWithRootObject(value)
         
-        return self.setData(data, forKey: keyName, withOptions: options)
+        return self.setData(data, forKey: keyName, withAccessibility: accessibility)
     }
 
     /// Save a NSData object to the keychain associated with a specified key. If data already exists for the given keyname, the data will be overwritten with the new value.
@@ -245,8 +245,8 @@ public class KeychainWrapper {
     /// - parameter forKey: The key to save the object under.
     /// - parameter withOptions: Optional KeychainItemOptions to use when setting the keychain item.
     /// - returns: True if the save was successful, false otherwise.
-    public func setData(value: NSData, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
+    public func setData(value: NSData, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        var keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withAccessibility: accessibility)
         
         keychainQueryDictionary[SecValueData] = value
         
@@ -255,7 +255,7 @@ public class KeychainWrapper {
         if status == errSecSuccess {
             return true
         } else if status == errSecDuplicateItem {
-            return self.updateData(value, forKey: keyName, withOptions: options)
+            return self.updateData(value, forKey: keyName, withAccessibility: accessibility)
         } else {
             return false
         }
@@ -266,8 +266,8 @@ public class KeychainWrapper {
     /// - parameter keyName: The key value to remove data for.
     /// - parameter withOptions: Optional KeychainItemOptions to use when looking up the keychain item.
     /// - returns: True if successful, false otherwise.
-    public func removeObjectForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
+    public func removeObjectForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withAccessibility: accessibility)
 
         // Delete
         let status: OSStatus = SecItemDelete(keychainQueryDictionary)
@@ -332,8 +332,8 @@ public class KeychainWrapper {
     }
     
     /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
-    private func updateData(value: NSData, forKey keyName: String, withOptions options: KeychainItemOptions? = nil) -> Bool {
-        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withOptions: options)
+    private func updateData(value: NSData, forKey keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
+        let keychainQueryDictionary: [String:AnyObject] = self.setupKeychainQueryDictionaryForKey(keyName, withAccessibility: accessibility)
         let updateDictionary = [SecValueData:value]
 
         // Update
@@ -351,16 +351,13 @@ public class KeychainWrapper {
     /// - parameter keyName: The key this query is for
     /// - parameter withOptions: The KeychainItemOptions to use when setting the keychain item.
     /// - returns: A dictionary with all the needed properties setup to access the keychain on iOS
-    private func setupKeychainQueryDictionaryForKey(keyName: String, withOptions options: KeychainItemOptions? = nil) -> [String:AnyObject] {
-        var keychainQueryDictionary = [String:AnyObject]()
+    private func setupKeychainQueryDictionaryForKey(keyName: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> [String:AnyObject] {
+        // Setup default access as generic password (rather than a certificate, internet password, etc)
+        var keychainQueryDictionary: [String:AnyObject] = [SecClass:kSecClassGenericPassword]
         
-        if let options = options {
-            keychainQueryDictionary[SecClass] = options.itemClass.keychainAttrValue
-            keychainQueryDictionary[SecAttrAccessible] = options.itemAccessibility.keychainAttrValue
+        if let accessibility = accessibility {
+            keychainQueryDictionary[SecAttrAccessible] = accessibility.keychainAttrValue
         } else {
-            // Setup default access as generic password (rather than a certificate, internet password, etc)
-            keychainQueryDictionary[SecClass] = KeychainItemClass.GenericPassword.keychainAttrValue
-            
             // Protect the keychain entry so it's only valid when the device is unlocked
             keychainQueryDictionary[SecAttrAccessible] = KeychainItemAccessibility.WhenUnlocked.keychainAttrValue
         }
