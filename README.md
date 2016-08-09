@@ -69,7 +69,7 @@ platform :ios, '8.0'
 pod 'SwiftKeychainWrapper'
 ```
 
-To user the keychain wrapper in your app, import SwiftKeychainWrapper into the file(s) where you want to use it.
+To use the keychain wrapper in your app, import SwiftKeychainWrapper into the file(s) where you want to use it.
 
 ```
 import SwiftKeychainWrapper
@@ -82,35 +82,35 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 ## Release History
 
 * 2.0
-   * Further changes to more closely align the API with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance to maintain backwards compatibility. These will be removed in the next update
-   * Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
-   * Addtional options have been provided to alter the keychain accessibility for each key value saved.
+    * Further changes to more closely align the API with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance to maintain backwards compatibility. These will be removed in the next update
+    * Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
+    * Addtional options have been provided to alter the keychain accessibility for each key value saved.
 
 * 1.0.11
-   * Update for Swift 2.0
+    * Update for Swift 2.0
 
 * 1.0.10
-   * Update License info. Merged Pull Request with Carthage support.
+    * Update License info. Merged Pull Request with Carthage support.
 
 * 1.0.8
-   * Update for Swift 1.2
+    * Update for Swift 1.2
 
 * 1.0.7
-   * Determined that once provisioned correctly for access groups, using KeychainWrapper on the simulator with access groups works. So I removed the simulator related check and unit tests previously added.
+    * Determined that once provisioned correctly for access groups, using KeychainWrapper on the simulator with access groups works. So I removed the simulator related check and unit tests previously added.
 
 * 1.0.6
-   * Support for Access Groups
-   * SwiftKeychainWrapperExample has been updated to show usage with an Access Group: https://github.com/jrendel/SwiftKeychainWrapperExample
+    * Support for Access Groups
+    * SwiftKeychainWrapperExample has been updated to show usage with an Access Group: https://github.com/jrendel/SwiftKeychainWrapperExample
 
-   * Access Groups do not work on the simulator. Apps that are built for the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Attempting to set an access group will result in a failure when attempting to Add or Update keychain items. Because of this, the Keychain Wrapper detects if it is being using on a simulator and will not set an access group property if one is set. This allows the Keychain Wrapper to still be used on the simulator for development of your app. To properly test Keychain Access Groups, you will need to test on a device.
+    * Access Groups do not work on the simulator. Apps that are built for the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Attempting to set an access group will result in a failure when attempting to Add or Update keychain items. Because of this, the Keychain Wrapper detects if it is being using on a simulator and will not set an access group property if one is set. This allows the Keychain Wrapper to still be used on the simulator for development of your app. To properly test Keychain Access Groups, you will need to test on a device.
 
 * 1.0.5
-   * This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
+    * This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
 
-   * To see an example of usage with CocoaPods, I've created the repo SwiftKeychainWrapperExample:  https://github.com/jrendel/SwiftKeychainWrapperExample
+    * To see an example of usage with CocoaPods, I've created the repo SwiftKeychainWrapperExample:  https://github.com/jrendel/SwiftKeychainWrapperExample
 
 * 1.0.2
-   * Updated for Xcode 6.1
+    * Updated for Xcode 6.1
 
 ======
 
