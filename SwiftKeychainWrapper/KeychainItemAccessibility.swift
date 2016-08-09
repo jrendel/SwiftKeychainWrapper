@@ -90,6 +90,16 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case WhenUnlockedThisDeviceOnly
+    
+    static func accessibilityForAttributeValue(keychainAttrValue: CFString) -> KeychainItemAccessibility? {
+        for (key, value) in keychainItemAccessibilityLookup {
+            if value == keychainAttrValue {
+                return key
+            }
+        }
+        
+        return nil
+    }
 }
 
 private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString] = {

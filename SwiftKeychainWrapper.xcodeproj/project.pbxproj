@@ -11,11 +11,12 @@
 		470A7D3B1CCE40EE001768EE /* KeychainWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 470A7D3A1CCE40EE001768EE /* KeychainWrapperTests.swift */; };
 		477728B91CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */; };
 		96405CF41CA57F460080FF45 /* KeychainWrapperDeleteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */; };
+		966177401D597872000772C5 /* KeychainWrapperDefaultWrapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9661773F1D597872000772C5 /* KeychainWrapperDefaultWrapperTests.swift */; };
 		966E4AB01B96693F00A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AAF1B96693F00A8DCEB /* LICENSE */; };
 		9694C2B51A66097F005B3030 /* SwiftKeychainWrapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 9694C2B41A66097F005B3030 /* SwiftKeychainWrapper.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		9694C2BB1A66097F005B3030 /* SwiftKeychainWrapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */; };
 		9694C2CD1A660F90005B3030 /* KeychainWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */; };
-		9694C2D01A660F9C005B3030 /* KeychainWrapperStaticAccessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CE1A660F9C005B3030 /* KeychainWrapperStaticAccessorTests.swift */; };
+		9694C2D01A660F9C005B3030 /* KeychainWrapperDeprecatedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CE1A660F9C005B3030 /* KeychainWrapperDeprecatedTests.swift */; };
 		9694C2D11A660F9C005B3030 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9694C2CF1A660F9C005B3030 /* TestObject.swift */; };
 /* End PBXBuildFile section */
 
@@ -35,6 +36,7 @@
 		477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperPrimitiveValueTests.swift; sourceTree = "<group>"; };
 		961101D419D26F2800E6A6E3 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperDeleteTests.swift; sourceTree = "<group>"; };
+		9661773F1D597872000772C5 /* KeychainWrapperDefaultWrapperTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperDefaultWrapperTests.swift; sourceTree = "<group>"; };
 		966E4AAF1B96693F00A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		9694C2B01A66097F005B3030 /* SwiftKeychainWrapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftKeychainWrapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9694C2B31A66097F005B3030 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -42,7 +44,7 @@
 		9694C2BA1A66097F005B3030 /* SwiftKeychainWrapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKeychainWrapperTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		9694C2C01A66097F005B3030 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9694C2CC1A660F90005B3030 /* KeychainWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapper.swift; sourceTree = "<group>"; };
-		9694C2CE1A660F9C005B3030 /* KeychainWrapperStaticAccessorTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperStaticAccessorTests.swift; sourceTree = "<group>"; };
+		9694C2CE1A660F9C005B3030 /* KeychainWrapperDeprecatedTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainWrapperDeprecatedTests.swift; sourceTree = "<group>"; };
 		9694C2CF1A660F9C005B3030 /* TestObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,7 +111,8 @@
 			children = (
 				9694C2CF1A660F9C005B3030 /* TestObject.swift */,
 				470A7D3A1CCE40EE001768EE /* KeychainWrapperTests.swift */,
-				9694C2CE1A660F9C005B3030 /* KeychainWrapperStaticAccessorTests.swift */,
+				9661773F1D597872000772C5 /* KeychainWrapperDefaultWrapperTests.swift */,
+				9694C2CE1A660F9C005B3030 /* KeychainWrapperDeprecatedTests.swift */,
 				96405CF31CA57F460080FF45 /* KeychainWrapperDeleteTests.swift */,
 				477728B81CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift */,
 				9694C2BF1A66097F005B3030 /* Supporting Files */,
@@ -247,7 +250,8 @@
 				9694C2D11A660F9C005B3030 /* TestObject.swift in Sources */,
 				96405CF41CA57F460080FF45 /* KeychainWrapperDeleteTests.swift in Sources */,
 				477728B91CAF29E500905FE4 /* KeychainWrapperPrimitiveValueTests.swift in Sources */,
-				9694C2D01A660F9C005B3030 /* KeychainWrapperStaticAccessorTests.swift in Sources */,
+				966177401D597872000772C5 /* KeychainWrapperDefaultWrapperTests.swift in Sources */,
+				9694C2D01A660F9C005B3030 /* KeychainWrapperDeprecatedTests.swift in Sources */,
 				470A7D3B1CCE40EE001768EE /* KeychainWrapperTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

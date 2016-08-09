@@ -1,6 +1,5 @@
 //
-//  KeychainWrapperStaticAccessorTests.swift
-//  KeychainWrapperStaticAccessorTests
+//  KeychainWrapperDeprecatedTests.swift
 //
 //  Created by Jason Rendel on 9/23/14.
 //  Copyright (c) 2014 Jason Rendel. All rights reserved.
@@ -28,7 +27,8 @@
 import XCTest
 import SwiftKeychainWrapper
 
-class KeychainWrapperStaticAccessorTests: XCTestCase {
+// INFO: These tests are being maintained for 2.0 in order to ensure backwards compatibility. 
+class KeychainWrapperDeprecatedTests: XCTestCase {
     let testKey = "acessorTestKey"
     let testString = "This is a test"
     
