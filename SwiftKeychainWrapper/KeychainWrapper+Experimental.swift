@@ -34,7 +34,7 @@ public extension KeychainWrapper {
             return nil
         }
         
-        if T.self == NSData.self {
+        if T.self == Data.self {
             return data as? T
         }
         

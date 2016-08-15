@@ -50,20 +50,20 @@ class KeychainWrapperSubscriptTests: XCTestCase {
         }
     }
     
-    func testNSDataSubscript() {
+    func testDataSubscript() {
         guard let testData = testString.data(using: .utf8) else {
-            XCTFail("Failed to create NSData")
+            XCTFail("Failed to create Data")
             return
         }
         
         KeychainWrapper.standardKeychainAccess().setData(testData, forKey: testKey)
         
-        guard let retrievedData: NSData = KeychainWrapper.standardKeychainAccess().get(testKey) else {
+        guard let retrievedData: Data = KeychainWrapper.standardKeychainAccess().get(testKey) else {
             XCTFail("Data for Key not found")
             return
         }
         
-        if let retrievedString = NSString(data: retrievedData as Data, encoding: String.Encoding.utf8.rawValue) {
+        if let retrievedString = NSString(data: retrievedData as Data, encoding: String.Encoding.utf8.rawValue) as? String {
             XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
         } else {
             XCTFail("Output Data for key does not match input. ")

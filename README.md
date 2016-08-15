@@ -2,7 +2,7 @@ SwiftKeychainWrapper
 ===============
 A simple static wrapper for the iOS Keychain to allow you to use it in a similar fashion to user defaults. Written in Swift.
 
-Supports adding and retrieving Strings, NSData and objects that implement NSCoding. 
+Supports adding and retrieving Strings, Data and objects that implement NSCoding. 
 
 Usage
 =====
