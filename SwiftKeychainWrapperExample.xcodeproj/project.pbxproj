@@ -8,13 +8,13 @@
 
 /* Begin PBXBuildFile section */
 		435192AEC99F7296A23852E4 /* Pods_SwiftKeychainWrapperExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A56164313A4033F9805E82 /* Pods_SwiftKeychainWrapperExample.framework */; };
+		47BAABE71D6E25BD008A79E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D481A78046800B5A9F5 /* ViewController.swift */; };
+		47BAABE81D6E2635008A79E9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AB21B966A5500A8DCEB /* LICENSE */; };
 		47E82D471A78046800B5A9F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D461A78046800B5A9F5 /* AppDelegate.swift */; };
-		47E82D491A78046800B5A9F5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D481A78046800B5A9F5 /* ViewController.swift */; };
 		47E82D4C1A78046800B5A9F5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4A1A78046800B5A9F5 /* Main.storyboard */; };
 		47E82D4E1A78046800B5A9F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4D1A78046800B5A9F5 /* Images.xcassets */; };
 		47E82D511A78046800B5A9F5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4F1A78046800B5A9F5 /* LaunchScreen.xib */; };
 		47E82D5D1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D5C1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift */; };
-		966E4AB31B966A5500A8DCEB /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AB21B966A5500A8DCEB /* LICENSE */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -42,7 +42,7 @@
 		606FA4048CDF7758C65D97B2 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.release.xcconfig"; sourceTree = "<group>"; };
 		6C574B64F40504E426DFA4FA /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.debug.xcconfig"; sourceTree = "<group>"; };
 		965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SwiftKeychainWrapperExample.entitlements; sourceTree = "<group>"; };
-		966E4AB21B966A5500A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = LICENSE; path = ../KeychainWrapper/LICENSE; sourceTree = "<group>"; };
+		966E4AB21B966A5500A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CA049F5B828BB8C0AAEC7476 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -235,7 +235,7 @@
 			files = (
 				47E82D4C1A78046800B5A9F5 /* Main.storyboard in Resources */,
 				47E82D511A78046800B5A9F5 /* LaunchScreen.xib in Resources */,
-				966E4AB31B966A5500A8DCEB /* LICENSE in Resources */,
+				47BAABE81D6E2635008A79E9 /* LICENSE in Resources */,
 				47E82D4E1A78046800B5A9F5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -302,7 +302,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				47E82D491A78046800B5A9F5 /* ViewController.swift in Sources */,
+				47BAABE71D6E25BD008A79E9 /* ViewController.swift in Sources */,
 				47E82D471A78046800B5A9F5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
