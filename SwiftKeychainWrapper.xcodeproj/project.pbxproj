@@ -275,6 +275,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 2.3;
 			};
 			name = Debug;
 		};
@@ -283,6 +284,7 @@
 			buildSettings = {
 				APPLICATION_EXTENSION_API_ONLY = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				SWIFT_VERSION = 2.3;
 			};
 			name = Release;
 		};
