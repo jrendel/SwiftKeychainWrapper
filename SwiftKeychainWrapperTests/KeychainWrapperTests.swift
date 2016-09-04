@@ -22,8 +22,8 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testCustomInstance() {
-        let uniqueServiceName = NSUUID().UUIDString
-        let uniqueAccessGroup = NSUUID().UUIDString
+        let uniqueServiceName = UUID().uuidString
+        let uniqueAccessGroup = UUID().uuidString
         let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
         
         XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.defaultKeychainWrapper.serviceName, "Custom instance initialized with unique service name, should not match defaultKeychainWrapper Service Name")
@@ -32,13 +32,13 @@ class KeychainWrapperTests: XCTestCase {
     
     func testAccessibility() {
         let accessibilityOptions: [KeychainItemAccessibility] = [
-            .AfterFirstUnlock,
-            .AfterFirstUnlockThisDeviceOnly,
-            .Always,
-            .WhenPasscodeSetThisDeviceOnly,
-            .AlwaysThisDeviceOnly,
-            .WhenUnlocked,
-            .WhenUnlockedThisDeviceOnly
+            .afterFirstUnlock,
+            .afterFirstUnlockThisDeviceOnly,
+            .always,
+            .whenPasscodeSetThisDeviceOnly,
+            .alwaysThisDeviceOnly,
+            .whenUnlocked,
+            .whenUnlockedThisDeviceOnly
         ]
         
         let key = "testKey"

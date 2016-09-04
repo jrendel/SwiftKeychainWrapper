@@ -32,7 +32,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
     
     func testDefaultServiceName() {
-        let bundleIdentifier = NSBundle.mainBundle().bundleIdentifier
+        let bundleIdentifier = Bundle.main.bundleIdentifier
         if let bundleIdentifierString = bundleIdentifier {
             XCTAssertEqual(KeychainWrapper.defaultKeychainWrapper.serviceName, bundleIdentifierString, "Service Name should be equal to the bundle identifier when it is accessible")
         } else {
@@ -160,7 +160,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
     
     func testNSDataSave() {
-        let testData = testString.dataUsingEncoding(NSUTF8StringEncoding)
+        let testData = testString.data(using: String.Encoding.utf8)
         
         if let data = testData {
             let dataSaved = KeychainWrapper.defaultKeychainWrapper.setData(data, forKey: testKey)
@@ -172,7 +172,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
     
     func testNSDataRetrieval() {
-        guard let testData = testString.dataUsingEncoding(NSUTF8StringEncoding) else {
+        guard let testData = testString.data(using: String.Encoding.utf8) else {
             XCTFail("Failed to create NSData")
             return
         }
@@ -188,7 +188,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
             XCTFail("Data references for Key not found")
         }
         
-        if let retrievedString = NSString(data: retrievedData, encoding: NSUTF8StringEncoding) {
+        if let retrievedString = NSString(data: retrievedData, encoding: String.Encoding.utf8) {
             XCTAssertEqual(retrievedString, testString, "String retrieved from data for key should equal string saved as data for key")
         } else {
             XCTFail("Output Data for key does not match input. ")
