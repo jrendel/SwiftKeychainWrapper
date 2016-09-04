@@ -42,7 +42,8 @@ private let SecReturnAttributes: String = kSecReturnAttributes as String
 
 /// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
 public class KeychainWrapper {
-    private static let sharedKeychainWrapper = KeychainWrapper()
+    /// Default keychain wrapper access
+    public static let defaultKeychainWrapper = KeychainWrapper()
     
     /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier.
     private (set) public var serviceName: String
@@ -66,11 +67,6 @@ public class KeychainWrapper {
         self.serviceName = serviceName
         self.accessGroup = accessGroup
     }
-    
-    /// Default access keychain wrapper access
-    public class func defaultKeychainWrapper() -> KeychainWrapper {
-        return sharedKeychainWrapper
-    }
 
     // MARK:- Public Methods
     
@@ -86,11 +82,6 @@ public class KeychainWrapper {
             return false
         }
     }
-    
-    public class func accessibilityOfKey(keyName: String) -> KeychainItemAccessibility? {
-        return sharedKeychainWrapper.accessibilityOfKey(keyName)
-    }
-
     
     public func accessibilityOfKey(keyName: String) -> KeychainItemAccessibility? {
         var keychainQueryDictionary = self.setupKeychainQueryDictionaryForKey(keyName)
@@ -410,85 +401,5 @@ public class KeychainWrapper {
         keychainQueryDictionary[SecAttrAccount] = encodedIdentifier
         
         return keychainQueryDictionary
-    }
-}
-
-// MARK: - Deprecated Class Functions
-
-public extension KeychainWrapper {
-
-    /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier.
-    ///
-    /// **Deprecated:** *Use KeychainWrapper.defaultKeychainWrapper().serviceName instead. Changing serviceName will not be supported in the future. Instead create a new KeychainWrapper instance with a custom service name.*
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().serviceName instead. Changing serviceName will not be supported in the future. Instead create a new KeychainWrapper instance with a custom service name.")
-    public class var serviceName: String {
-        get {
-            return sharedKeychainWrapper.serviceName
-        }
-        set(newServiceName) {
-            sharedKeychainWrapper.serviceName = newServiceName
-        }
-    }
-    
-    /// AccessGroup is used for the kSecAttrAccessGroup property to identify which Keychain Access Group this entry belongs to. This allows you to use the KeychainWrapper with shared keychain access between different applications.
-    ///
-    /// Access Group defaults to an empty string and is not used until a valid value is set.
-    ///
-    /// This is a static property and only needs to be set once. To remove the access group property after one has been set, set this to an empty string.
-    ///
-    /// **Deprecated:** *Use KeychainWrapper.standardKeychainAccess().accessGroup instead. Changing accessGroup will not be supported in the future. Instead create a new KeychainWrapper instance with a custom accessGroup.*
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().accessGroup instead. Changing accessGroup will not be supported in the future. Instead create a new KeychainWrapper instance with a custom accessGroup.")
-    public class var accessGroup: String? {
-        get {
-            return sharedKeychainWrapper.accessGroup
-        }
-        set(newAccessGroup) {
-            sharedKeychainWrapper.accessGroup = newAccessGroup
-        }
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().hasValueForKey() instead.")
-    public class func hasValueForKey(keyName: String) -> Bool {
-        return sharedKeychainWrapper.hasValueForKey(keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().stringForKey() instead.")
-    public class func stringForKey(keyName: String) -> String? {
-        return sharedKeychainWrapper.stringForKey(keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().objectForKey() instead.")
-    public class func objectForKey(keyName: String) -> NSCoding? {
-        return sharedKeychainWrapper.objectForKey(keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().dataForKey() instead.")
-    public class func dataForKey(keyName: String) -> NSData? {
-        return sharedKeychainWrapper.dataForKey(keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().dataRefForKey() instead.")
-    public class func dataRefForKey(keyName: String) -> NSData? {
-        return sharedKeychainWrapper.dataRefForKey(keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().setString() instead.")
-    public class func setString(value: String, forKey keyName: String) -> Bool {
-        return sharedKeychainWrapper.setString(value, forKey: keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().setObject() instead.")
-    public class func setObject(value: NSCoding, forKey keyName: String) -> Bool {
-        return sharedKeychainWrapper.setObject(value, forKey: keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().setData() instead.")
-    public class func setData(value: NSData, forKey keyName: String) -> Bool {
-        return sharedKeychainWrapper.setData(value, forKey: keyName)
-    }
-    
-    @available(*, deprecated=2.0, message="Use KeychainWrapper.defaultKeychainWrapper().removeObjectForKey() instead.")
-    public class func removeObjectForKey(keyName: String) -> Bool {
-        return sharedKeychainWrapper.removeObjectForKey(keyName)
     }
 }
