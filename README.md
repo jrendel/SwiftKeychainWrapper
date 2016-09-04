@@ -84,6 +84,9 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 2.2
+    * Updated to support Swift 3.0
+    * Remove deprecated functions (static access)
 * 2.1
     * Updated to support Swift 2.3
 * 2.0
