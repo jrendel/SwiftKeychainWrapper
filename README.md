@@ -24,6 +24,9 @@ let removeSuccessful: Bool = KeychainWrapper.removeObjectForKey("myKey")
 
 Release Notes
 ======
+v1.0.13
+Update for Swift 3.0
+
 v1.0.11
 Update for Swift 2.0
 
