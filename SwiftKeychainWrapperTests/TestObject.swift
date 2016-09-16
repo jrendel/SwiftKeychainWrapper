@@ -34,15 +34,15 @@ class TestObject: NSObject, NSCoding {
     override init() { }
     
     required init?(coder decoder: NSCoder) {
-        if let name = decoder.decodeObjectForKey("objectName") as? String {
+        if let name = decoder.decodeObject(forKey: "objectName") as? String {
             self.objectName = name
         }
         
-        self.objectRating = decoder.decodeIntegerForKey("objectRating")
+        self.objectRating = decoder.decodeInteger(forKey: "objectRating")
     }
     
-    func encodeWithCoder(encoder: NSCoder) {
-        encoder.encodeObject(self.objectName, forKey: "objectName")
-        encoder.encodeInteger(self.objectRating, forKey: "objectRating")
+    func encode(with encoder: NSCoder) {
+        encoder.encode(self.objectName, forKey: "objectName")
+        encoder.encode(self.objectRating, forKey: "objectRating")
     }
 }

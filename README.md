@@ -14,17 +14,17 @@ Users that want to deviate from this default implementation, now can do so in in
 
 Add a string value to keychain:
 ```
-let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().setString("Some String", forKey: "myKey")
+let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
 ```
-let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper().stringForKey("myKey")
+let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
 ```
-let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().removeObjectForKey("myKey")
+let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.remove(key: "myKey")
 ```
 
 ##Custom Instance
@@ -43,11 +43,11 @@ let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceNa
 The custom instance can then be used in place of the shared instance or static accessors:
 
 ```
-let saveSuccessful: Bool = customKeychainWrapperInstance.setString("Some String", forKey: "myKey")
+let saveSuccessful: Bool = customKeychainWrapperInstance.set("Some String", forKey: "myKey")
 
-let retrievedString: String? = customKeychainWrapperInstance.stringForKey("myKey")
+let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myKey")
 
-let removeSuccessful: Bool = customKeychainWrapperInstance.removeObjectForKey("myKey")
+let removeSuccessful: Bool = customKeychainWrapperInstance.remove(key: "myKey")
 ```
 
 ##Accessibility Options
@@ -55,7 +55,7 @@ let removeSuccessful: Bool = customKeychainWrapperInstance.removeObjectForKey("m
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional "withAccessibility" param can be set on all requests. The enum KeychainItemAccessibilty provides an easy way to select the accessibility level desired:
 
 ```
-KeychainWrapper.defaultKeychainWrapper().setString("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
 ##Installation
@@ -84,6 +84,9 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 2.2
+    * Updated to support Swift 3.0
+    * Remove deprecated functions (static access)
 * 2.1
     * Updated to support Swift 2.3
 * 2.0

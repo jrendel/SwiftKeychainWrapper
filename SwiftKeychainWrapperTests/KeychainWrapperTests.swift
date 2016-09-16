@@ -22,36 +22,36 @@ class KeychainWrapperTests: XCTestCase {
     }
     
     func testCustomInstance() {
-        let uniqueServiceName = NSUUID().UUIDString
-        let uniqueAccessGroup = NSUUID().UUIDString
+        let uniqueServiceName = UUID().uuidString
+        let uniqueAccessGroup = UUID().uuidString
         let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
         
-        XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.defaultKeychainWrapper().serviceName, "Custom instance initialized with unique service name, should not match defaultKeychainWrapper Service Name")
-        XCTAssertNotEqual(customKeychainWrapperInstance.accessGroup, KeychainWrapper.defaultKeychainWrapper().accessGroup, "Custom instance initialized with unique access group, should not match defaultKeychainWrapper Access Group")
+        XCTAssertNotEqual(customKeychainWrapperInstance.serviceName, KeychainWrapper.defaultKeychainWrapper.serviceName, "Custom instance initialized with unique service name, should not match defaultKeychainWrapper Service Name")
+        XCTAssertNotEqual(customKeychainWrapperInstance.accessGroup, KeychainWrapper.defaultKeychainWrapper.accessGroup, "Custom instance initialized with unique access group, should not match defaultKeychainWrapper Access Group")
     }
     
     func testAccessibility() {
         let accessibilityOptions: [KeychainItemAccessibility] = [
-            .AfterFirstUnlock,
-            .AfterFirstUnlockThisDeviceOnly,
-            .Always,
-            .WhenPasscodeSetThisDeviceOnly,
-            .AlwaysThisDeviceOnly,
-            .WhenUnlocked,
-            .WhenUnlockedThisDeviceOnly
+            .afterFirstUnlock,
+            .afterFirstUnlockThisDeviceOnly,
+            .always,
+            .whenPasscodeSetThisDeviceOnly,
+            .alwaysThisDeviceOnly,
+            .whenUnlocked,
+            .whenUnlockedThisDeviceOnly
         ]
         
         let key = "testKey"
         
         for accessibilityOption in accessibilityOptions {
-            KeychainWrapper.defaultKeychainWrapper().setString("Test123", forKey: key, withAccessibility: accessibilityOption)
+            KeychainWrapper.defaultKeychainWrapper.set("Test123", forKey: key, withAccessibility: accessibilityOption)
         
-            let accessibilityForKey = KeychainWrapper.defaultKeychainWrapper().accessibilityOfKey(key)
+            let accessibilityForKey = KeychainWrapper.defaultKeychainWrapper.accessibilityOfKey(key)
             
             XCTAssertEqual(accessibilityForKey, accessibilityOption, "Accessibility does not match. Expected: \(accessibilityOption) Found: \(accessibilityForKey)")
             
             // INFO: If re-using a key but with a different accessibility, first remove the previous key value using removeObjectForKey(:withAccessibility) using the same accessibilty it was saved with 
-            KeychainWrapper.defaultKeychainWrapper().removeObjectForKey(key, withAccessibility: accessibilityOption)
+            KeychainWrapper.defaultKeychainWrapper.remove(key: key, withAccessibility: accessibilityOption)
         }
     }
 }
