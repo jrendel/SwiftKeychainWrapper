@@ -14,17 +14,17 @@ Users that want to deviate from this default implementation, now can do so in in
 
 Add a string value to keychain:
 ```
-let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().set("Some String", forKey: "myKey")
+let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
 ```
-let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper().string(forKey: "myKey")
+let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
 ```
-let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper().remove(key: "myKey")
+let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.remove(key: "myKey")
 ```
 
 ##Custom Instance
@@ -55,7 +55,7 @@ let removeSuccessful: Bool = customKeychainWrapperInstance.remove(key: "myKey")
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional "withAccessibility" param can be set on all requests. The enum KeychainItemAccessibilty provides an easy way to select the accessibility level desired:
 
 ```
-KeychainWrapper.defaultKeychainWrapper().set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
 ##Installation
