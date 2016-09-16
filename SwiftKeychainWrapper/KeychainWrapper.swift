@@ -171,11 +171,11 @@ open class KeychainWrapper {
     }
 
     
-    /// Returns a NSData object for a specified key.
+    /// Returns a Data object for a specified key.
     ///
     /// - parameter forKey: The key to lookup data for.
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - returns: The NSData object associated with the key if it exists. If no data exists, returns nil.
+    /// - returns: The Data object associated with the key if it exists. If no data exists, returns nil.
     open func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Data? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility)
         var result: AnyObject?
@@ -183,7 +183,7 @@ open class KeychainWrapper {
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
         
-        // Specify we want NSData/CFData returned
+        // Specify we want Data/CFData returned
         keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
         
         // Search
@@ -207,7 +207,7 @@ open class KeychainWrapper {
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
         
-        // Specify we want persistent NSData/CFData reference returned
+        // Specify we want persistent Data/CFData reference returned
         keychainQueryDictionary[SecReturnPersistentRef] = kCFBooleanTrue
         
         // Search
@@ -264,9 +264,9 @@ open class KeychainWrapper {
         return set(data, forKey: key, withAccessibility: accessibility)
     }
 
-    /// Save a NSData object to the keychain associated with a specified key. If data already exists for the given key, the data will be overwritten with the new value.
+    /// Save a Data object to the keychain associated with a specified key. If data already exists for the given key, the data will be overwritten with the new value.
     ///
-    /// - parameter value: The NSData object to save.
+    /// - parameter value: The Data object to save.
     /// - parameter forKey: The key to save the object under.
     /// - parameter withAccessibility: Optional accessibility to use when setting the keychain item.
     /// - returns: True if the save was successful, false otherwise.

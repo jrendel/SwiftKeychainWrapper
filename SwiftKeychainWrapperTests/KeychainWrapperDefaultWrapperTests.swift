@@ -159,7 +159,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         XCTAssertNil(retrievedObject, "Object for Key should not exist")
     }
     
-    func testNSDataSave() {
+    func testDataSave() {
         let testData = testString.data(using: String.Encoding.utf8)
         
         if let data = testData {
@@ -167,13 +167,13 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
             
             XCTAssertTrue(dataSaved, "Data did not save to Keychain")
         } else {
-            XCTFail("Failed to create NSData")
+            XCTFail("Failed to create Data")
         }
     }
     
-    func testNSDataRetrieval() {
+    func testDataRetrieval() {
         guard let testData = testString.data(using: String.Encoding.utf8) else {
-            XCTFail("Failed to create NSData")
+            XCTFail("Failed to create Data")
             return
         }
         
@@ -195,7 +195,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         }
     }
     
-    func testNSDataRetrievalWhenValueDoesNotExist() {
+    func testDataRetrievalWhenValueDoesNotExist() {
         let retrievedData = KeychainWrapper.defaultKeychainWrapper.data(forKey: testKey)
         XCTAssertNil(retrievedData, "Data for Key should not exist")
         
