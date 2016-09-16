@@ -156,6 +156,7 @@
 				47E82D3F1A78046800B5A9F5 /* Resources */,
 				AD3CF7ECDA1F563C429FE582 /* [CP] Embed Pods Frameworks */,
 				81C0444194579A9ADC6F4C46 /* [CP] Copy Pods Resources */,
+				665BA8FCBA1C30DB15E952E7 /* Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -197,6 +198,7 @@
 					47E82D401A78046800B5A9F5 = {
 						CreatedOnToolsVersion = 6.1.1;
 						DevelopmentTeam = FN2SBP9CUL;
+						LastSwiftMigration = 0800;
 						SystemCapabilities = {
 							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
@@ -205,6 +207,7 @@
 					};
 					47E82D551A78046900B5A9F5 = {
 						CreatedOnToolsVersion = 6.1.1;
+						LastSwiftMigration = 0800;
 						TestTargetID = 47E82D401A78046800B5A9F5;
 					};
 				};
@@ -263,6 +266,21 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		665BA8FCBA1C30DB15E952E7 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		81C0444194579A9ADC6F4C46 /* [CP] Copy Pods Resources */ = {
@@ -438,6 +456,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -454,6 +473,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -474,6 +494,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKeychainWrapperExample.app/SwiftKeychainWrapperExample";
 			};
 			name = Debug;
@@ -490,6 +511,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SwiftKeychainWrapperExample.app/SwiftKeychainWrapperExample";
 			};
 			name = Release;

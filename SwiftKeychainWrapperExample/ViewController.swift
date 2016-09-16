@@ -28,12 +28,14 @@
 import UIKit
 import SwiftKeychainWrapper
 
+
+
 class ViewController: UIViewController {
 
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     
-    let keychainWrapper = KeychainWrapper(serviceName: KeychainWrapper.defaultKeychainWrapper().serviceName, accessGroup: "group.myAccessGroup")
+    let keychainWrapper = KeychainWrapper(serviceName: KeychainWrapper.defaultKeychainWrapper.serviceName, accessGroup: "group.myAccessGroup")
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
@@ -45,10 +47,10 @@ class ViewController: UIViewController {
     }
 
 
-    @IBAction func saveTapped(sender: AnyObject) {
-        if textfield.text?.characters.count > 0 {
-            //KeychainWrapper.save
-            if KeychainWrapper.defaultKeychainWrapper().setString(textfield.text!, forKey: "key") {
+    @IBAction func saveTapped(_ sender: AnyObject) {
+        if let text = textfield.text, !text.isEmpty {
+
+            if keychainWrapper.set(text, forKey: "key") {
                 print("save successful")
             } else {
                 print("save failed")
@@ -56,12 +58,12 @@ class ViewController: UIViewController {
         }
     }
    
-    @IBAction func clearTapped(sender: AnyObject) {
+    @IBAction func clearTapped(_ sender: AnyObject) {
         textfield.text = ""
     }
     
-    @IBAction func loadTapped(sender: AnyObject) {
-        textfield.text = KeychainWrapper.defaultKeychainWrapper().stringForKey("key")
+    @IBAction func loadTapped(_ sender: AnyObject) {
+        textfield.text = keychainWrapper.string(forKey: "key")
     }
     
 }
