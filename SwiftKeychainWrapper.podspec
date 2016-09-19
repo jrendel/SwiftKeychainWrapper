@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.homepage = 'https://github.com/kochste77/SwiftKeychainWrapper'
   s.license = 'MIT'
   s.authors = { 'Jason Rendel' => 'jason@jasonrendel.com' }
-  s.ios.deployment_target = '8.0'
+  s.ios.deployment_target = '9.0'
   s.watchos.deployment_target = '2.0'
   s.source = { :git => 'https://github.com/kochste77/SwiftKeychainWrapper.git', :tag => s.version }
   s.source_files = 'SwiftKeychainWrapper/*.{h,swift}'
