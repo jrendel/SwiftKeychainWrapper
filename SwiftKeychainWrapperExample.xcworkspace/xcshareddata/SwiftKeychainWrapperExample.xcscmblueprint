@@ -9,7 +9,7 @@
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "93733CF5-12F3-48B8-A8D1-8664B7B9604F",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "2BAD9B881A5184319B78DD6B9538C9A21B2891CE" : "KeychainWrapper",
+    "2BAD9B881A5184319B78DD6B9538C9A21B2891CE" : "KeychainWrapper\/",
     "206FF22104F53747EED976EA7C3903CC5003A13D" : "SwiftKeychainWrapperExample\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "SwiftKeychainWrapperExample",

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		435192AEC99F7296A23852E4 /* Pods_SwiftKeychainWrapperExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 05A56164313A4033F9805E82 /* Pods_SwiftKeychainWrapperExample.framework */; };
 		47BAABE71D6E25BD008A79E9 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D481A78046800B5A9F5 /* ViewController.swift */; };
 		47BAABE81D6E2635008A79E9 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 966E4AB21B966A5500A8DCEB /* LICENSE */; };
 		47E82D471A78046800B5A9F5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D461A78046800B5A9F5 /* AppDelegate.swift */; };
@@ -15,6 +14,8 @@
 		47E82D4E1A78046800B5A9F5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4D1A78046800B5A9F5 /* Images.xcassets */; };
 		47E82D511A78046800B5A9F5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 47E82D4F1A78046800B5A9F5 /* LaunchScreen.xib */; };
 		47E82D5D1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47E82D5C1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift */; };
+		9617686F1D9A0CCF00319723 /* TestObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9617686E1D9A0CCF00319723 /* TestObject.swift */; };
+		B1E02487F3331750D6742E72 /* Pods_SwiftKeychainWrapperExample.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DDE7A2F9F063BC85C9B0E14B /* Pods_SwiftKeychainWrapperExample.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -28,7 +29,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		05A56164313A4033F9805E82 /* Pods_SwiftKeychainWrapperExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftKeychainWrapperExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		28A7FF791EE5972257D428F1 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.release.xcconfig"; sourceTree = "<group>"; };
 		47E82D411A78046800B5A9F5 /* SwiftKeychainWrapperExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SwiftKeychainWrapperExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E82D451A78046800B5A9F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E82D461A78046800B5A9F5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -39,11 +40,12 @@
 		47E82D561A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SwiftKeychainWrapperExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		47E82D5B1A78046900B5A9F5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		47E82D5C1A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftKeychainWrapperExampleTests.swift; sourceTree = "<group>"; };
-		606FA4048CDF7758C65D97B2 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.release.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.release.xcconfig"; sourceTree = "<group>"; };
-		6C574B64F40504E426DFA4FA /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.debug.xcconfig"; sourceTree = "<group>"; };
+		55D4B68A4514F5825B8950D3 /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SwiftKeychainWrapperExample.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample.debug.xcconfig"; sourceTree = "<group>"; };
+		9617686E1D9A0CCF00319723 /* TestObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestObject.swift; sourceTree = "<group>"; };
 		965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SwiftKeychainWrapperExample.entitlements; sourceTree = "<group>"; };
 		966E4AB21B966A5500A8DCEB /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CA049F5B828BB8C0AAEC7476 /* Pods.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		DDE7A2F9F063BC85C9B0E14B /* Pods_SwiftKeychainWrapperExample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SwiftKeychainWrapperExample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				435192AEC99F7296A23852E4 /* Pods_SwiftKeychainWrapperExample.framework in Frameworks */,
+				B1E02487F3331750D6742E72 /* Pods_SwiftKeychainWrapperExample.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -69,7 +71,7 @@
 			isa = PBXGroup;
 			children = (
 				CA049F5B828BB8C0AAEC7476 /* Pods.framework */,
-				05A56164313A4033F9805E82 /* Pods_SwiftKeychainWrapperExample.framework */,
+				DDE7A2F9F063BC85C9B0E14B /* Pods_SwiftKeychainWrapperExample.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -82,7 +84,7 @@
 				47E82D591A78046900B5A9F5 /* SwiftKeychainWrapperExampleTests */,
 				47E82D421A78046800B5A9F5 /* Products */,
 				280830BBDF65DC8B582CFBDB /* Frameworks */,
-				E9AC190A4584C0040841A3A6 /* Pods */,
+				9758FC40DBC01C8E5B10919B /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -100,6 +102,7 @@
 			children = (
 				965575861AC24F7A00980AB1 /* SwiftKeychainWrapperExample.entitlements */,
 				47E82D461A78046800B5A9F5 /* AppDelegate.swift */,
+				9617686E1D9A0CCF00319723 /* TestObject.swift */,
 				47E82D481A78046800B5A9F5 /* ViewController.swift */,
 				47E82D4A1A78046800B5A9F5 /* Main.storyboard */,
 				47E82D4D1A78046800B5A9F5 /* Images.xcassets */,
@@ -134,11 +137,11 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		E9AC190A4584C0040841A3A6 /* Pods */ = {
+		9758FC40DBC01C8E5B10919B /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				6C574B64F40504E426DFA4FA /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */,
-				606FA4048CDF7758C65D97B2 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */,
+				55D4B68A4514F5825B8950D3 /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */,
+				28A7FF791EE5972257D428F1 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -150,13 +153,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 47E82D601A78046900B5A9F5 /* Build configuration list for PBXNativeTarget "SwiftKeychainWrapperExample" */;
 			buildPhases = (
-				21DDF25E78656F0190A34CD5 /* [CP] Check Pods Manifest.lock */,
+				E2B3972D078327615155D381 /* [CP] Check Pods Manifest.lock */,
 				47E82D3D1A78046800B5A9F5 /* Sources */,
 				47E82D3E1A78046800B5A9F5 /* Frameworks */,
 				47E82D3F1A78046800B5A9F5 /* Resources */,
-				AD3CF7ECDA1F563C429FE582 /* [CP] Embed Pods Frameworks */,
-				81C0444194579A9ADC6F4C46 /* [CP] Copy Pods Resources */,
-				665BA8FCBA1C30DB15E952E7 /* Embed Pods Frameworks */,
+				E8CC58E994295642DCDCEED3 /* [CP] Embed Pods Frameworks */,
+				54CD5E727144FD3C89C24A0A /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -253,37 +255,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		21DDF25E78656F0190A34CD5 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		665BA8FCBA1C30DB15E952E7 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		81C0444194579A9ADC6F4C46 /* [CP] Copy Pods Resources */ = {
+		54CD5E727144FD3C89C24A0A /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -298,7 +270,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-SwiftKeychainWrapperExample/Pods-SwiftKeychainWrapperExample-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		AD3CF7ECDA1F563C429FE582 /* [CP] Embed Pods Frameworks */ = {
+		E2B3972D078327615155D381 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		E8CC58E994295642DCDCEED3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -320,6 +307,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9617686F1D9A0CCF00319723 /* TestObject.swift in Sources */,
 				47BAABE71D6E25BD008A79E9 /* ViewController.swift in Sources */,
 				47E82D471A78046800B5A9F5 /* AppDelegate.swift in Sources */,
 			);
@@ -446,7 +434,7 @@
 		};
 		47E82D611A78046900B5A9F5 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6C574B64F40504E426DFA4FA /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */;
+			baseConfigurationReference = 55D4B68A4514F5825B8950D3 /* Pods-SwiftKeychainWrapperExample.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SwiftKeychainWrapperExample/SwiftKeychainWrapperExample.entitlements;
@@ -463,7 +451,7 @@
 		};
 		47E82D621A78046900B5A9F5 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 606FA4048CDF7758C65D97B2 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */;
+			baseConfigurationReference = 28A7FF791EE5972257D428F1 /* Pods-SwiftKeychainWrapperExample.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = SwiftKeychainWrapperExample/SwiftKeychainWrapperExample.entitlements;

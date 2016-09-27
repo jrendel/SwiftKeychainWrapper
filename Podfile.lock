@@ -2,20 +2,21 @@ PODS:
   - SwiftKeychainWrapper (2.2.0)
 
 DEPENDENCIES:
-  - SwiftKeychainWrapper (from `https://github.com/jrendel/SwiftKeychainWrapper.git`,
-    branch `swift3.0_unstable`)
+  - SwiftKeychainWrapper (from `https://github.com/jrendel/SwiftKeychainWrapper.git`, branch `master`)
 
 EXTERNAL SOURCES:
   SwiftKeychainWrapper:
-    :branch: swift3.0_unstable
+    :branch: master
     :git: https://github.com/jrendel/SwiftKeychainWrapper.git
 
 CHECKOUT OPTIONS:
   SwiftKeychainWrapper:
-    :commit: f0f465bf0ac3fa348902f8b3e8a83cfbc013a049
+    :commit: 5e9f0806e651cf55c7a3fb957f1b0dc07574055a
     :git: https://github.com/jrendel/SwiftKeychainWrapper.git
 
 SPEC CHECKSUMS:
   SwiftKeychainWrapper: a61d8ec21f07ba70e393f8572b2d46a25effc7b3
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 9ac0202260dd715f4ce0cffa9e68a7af9d00a5c1
+
+COCOAPODS: 1.0.1

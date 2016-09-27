@@ -35,6 +35,9 @@ class ViewController: UIViewController {
     @IBOutlet weak var textfield: UITextField!
     @IBOutlet weak var saveButton: UIButton!
     
+    @IBOutlet weak var testObjectStringTextField: UITextField!
+    @IBOutlet weak var testObjectIntTextField: UITextField!
+    
     let keychainWrapper = KeychainWrapper(serviceName: KeychainWrapper.defaultKeychainWrapper.serviceName, accessGroup: "group.myAccessGroup")
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,7 +53,7 @@ class ViewController: UIViewController {
     @IBAction func saveTapped(_ sender: AnyObject) {
         if let text = textfield.text, !text.isEmpty {
 
-            if keychainWrapper.set(text, forKey: "key") {
+            if keychainWrapper.set(text, forKey: "testStringKey") {
                 print("save successful")
             } else {
                 print("save failed")
@@ -63,7 +66,42 @@ class ViewController: UIViewController {
     }
     
     @IBAction func loadTapped(_ sender: AnyObject) {
-        textfield.text = keychainWrapper.string(forKey: "key")
+        textfield.text = keychainWrapper.string(forKey: "testStringKey")
+    }
+    
+    
+    @IBAction func saveTestObject(_ sender: AnyObject) {
+        let testObject = TestObject()
+        if let text = testObjectStringTextField.text, !text.isEmpty {
+            testObject.objectName = text
+        }
+        
+        if let text = testObjectIntTextField.text, let intValue = Int(text), !text.isEmpty {
+            testObject.objectRating = intValue
+            testObjectIntTextField.text = String(intValue)
+        } else {
+            // invalid int
+            testObjectIntTextField.text = "0"
+            testObject.objectRating = 0
+        }
+        
+        if keychainWrapper.set(testObject, forKey: "testObjectKey") {
+            print("save successful")
+        } else {
+            print("save failed")
+        }
+    }
+    
+    @IBAction func loadTestObject(_ sender: AnyObject) {
+        if let object = keychainWrapper.object(forKey: "testObjectKey") as? TestObject {
+            testObjectStringTextField.text = object.objectName
+            testObjectIntTextField.text = String(object.objectRating)
+        }
+    }
+ 
+    @IBAction func clearTestObject(_ sender: AnyObject) {
+        testObjectStringTextField.text = ""
+        testObjectIntTextField.text = ""
     }
     
 }
