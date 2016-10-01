@@ -27,18 +27,18 @@ class KeychainWrapperPrimitiveValueTests: XCTestCase {
     }
 
     func testIntegerSave() {
-        let valueSaved = KeychainWrapper.defaultKeychainWrapper.set(testInteger, forKey: testKey)
+        let valueSaved = KeychainWrapper.standard.set(testInteger, forKey: testKey)
         
         XCTAssertTrue(valueSaved, "Integer value did not save to Keychain")
         
         // clean up keychain
-        KeychainWrapper.defaultKeychainWrapper.remove(key: testKey)
+        KeychainWrapper.standard.removeObject(forKey: testKey)
     }
     
     func testIntegerRetrieval() {
-        KeychainWrapper.defaultKeychainWrapper.set(testInteger, forKey: testKey)
+        KeychainWrapper.standard.set(testInteger, forKey: testKey)
         
-        if let retrievedValue = KeychainWrapper.defaultKeychainWrapper.integer(forKey: testKey) {
+        if let retrievedValue = KeychainWrapper.standard.integer(forKey: testKey) {
             XCTAssertEqual(retrievedValue, testInteger, "Integer value retrieved for key should equal value saved for key")
         } else {
             XCTFail("Integer value for Key not found")
@@ -46,18 +46,18 @@ class KeychainWrapperPrimitiveValueTests: XCTestCase {
     }
     
     func testBoolSave() {
-        let valueSaved = KeychainWrapper.defaultKeychainWrapper.set(testBool, forKey: testKey)
+        let valueSaved = KeychainWrapper.standard.set(testBool, forKey: testKey)
         
         XCTAssertTrue(valueSaved, "Bool value did not save to Keychain")
         
         // clean up keychain
-        KeychainWrapper.defaultKeychainWrapper.remove(key: testKey)
+        KeychainWrapper.standard.removeObject(forKey: testKey)
     }
     
     func testBoolRetrieval() {
-        KeychainWrapper.defaultKeychainWrapper.set(testBool, forKey: testKey)
+        KeychainWrapper.standard.set(testBool, forKey: testKey)
         
-        if let retrievedValue = KeychainWrapper.defaultKeychainWrapper.bool(forKey: testKey) {
+        if let retrievedValue = KeychainWrapper.standard.bool(forKey: testKey) {
             XCTAssertEqual(retrievedValue, testBool, "Bool value retrieved for key should equal value saved for key")
         } else {
             XCTFail("Bool value for Key not found")
@@ -65,18 +65,18 @@ class KeychainWrapperPrimitiveValueTests: XCTestCase {
     }
     
     func testFloatSave() {
-        let valueSaved = KeychainWrapper.defaultKeychainWrapper.set(testFloat, forKey: testKey)
+        let valueSaved = KeychainWrapper.standard.set(testFloat, forKey: testKey)
         
         XCTAssertTrue(valueSaved, "Float value did not save to Keychain")
         
         // clean up keychain
-        KeychainWrapper.defaultKeychainWrapper.remove(key: testKey)
+        KeychainWrapper.standard.removeObject(forKey: testKey)
     }
     
     func testFloatRetrieval() {
-        KeychainWrapper.defaultKeychainWrapper.set(testFloat, forKey: testKey)
+        KeychainWrapper.standard.set(testFloat, forKey: testKey)
         
-        if let retrievedValue = KeychainWrapper.defaultKeychainWrapper.float(forKey: testKey) {
+        if let retrievedValue = KeychainWrapper.standard.float(forKey: testKey) {
             XCTAssertEqual(retrievedValue, testFloat, "Float value retrieved for key should equal value saved for key")
         } else {
             XCTFail("Float value for Key not found")
@@ -84,18 +84,18 @@ class KeychainWrapperPrimitiveValueTests: XCTestCase {
     }
     
     func testDoubleSave() {
-        let valueSaved = KeychainWrapper.defaultKeychainWrapper.set(testDouble, forKey: testKey)
+        let valueSaved = KeychainWrapper.standard.set(testDouble, forKey: testKey)
         
         XCTAssertTrue(valueSaved, "Double value did not save to Keychain")
         
         // clean up keychain
-        KeychainWrapper.defaultKeychainWrapper.remove(key: testKey)
+        KeychainWrapper.standard.removeObject(forKey: testKey)
     }
     
     func testDoubleRetrieval() {
-        KeychainWrapper.defaultKeychainWrapper.set(testDouble, forKey: testKey)
+        KeychainWrapper.standard.set(testDouble, forKey: testKey)
         
-        if let retrievedValue = KeychainWrapper.defaultKeychainWrapper.double(forKey: testKey) {
+        if let retrievedValue = KeychainWrapper.standard.double(forKey: testKey) {
             XCTAssertEqual(retrievedValue, testDouble, "Double value retrieved for key should equal value saved for key")
         } else {
             XCTFail("Double value for Key not found")

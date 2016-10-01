@@ -2,7 +2,7 @@
 
 A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
-Provides a defaultKeychainWrapper() function to access singleton instance that is setup to work for most needs. 
+Provides singleton instance that is setup to work for most needs. Use KeychainWrapper.standard to access the singleton instance.
 
 If you need to customize the keychain access to use a custom identifier or access group, you can create your own instance instead of using the singleton access.
 
@@ -14,17 +14,17 @@ Users that want to deviate from this default implementation, now can do so in in
 
 Add a string value to keychain:
 ```
-let saveSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey")
+let saveSuccessful: Bool = KeychainWrapper.standard.set("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
 ```
-let retrievedString: String? = KeychainWrapper.defaultKeychainWrapper.string(forKey: "myKey")
+let retrievedString: String? = KeychainWrapper.standard.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
 ```
-let removeSuccessful: Bool = KeychainWrapper.defaultKeychainWrapper.remove(key: "myKey")
+let removeSuccessful: Bool = KeychainWrapper.standard.remove(key: "myKey")
 ```
 
 ##Custom Instance
@@ -55,7 +55,7 @@ let removeSuccessful: Bool = customKeychainWrapperInstance.remove(key: "myKey")
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional "withAccessibility" param can be set on all requests. The enum KeychainItemAccessibilty provides an easy way to select the accessibility level desired:
 
 ```
-KeychainWrapper.defaultKeychainWrapper.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
 ##Installation
@@ -84,6 +84,8 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 2.2.1
+    * Syntax updates to be more Swift 3 like
 * 2.2
     * Updated to support Swift 3.0
     * Remove deprecated functions (static access)
