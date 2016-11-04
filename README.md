@@ -97,9 +97,11 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
-* 2.2.1
+* 3.0
+    * Swift 3.0 update. Contains breaking API changes. 2.2.0 and 2.2.1 are now rolled into 3.0
+* 2.2.1 (Removed from Cocoapods)
     * Syntax updates to be more Swift 3 like
-* 2.2
+* 2.2 (Removed from Cocoapods)
     * Updated to support Swift 3.0
     * Remove deprecated functions (static access)
 * 2.1
