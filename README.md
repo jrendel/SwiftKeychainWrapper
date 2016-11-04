@@ -98,7 +98,8 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 ## Release History
 
 * 3.0.1
-    * 
+    * Added a host app for the unit tests to get around the issue with keychain access not working the same on iOS 10 simulators
+    * Minor update to readme instructions    
 * 3.0
     * Swift 3.0 update. Contains breaking API changes. 2.2.0 and 2.2.1 are now rolled into 3.0
 * 2.2.1 (Removed from Cocoapods)
