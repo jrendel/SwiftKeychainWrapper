@@ -47,7 +47,7 @@ let saveSuccessful: Bool = customKeychainWrapperInstance.set("Some String", forK
 
 let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myKey")
 
-let removeSuccessful: Bool = customKeychainWrapperInstance.remove(key: "myKey")
+let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
 ##Accessibility Options
@@ -78,12 +78,28 @@ To use the keychain wrapper in your app, import SwiftKeychainWrapper into the fi
 import SwiftKeychainWrapper
 ```
 
+#### Carthage
+You can use [Carthage](https://github.com/Carthage/Carthage) to install SwiftKeychainWrapper by adding it to your `Cartfile`.
+
+Swift 3.0:
+```
+github "jrendel/SwiftKeychainWrapper" ~> 3.0
+```
+
+Swift 2.3:
+```
+github "jrendel/SwiftKeychainWrapper" == 2.1.1
+```
+
 #### Manually
-Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.swift``` into your project. 
+Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.swift``` into your project.
 
 
 ## Release History
 
+* 3.0.1
+    * Added a host app for the unit tests to get around the issue with keychain access not working the same on iOS 10 simulators
+    * Minor update to readme instructions    
 * 3.0
     * Swift 3.0 update. Contains breaking API changes. 2.2.0 and 2.2.1 are now rolled into 3.0
 * 2.2.1 (Removed from Cocoapods)
@@ -117,7 +133,7 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
     * Access Groups do not work on the simulator. Apps that are built for the simulator aren't signed, so there's no keychain access group for the simulator to check. This means that all apps can see all keychain items when run on the simulator. Attempting to set an access group will result in a failure when attempting to Add or Update keychain items. Because of this, the Keychain Wrapper detects if it is being using on a simulator and will not set an access group property if one is set. This allows the Keychain Wrapper to still be used on the simulator for development of your app. To properly test Keychain Access Groups, you will need to test on a device.
 
 * 1.0.5
-    * This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift. 
+    * This version converts the project to a proper Swift Framework and adds a podspec file to be compatible with the latest CocoaPods pre-release, which now supports Swift.
 
     * To see an example of usage with CocoaPods, I've created the repo SwiftKeychainWrapperExample:  https://github.com/jrendel/SwiftKeychainWrapperExample
 
@@ -131,3 +147,5 @@ I've been using an Objective-C based wrapper in my own projects for the past cou
 http://www.raywenderlich.com/6475/basic-security-in-ios-5-tutorial-part-1
 
 This is a rewrite of that code in Swift.
+
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
