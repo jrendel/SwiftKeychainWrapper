@@ -47,7 +47,7 @@ let saveSuccessful: Bool = customKeychainWrapperInstance.set("Some String", forK
 
 let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myKey")
 
-let removeSuccessful: Bool = customKeychainWrapperInstance.remove(key: "myKey")
+let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
 ##Accessibility Options
@@ -97,6 +97,8 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 3.0.1
+    * 
 * 3.0
     * Swift 3.0 update. Contains breaking API changes. 2.2.0 and 2.2.1 are now rolled into 3.0
 * 2.2.1 (Removed from Cocoapods)
