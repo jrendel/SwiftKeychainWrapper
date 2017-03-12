@@ -113,6 +113,38 @@ open class KeychainWrapper {
         
         return nil
     }
+
+    /// Get the keys of all keychain entries matching the current ServiceName and AccessGroup if one is set.
+    open func allKeys() -> Set<String> {
+        var keychainQueryDictionary: [String:Any] = [
+            SecClass: kSecClassGenericPassword,
+            SecAttrService: serviceName,
+            SecReturnAttributes: kCFBooleanTrue,
+            SecMatchLimit: kSecMatchLimitAll,
+        ]
+
+        if let accessGroup = self.accessGroup {
+            keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
+        }
+
+        var result: AnyObject?
+        let status = withUnsafeMutablePointer(to: &result) { resultPtr in
+            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, resultPtr)
+        }
+
+        guard status == errSecSuccess else { return [] }
+
+        var keys = Set<String>()
+        if let results = result as? [[AnyHashable: Any]] {
+            for attributes in results {
+                if let accountData = attributes[SecAttrAccount] as? Data,
+                    let account = String(data: accountData, encoding: String.Encoding.utf8) {
+                    keys.insert(account)
+                }
+            }
+        }
+        return keys
+    }
     
     // MARK: Public Getters
     

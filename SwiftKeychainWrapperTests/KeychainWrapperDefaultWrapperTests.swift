@@ -202,4 +202,24 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         let retrievedDataRef = KeychainWrapper.standard.dataRef(forKey: testKey)
         XCTAssertNil(retrievedDataRef, "Data ref for Key should not exist")
     }
+
+    func testKeysEmpty() {
+        let keys = KeychainWrapper.standard.allKeys()
+        XCTAssertEqual(keys, [], "Empty keychain should not contain keys")
+    }
+
+    func testKeysOneKey() {
+        KeychainWrapper.standard.set(testString, forKey: testKey)
+
+        let keys = KeychainWrapper.standard.allKeys()
+        XCTAssertEqual(keys, [testKey], "Keychain should contain the inserted key")
+    }
+
+    func testKeysMultipleKeys() {
+        KeychainWrapper.standard.set(testString, forKey: testKey)
+        KeychainWrapper.standard.set(testString2, forKey: testKey2)
+
+        let keys = KeychainWrapper.standard.allKeys()
+        XCTAssertEqual(keys, [testKey, testKey2], "Keychain should contain the inserted keys")
+    }
 }
