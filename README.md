@@ -1,4 +1,4 @@
-#SwiftKeychainWrapper
+# SwiftKeychainWrapper
 
 A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
@@ -10,7 +10,7 @@ By default, the Keychain Wrapper saves data as a Generic Password type in the iO
 
 Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
 
-##General Usage
+## General Usage
 
 Add a string value to keychain:
 ```
@@ -27,7 +27,7 @@ Remove a string value from keychain:
 let removeSuccessful: Bool = KeychainWrapper.standard.remove(key: "myKey")
 ```
 
-##Custom Instance
+## Custom Instance
 
 When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keycahin under different identifiers.
 
