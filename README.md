@@ -50,7 +50,7 @@ let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myK
 let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
-##Accessibility Options
+## Accessibility Options
 
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional "withAccessibility" param can be set on all requests. The enum KeychainItemAccessibilty provides an easy way to select the accessibility level desired:
 
@@ -58,7 +58,7 @@ By default, all items saved to keychain can only be accessed when the device is 
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
-##Installation
+## Installation
 
 #### CocoaPods
 You can use [CocoaPods](http://cocoapods.org/) to install SwiftKeychainWrapper by adding it to your `Podfile`:
