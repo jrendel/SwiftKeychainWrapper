@@ -140,7 +140,7 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 * 1.0.2
     * Updated for Xcode 6.1
 
-======
+---
 
 I've been using an Objective-C based wrapper in my own projects for the past couple years. The original library I wrote for myself was based on the following tutorial:
 
