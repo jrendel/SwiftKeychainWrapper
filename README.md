@@ -24,7 +24,7 @@ let retrievedString: String? = KeychainWrapper.standard.string(forKey: "myKey")
 
 Remove a string value from keychain:
 ```
-let removeSuccessful: Bool = KeychainWrapper.standard.remove(key: "myKey")
+let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "myKey")
 ```
 
 ## Custom Instance
