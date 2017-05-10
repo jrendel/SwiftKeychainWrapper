@@ -100,7 +100,7 @@ open class KeychainWrapper {
         // Specify we want SecAttrAccessible returned
         keychainQueryDictionary[SecReturnAttributes] = kCFBooleanTrue
 
-            // Search
+        // Search
         let status = withUnsafeMutablePointer(to: &result) {
             SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
         }
@@ -285,8 +285,6 @@ open class KeychainWrapper {
             return false
         }
     }
-    
-    
 
     /// Save an NSCoding compliant object to the keychain associated with a specified key. If an object already exists for the given key, the object will be overwritten with the new value.
     ///
@@ -402,7 +400,7 @@ open class KeychainWrapper {
         }
     }
     
-    /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
+    /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data.
     private func update(_ value: Data, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         var keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility)
         let updateDictionary = [SecValueData:value]
