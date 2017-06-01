@@ -60,6 +60,8 @@ KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: 
 
 ## Installation
 
+* Activate "Keychain Sharing" Capability
+
 #### CocoaPods
 You can use [CocoaPods](http://cocoapods.org/) to install SwiftKeychainWrapper by adding it to your `Podfile`:
 
