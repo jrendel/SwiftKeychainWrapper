@@ -6,7 +6,7 @@ Provides singleton instance that is setup to work for most needs. Use `KeychainW
 
 If you need to customize the keychain access to use a custom identifier or access group, you can create your own instance instead of using the singleton instance.
 
-By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keycain.
+By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keychain.
 
 Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
 
