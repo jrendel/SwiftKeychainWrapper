@@ -13,17 +13,17 @@ Users that want to deviate from this default implementation, now can do so in in
 ## General Usage
 
 Add a string value to keychain:
-```
+``` swift
 let saveSuccessful: Bool = KeychainWrapper.standard.set("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
-```
+``` swift
 let retrievedString: String? = KeychainWrapper.standard.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
-```
+``` swift
 let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "myKey")
 ```
 
@@ -35,14 +35,14 @@ To share keychain items between your applications, you may specify an access gro
 
 To set a custom service name identifier or access group, you may now create your own instance of the keychain wrapper as follows:
 
-```
+``` swift
 let uniqueServiceName = "customServiceName"
 let uniqueAccessGroup = "sharedAccessGroupName"
 let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
 ```
 The custom instance can then be used in place of the shared instance or static accessors:
 
-```
+``` swift
 let saveSuccessful: Bool = customKeychainWrapperInstance.set("Some String", forKey: "myKey")
 
 let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myKey")
@@ -53,8 +53,8 @@ let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: 
 ## Accessibility Options
 
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
-
-```
+ 
+``` swift
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
@@ -74,7 +74,7 @@ end
 
 To use the keychain wrapper in your app, import SwiftKeychainWrapper into the file(s) where you want to use it.
 
-```
+``` swift
 import SwiftKeychainWrapper
 ```
 
