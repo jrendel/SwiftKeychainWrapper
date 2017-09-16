@@ -1,5 +1,5 @@
 language: objective-c
-osx_image: xcode8.2
+osx_image: xcode9
 
 script:
-    - xcodebuild test -scheme SwiftKeychainWrapper -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone SE,OS=10.1"
+    - xcodebuild test -scheme SwiftKeychainWrapper -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone SE,OS=11.0"
