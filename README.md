@@ -29,7 +29,7 @@ let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "myKe
 
 ## Custom Instance
 
-When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keycahin under different identifiers.
+When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keychain under different identifiers.
 
 To share keychain items between your applications, you may specify an access group and use that same access group in each application.
 
