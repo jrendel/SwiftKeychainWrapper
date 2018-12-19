@@ -132,8 +132,11 @@ open class KeychainWrapper {
         if let results = result as? [[AnyHashable: Any]] {
             for attributes in results {
                 if let accountData = attributes[SecAttrAccount] as? Data,
-                    let account = String(data: accountData, encoding: String.Encoding.utf8) {
-                    keys.insert(account)
+                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                    keys.insert(key)
+                } else if let accountData = attributes[kSecAttrAccount] as? Data,
+                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                    keys.insert(key)
                 }
             }
         }

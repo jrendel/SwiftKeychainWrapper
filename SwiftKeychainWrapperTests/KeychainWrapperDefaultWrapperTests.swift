@@ -209,16 +209,22 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
 
     func testKeysOneKey() {
-        KeychainWrapper.standard.set(testString, forKey: testKey)
+        let keySuccessfullySet = KeychainWrapper.standard.set(testString, forKey: testKey)
 
+        XCTAssertTrue(keySuccessfullySet, "Setting value on Standard Keychain failed")
+        
         let keys = KeychainWrapper.standard.allKeys()
         XCTAssertEqual(keys, [testKey], "Keychain should contain the inserted key")
     }
 
     func testKeysMultipleKeys() {
-        KeychainWrapper.standard.set(testString, forKey: testKey)
-        KeychainWrapper.standard.set(testString2, forKey: testKey2)
+        let keySuccessfullySet = KeychainWrapper.standard.set(testString, forKey: testKey)
+        XCTAssertTrue(keySuccessfullySet, "Setting value on Standard Keychain failed")
+        
+        let key2SuccessfullySet = KeychainWrapper.standard.set(testString2, forKey: testKey2)
 
+        XCTAssertTrue(key2SuccessfullySet, "Setting 2nd value on Standard Keychain failed")
+        
         let keys = KeychainWrapper.standard.allKeys()
         XCTAssertEqual(keys, [testKey, testKey2], "Keychain should contain the inserted keys")
     }
