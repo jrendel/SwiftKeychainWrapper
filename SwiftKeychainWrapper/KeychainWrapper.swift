@@ -101,9 +101,7 @@ open class KeychainWrapper {
 
         // Search
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
-        }
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
 
         guard status == noErr, let resultsDictionary = result as? [String:AnyObject], let accessibilityAttrValue = resultsDictionary[SecAttrAccessible] as? String else {
             return nil
@@ -126,9 +124,7 @@ open class KeychainWrapper {
         }
 
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(to: &result) { resultPtr in
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, resultPtr)
-        }
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
 
         guard status == errSecSuccess else { return [] }
 
@@ -224,9 +220,7 @@ open class KeychainWrapper {
         
         // Search
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
-        }
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
         
         return status == noErr ? result as? Data : nil
     }
@@ -248,9 +242,7 @@ open class KeychainWrapper {
         
         // Search
         var result: AnyObject?
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
-        }
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
         
         return status == noErr ? result as? Data : nil
     }
