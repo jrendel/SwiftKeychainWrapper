@@ -89,7 +89,6 @@ open class KeychainWrapper {
     
     open func accessibilityOfKey(_ key: String) -> KeychainItemAccessibility? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key)
-        var result: AnyObject?
 
         // Remove accessibility attribute
         keychainQueryDictionary.removeValue(forKey: SecAttrAccessible)
@@ -100,18 +99,48 @@ open class KeychainWrapper {
         // Specify we want SecAttrAccessible returned
         keychainQueryDictionary[SecReturnAttributes] = kCFBooleanTrue
 
-            // Search
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
+        // Search
+        var result: AnyObject?
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
+
+        guard status == noErr, let resultsDictionary = result as? [String:AnyObject], let accessibilityAttrValue = resultsDictionary[SecAttrAccessible] as? String else {
+            return nil
+        }
+    
+        return KeychainItemAccessibility.accessibilityForAttributeValue(accessibilityAttrValue as CFString)
+    }
+
+    /// Get the keys of all keychain entries matching the current ServiceName and AccessGroup if one is set.
+    open func allKeys() -> Set<String> {
+        var keychainQueryDictionary: [String:Any] = [
+            SecClass: kSecClassGenericPassword,
+            SecAttrService: serviceName,
+            SecReturnAttributes: kCFBooleanTrue,
+            SecMatchLimit: kSecMatchLimitAll,
+        ]
+
+        if let accessGroup = self.accessGroup {
+            keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
         }
 
-        if status == noErr {
-            if let resultsDictionary = result as? [String:AnyObject], let accessibilityAttrValue = resultsDictionary[SecAttrAccessible] as? String {
-                return KeychainItemAccessibility.accessibilityForAttributeValue(accessibilityAttrValue as CFString)
+        var result: AnyObject?
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
+
+        guard status == errSecSuccess else { return [] }
+
+        var keys = Set<String>()
+        if let results = result as? [[AnyHashable: Any]] {
+            for attributes in results {
+                if let accountData = attributes[SecAttrAccount] as? Data,
+                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                    keys.insert(key)
+                } else if let accountData = attributes[kSecAttrAccount] as? Data,
+                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                    keys.insert(key)
+                }
             }
         }
-        
-        return nil
+        return keys
     }
     
     // MARK: Public Getters
@@ -182,7 +211,6 @@ open class KeychainWrapper {
     /// - returns: The Data object associated with the key if it exists. If no data exists, returns nil.
     open func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Data? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility)
-        var result: AnyObject?
         
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
@@ -191,9 +219,8 @@ open class KeychainWrapper {
         keychainQueryDictionary[SecReturnData] = kCFBooleanTrue
         
         // Search
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
-        }
+        var result: AnyObject?
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
         
         return status == noErr ? result as? Data : nil
     }
@@ -206,7 +233,6 @@ open class KeychainWrapper {
     /// - returns: The persistent data reference object associated with the key if it exists. If no data exists, returns nil.
     open func dataRef(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Data? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility)
-        var result: AnyObject?
         
         // Limit search results to one
         keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
@@ -215,9 +241,8 @@ open class KeychainWrapper {
         keychainQueryDictionary[SecReturnPersistentRef] = kCFBooleanTrue
         
         // Search
-        let status = withUnsafeMutablePointer(to: &result) {
-            SecItemCopyMatching(keychainQueryDictionary as CFDictionary, UnsafeMutablePointer($0))
-        }
+        var result: AnyObject?
+        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
         
         return status == noErr ? result as? Data : nil
     }
@@ -253,8 +278,6 @@ open class KeychainWrapper {
             return false
         }
     }
-    
-    
 
     /// Save an NSCoding compliant object to the keychain associated with a specified key. If an object already exists for the given key, the object will be overwritten with the new value.
     ///
@@ -321,7 +344,7 @@ open class KeychainWrapper {
     }
 
     /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
-    open func removeAllKeys() -> Bool {
+    @discardableResult open func removeAllKeys() -> Bool {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
         var keychainQueryDictionary: [String:Any] = [SecClass:kSecClassGenericPassword]
         
@@ -370,7 +393,7 @@ open class KeychainWrapper {
         }
     }
     
-    /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data
+    /// Update existing data associated with a specified key name. The existing data will be overwritten by the new data.
     private func update(_ value: Data, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil) -> Bool {
         var keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility)
         let updateDictionary = [SecValueData:value]

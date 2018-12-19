@@ -1,33 +1,33 @@
-#SwiftKeychainWrapper
+# SwiftKeychainWrapper
 
 A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
-Provides singleton instance that is setup to work for most needs. Use KeychainWrapper.standard to access the singleton instance.
+Provides singleton instance that is setup to work for most needs. Use `KeychainWrapper.standard` to access the singleton instance.
 
-If you need to customize the keychain access to use a custom identifier or access group, you can create your own instance instead of using the singleton access.
+If you need to customize the keychain access to use a custom identifier or access group, you can create your own instance instead of using the singleton instance.
 
-By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keycain.
+By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keychain.
 
 Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
 
-##General Usage
+## General Usage
 
 Add a string value to keychain:
-```
+``` swift
 let saveSuccessful: Bool = KeychainWrapper.standard.set("Some String", forKey: "myKey")
 ```
 
 Retrieve a string value from keychain:
-```
+``` swift
 let retrievedString: String? = KeychainWrapper.standard.string(forKey: "myKey")
 ```
 
 Remove a string value from keychain:
-```
-let removeSuccessful: Bool = KeychainWrapper.standard.remove(key: "myKey")
+``` swift
+let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "myKey")
 ```
 
-##Custom Instance
+## Custom Instance
 
 When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keycahin under different identifiers.
 
@@ -35,14 +35,14 @@ To share keychain items between your applications, you may specify an access gro
 
 To set a custom service name identifier or access group, you may now create your own instance of the keychain wrapper as follows:
 
-```
+``` swift
 let uniqueServiceName = "customServiceName"
 let uniqueAccessGroup = "sharedAccessGroupName"
 let customKeychainWrapperInstance = KeychainWrapper(serviceName: uniqueServiceName, accessGroup: uniqueAccessGroup)
 ```
 The custom instance can then be used in place of the shared instance or static accessors:
 
-```
+``` swift
 let saveSuccessful: Bool = customKeychainWrapperInstance.set("Some String", forKey: "myKey")
 
 let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myKey")
@@ -50,15 +50,15 @@ let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myK
 let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
-##Accessibility Options
+## Accessibility Options
 
-By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional "withAccessibility" param can be set on all requests. The enum KeychainItemAccessibilty provides an easy way to select the accessibility level desired:
-
-```
+By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
+ 
+``` swift
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
-##Installation
+## Installation
 
 #### CocoaPods
 You can use [CocoaPods](http://cocoapods.org/) to install SwiftKeychainWrapper by adding it to your `Podfile`:
@@ -74,7 +74,7 @@ end
 
 To use the keychain wrapper in your app, import SwiftKeychainWrapper into the file(s) where you want to use it.
 
-```
+``` swift
 import SwiftKeychainWrapper
 ```
 
@@ -97,20 +97,31 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 3.2
+* Updates for Swift 4.2 and Xcode 10
+
+* 3.1
+    * Updates for Swift 3.1
+
 * 3.0.1
     * Added a host app for the unit tests to get around the issue with keychain access not working the same on iOS 10 simulators
     * Minor update to readme instructions    
+
 * 3.0
     * Swift 3.0 update. Contains breaking API changes. 2.2.0 and 2.2.1 are now rolled into 3.0
+
 * 2.2.1 (Removed from Cocoapods)
     * Syntax updates to be more Swift 3 like
+
 * 2.2 (Removed from Cocoapods)
     * Updated to support Swift 3.0
     * Remove deprecated functions (static access)
+
 * 2.1
     * Updated to support Swift 2.3
+
 * 2.0
-    * Further changes to more closely align the API with how NSUserDefaults works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance to maintain backwards compatibility. These will be removed in the next update
+    * Further changes to more closely align the API with how `NSUserDefaults` works. Access to the default implementation is now done through a singleton instance. Static accessors have been included that wrap this shared instance to maintain backwards compatibility. These will be removed in the next update
     * Ability to change keychain service name identifier and access group on the shared instance has been deprecated. Users now have the ability to create their own instance of the keychain if they want to customize these.
     * Addtional options have been provided to alter the keychain accessibility for each key value saved.
 
@@ -140,7 +151,7 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 * 1.0.2
     * Updated for Xcode 6.1
 
-======
+---
 
 I've been using an Objective-C based wrapper in my own projects for the past couple years. The original library I wrote for myself was based on the following tutorial:
 
