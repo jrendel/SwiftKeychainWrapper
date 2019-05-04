@@ -97,6 +97,9 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 3.3
+* Updates for Swift 5.0 and Xcode 10.2
+
 * 3.2
 * Updates for Swift 4.2 and Xcode 10
 
