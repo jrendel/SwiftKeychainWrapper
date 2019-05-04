@@ -58,11 +58,11 @@ class KeychainWrapperDeleteTests: XCTestCase {
         KeychainWrapper.standard.removeObject(forKey: testKey)
     }
     
-    func testRemoveAllKeysOnlyRemovesKeysForCurrentServiceName() {
-        
-    }
-    
-    func testRemoveAllKeysOnlyRemovesKeysForCurrentAccessGroup() {
-        
-    }
+//    func testRemoveAllKeysOnlyRemovesKeysForCurrentServiceName() {
+//        
+//    }
+//    
+//    func testRemoveAllKeysOnlyRemovesKeysForCurrentAccessGroup() {
+//        
+//    }
 }
