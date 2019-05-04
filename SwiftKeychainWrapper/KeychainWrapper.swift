@@ -115,7 +115,7 @@ open class KeychainWrapper {
         var keychainQueryDictionary: [String:Any] = [
             SecClass: kSecClassGenericPassword,
             SecAttrService: serviceName,
-            SecReturnAttributes: kCFBooleanTrue,
+            SecReturnAttributes: kCFBooleanTrue!,
             SecMatchLimit: kSecMatchLimitAll,
         ]
 
