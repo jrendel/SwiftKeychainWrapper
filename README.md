@@ -97,6 +97,9 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 3.4
+* Changed how Swift version is defined for CocoaPods
+
 * 3.3
 * Updates for Swift 5.0 and Xcode 10.2
 
