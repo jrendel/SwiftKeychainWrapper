@@ -58,6 +58,14 @@ By default, all items saved to keychain can only be accessed when the device is 
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
+**Important:** You can't modify value for key if it was previously set with different accessibility option. Remove the value for key and set it with new accessibility option. (Otherwise the value will not change).  
+For example:
+``` swift
+KeychainWrapper.standard.set("String one", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.standard.removeObject(forKey: "myKey")
+KeychainWrapper.standard.set("String two", forKey: "myKey", withAccessibility: .Always)
+```
+
 ## Installation
 
 #### CocoaPods
