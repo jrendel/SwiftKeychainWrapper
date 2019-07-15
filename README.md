@@ -1,6 +1,6 @@
 # SwiftKeychainWrapper
 
-A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
+A simple wrapper for the iOS / tvOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
 Provides singleton instance that is setup to work for most needs. Use `KeychainWrapper.standard` to access the singleton instance.
 
