@@ -14,11 +14,12 @@ let package = Package(
     targets: [
         .target(
             name: "SwiftKeychainWrapper",
-            dependencies: [],
             path: ".",
             sources: ["SwiftKeychainWrapper"]),
         .testTarget(
             name: "SwiftKeychainWrapperTests",
-            dependencies: ["SwiftKeychainWrapper"]),
+            dependencies: ["SwiftKeychainWrapper"],
+            path: ".",
+            sources: ["SwiftKeychainWrapperTests"]),
     ]
 )
