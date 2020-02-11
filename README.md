@@ -8,7 +8,7 @@ If you need to customize the keychain access to use a custom identifier or acces
 
 By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keychain.
 
-Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
+Users that want to deviate from this default implementation, now can do so in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
 
 ## General Usage
 
@@ -53,7 +53,7 @@ let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: 
 ## Accessibility Options
 
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
- 
+
 ``` swift
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
