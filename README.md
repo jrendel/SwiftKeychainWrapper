@@ -91,6 +91,18 @@ Swift 2.3:
 github "jrendel/SwiftKeychainWrapper" == 2.1.1
 ```
 
+#### Swift Package Manager
+You can use [Swift Package Manager](https://swift.org/package-manager/) to install SwiftKeychainWrapper using Xcode:
+
+1. Open your project in Xcode
+
+2. Click "File" -> "Swift Packages" -> "Add Package Dependency..."
+
+3. Paste the following URL: https://github.com/jrendel/SwiftKeychainWrapper
+
+4. Click "Next" -> "Next" -> "Finish"
+
+
 #### Manually
 Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.swift``` into your project.
 
