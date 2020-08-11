@@ -12,5 +12,5 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.swift_version = ['4.2', '5.0']
   s.source = { :git => 'https://github.com/jrendel/SwiftKeychainWrapper.git', :tag => s.version }
-  s.source_files = 'SwiftKeychainWrapper/*.{h,swift}'
+  s.source_files = 'Sources/SwiftKeychainWrapper/*.{h,swift}'
 end
