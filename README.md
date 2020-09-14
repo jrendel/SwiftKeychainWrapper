@@ -58,6 +58,14 @@ By default, all items saved to keychain can only be accessed when the device is 
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
 ```
 
+## Synchronizable Option
+
+By default, all items saved to keychain are not synchronizable, so they are not synced with the iCloud. To change this, an  `isSynchronizable` bool param can be set on all requests. You need the item to be synchronized with the iCloud if you want to have it on all of your devices:
+ 
+``` swift
+KeychainWrapper.standard.set("Some String", forKey: "myKey", isSynchronizable: true)
+```
+
 ## Installation
 
 #### CocoaPods
