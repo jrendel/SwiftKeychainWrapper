@@ -50,6 +50,30 @@ let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myK
 let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
+## Subscript usage
+
+Keychain can also be accessed with subscript as it is in dictionary. Keys can be predefined and listed in one place for convenience.
+
+Firstly, let's define the key to use later.
+
+``` swift
+extension KeychainWrapper.Key {
+    static let myKey: KeychainWrapper.Key = "myKey"
+}
+```
+
+And now we can use this key as follows:
+
+``` swift
+KeychainWrapper.standard[.myKey] = "some string"
+
+let myValue: String? = KeychainWrapper.standard[.myKey]
+
+KeychainWrapper.standard.remove(forKey: .myKey)
+
+```
+
+
 ## Accessibility Options
 
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
