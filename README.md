@@ -149,6 +149,9 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
+* 4.0
+Updated with SPM support and other community PRs. Minimum iOS version is now 9.0. 
+
 * 3.4
 * Changed how Swift version is defined for CocoaPods
 
