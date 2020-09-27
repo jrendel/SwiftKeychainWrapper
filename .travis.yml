@@ -1,5 +1,6 @@
 language: objective-c
-osx_image: xcode10
+osx_image: xcode10.2
 
 script:
-    - xcodebuild test -scheme SwiftKeychainWrapper -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone SE,OS=10.1"
+    - xcodebuild test -scheme SwiftKeychainWrapper -sdk iphonesimulator -destination "platform=iOS Simulator,name=iPhone SE,OS=12.1"
+#    - xcodebuild test -scheme SwiftKeychainWrapper -sdk appletvsimulator -destination "platform=tvOS Simulator,name=Apple TV,OS=12.1"
