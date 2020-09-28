@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name = 'SwiftKeychainWrapper'
-  s.version = '4.0.0'
+  s.version = '4.0.1'
   s.summary = 'Wrapper for the iOS Keychain written in Swift.'
   s.description = <<-DESC
    A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to UserDefaults. Supports Access Groups. Written in Swift.'
