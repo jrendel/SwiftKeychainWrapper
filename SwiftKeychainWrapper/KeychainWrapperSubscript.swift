@@ -8,6 +8,10 @@
 
 import Foundation
 
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
+
 public extension KeychainWrapper {
         
     func remove(forKey key: Key) {
@@ -58,6 +62,7 @@ public extension KeychainWrapper {
         }
     }
 
+    #if canImport(CoreGraphics)
     subscript(key: Key) -> CGFloat? {
         get { return cgFloat(forKey: key) }
         set {
@@ -66,6 +71,7 @@ public extension KeychainWrapper {
             set(value, forKey: key.rawValue)
         }
     }
+    #endif
     
     subscript(key: Key) -> Data? {
         get { return data(forKey: key) }
@@ -111,6 +117,7 @@ public extension KeychainWrapper {
         return nil
     }
 
+    #if canImport(CoreGraphics)
     func cgFloat(forKey key: Key) -> CGFloat? {
         if let value = float(forKey: key) {
             return CGFloat(value)
@@ -118,6 +125,7 @@ public extension KeychainWrapper {
         
         return nil
     }
+    #endif
 
     func double(forKey key: Key) -> Double? {
         if let value = double(forKey: key.rawValue) {
