@@ -20,7 +20,9 @@ public extension KeychainWrapper {
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: `true` if a stored object was found, `false` otherwise.
     @available(*, deprecated, renamed: "contains(key:accessible:isSynchronizable:)")
-    func hasValue(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
+    func hasValue(forKey key: String,
+                  withAccessibility accessibility: KeychainItemAccessibility? = nil,
+                  isSynchronizable: Bool = false) -> Bool {
         return contains(key: key, accessible: accessibility, synchronized: isSynchronizable)
     }
     
@@ -292,6 +294,7 @@ public extension KeychainWrapper {
     ///     - key: A valid `String`.
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "set(_:forKey:accessible:synchronized:)")
     @discardableResult
     func set<T>(_ value: T,
                 forKey key: String,
@@ -306,6 +309,7 @@ public extension KeychainWrapper {
     ///     - key: A valid `String`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "set(_:forKey:accessible:synchronized:)")
     @discardableResult
     func set<T>(_ value: T,
                 forKey key: String,
@@ -321,11 +325,96 @@ public extension KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "set(_:forKey:accessible:synchronized:)")
     @discardableResult
     func set<T>(_ value: T,
                 forKey key: String,
                 withAccessibility accessibility: KeychainItemAccessibility?,
                 isSynchronizable: Bool) -> Bool {
         return set(value, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+    }
+    
+    // MARK: Deletion
+    
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func remove(key: String,
+                withAccessibility accessibility: KeychainItemAccessibility?) -> Bool {
+        return removeObject(forKey: key, accessible: accessibility, synchronized: false)
+    }
+
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func remove(key: String,
+                isSynchronizable: Bool) -> Bool {
+        return removeObject(forKey: key, accessible: nil, synchronized: isSynchronizable)
+    }
+
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func remove(key: String,
+                withAccessibility accessibility: KeychainItemAccessibility?,
+                isSynchronizable: Bool) -> Bool {
+        return removeObject(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+    }
+        
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func removeObject(forKey key: String,
+                      withAccessibility accessibility: KeychainItemAccessibility) -> Bool {
+        return removeObject(forKey: key, accessible: accessibility, synchronized: false)
+    }
+
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func removeObject(forKey key: String,
+                      isSynchronizable: Bool) -> Bool {
+        return removeObject(forKey: key, accessible: nil, synchronized: isSynchronizable)
+    }
+
+    /// Remove an item matching `key` from the keychain.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @available(*, deprecated, renamed: "removeObject(forKey:accessible:synchronized:)")
+    @discardableResult
+    func removeObject(forKey key: String,
+                      withAccessibility accessibility: KeychainItemAccessibility,
+                      isSynchronizable: Bool) -> Bool {
+        return removeObject(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 }
