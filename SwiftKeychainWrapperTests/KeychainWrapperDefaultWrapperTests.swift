@@ -45,21 +45,21 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
     }
     
     func testHasValueForKey() {
-        XCTAssertFalse(KeychainWrapper.standard.hasValue(forKey: testKey), "Keychain should not have a value for the test key")
+        XCTAssertFalse(KeychainWrapper.standard.contains(key: testKey), "Keychain should not have a value for the test key")
         
         KeychainWrapper.standard.set(testString, forKey: testKey)
         
-        XCTAssertTrue(KeychainWrapper.standard.hasValue(forKey: testKey), "Keychain should have a value for the test key after it is set")
+        XCTAssertTrue(KeychainWrapper.standard.contains(key: testKey), "Keychain should have a value for the test key after it is set")
     }
     
     func testRemoveObjectFromKeychain() {
         KeychainWrapper.standard.set(testString, forKey: testKey)
         
-        XCTAssertTrue(KeychainWrapper.standard.hasValue(forKey: testKey), "Keychain should have a value for the test key after it is set")
+        XCTAssertTrue(KeychainWrapper.standard.contains(key: testKey), "Keychain should have a value for the test key after it is set")
         
         KeychainWrapper.standard.removeObject(forKey: testKey)
         
-        XCTAssertFalse(KeychainWrapper.standard.hasValue(forKey: testKey), "Keychain should not have a value for the test key after it is removed")
+        XCTAssertFalse(KeychainWrapper.standard.contains(key: testKey), "Keychain should not have a value for the test key after it is removed")
     }
     
     func testStringSave() {
