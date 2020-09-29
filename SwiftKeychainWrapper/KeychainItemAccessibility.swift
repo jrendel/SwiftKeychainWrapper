@@ -28,50 +28,61 @@
 import Foundation
 
 protocol KeychainAttrRepresentable {
-    var keychainAttrValue: CFString { get }
+    /// The underlying keychain attribute value.
+    var rawValue: CFString { get }
+    
+    /// Init from `rawValue`.
+    init(rawValue: CFString)
 }
 
 // MARK: - KeychainItemAccessibility
-public enum KeychainItemAccessibility {
+public struct KeychainItemAccessibility: Equatable {
+    /// The underlying string.
+    var rawValue: CFString
+    
+    /// Init.
+    /// - parameter rawValue: A valid `CFString`.
+    init(rawValue: CFString) { self.rawValue = rawValue }
+    
     /**
      The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.
      
      After the first unlock, the data remains accessible until the next restart. This is recommended for items that need to be accessed by background applications. Items with this attribute migrate to a new device when using encrypted backups.
-    */
-    @available(iOS 4, *)
-    case afterFirstUnlock
+     */
+    @available(iOS 4, macOS 10.9, tvOS 9, watchOS 2, *)
+    public static let afterFirstUnlock: KeychainItemAccessibility = .init(rawValue: kSecAttrAccessibleAfterFirstUnlock)
     
     /**
      The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.
      
      After the first unlock, the data remains accessible until the next restart. This is recommended for items that need to be accessed by background applications. Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
      */
-    @available(iOS 4, *)
-    case afterFirstUnlockThisDeviceOnly
+    @available(iOS 4, macOS 10.9, tvOS 9, watchOS 2, *)
+    public static let afterFirstUnlockThisDeviceOnly: KeychainItemAccessibility = .init(rawValue: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly)
     
     /**
      The data in the keychain item can always be accessed regardless of whether the device is locked.
      
      This is not recommended for application use. Items with this attribute migrate to a new device when using encrypted backups.
      */
-    @available(iOS 4, *)
-    case always
+    @available(*, unavailable, message: "unavailable because of security concerns; prefer `.afterFirstUnlock` or use `.custom(kSecAttrAccessibleAlways)`")
+    public static let always: KeychainItemAccessibility = .init(rawValue: "" as CFString)
     
     /**
      The data in the keychain can only be accessed when the device is unlocked. Only available if a passcode is set on the device.
      
      This is recommended for items that only need to be accessible while the application is in the foreground. Items with this attribute never migrate to a new device. After a backup is restored to a new device, these items are missing. No items can be stored in this class on devices without a passcode. Disabling the device passcode causes all items in this class to be deleted.
      */
-    @available(iOS 8, *)
-    case whenPasscodeSetThisDeviceOnly
+    @available(iOS 8, macOS 10.10, tvOS 9, watchOS 2, *)
+    public static let whenPasscodeSetThisDeviceOnly: KeychainItemAccessibility = .init(rawValue: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly)
     
     /**
      The data in the keychain item can always be accessed regardless of whether the device is locked.
      
      This is not recommended for application use. Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
      */
-    @available(iOS 4, *)
-    case alwaysThisDeviceOnly
+    @available(*, unavailable, message: "unavailable because of security concerns; prefer `.afterFirstUnlockThisDeviceOnly` or use `.custom(kSecAttrAccessibleAlwaysThisDeviceOnly)`")
+    public static let alwaysThisDeviceOnly: KeychainItemAccessibility = .init(rawValue: "" as CFString)
     
     /**
      The data in the keychain item can be accessed only while the device is unlocked by the user.
@@ -80,44 +91,23 @@ public enum KeychainItemAccessibility {
      
      This is the default value for keychain items added without explicitly setting an accessibility constant.
      */
-    @available(iOS 4, *)
-    case whenUnlocked
+    @available(iOS 4, macOS 10.9, tvOS 9, watchOS 2, *)
+    public static let whenUnlocked: KeychainItemAccessibility = .init(rawValue: kSecAttrAccessibleWhenUnlocked)
     
     /**
      The data in the keychain item can be accessed only while the device is unlocked by the user.
      
      This is recommended for items that need to be accessible only while the application is in the foreground. Items with this attribute do not migrate to a new device. Thus, after restoring from a backup of a different device, these items will not be present.
      */
-    @available(iOS 4, *)
-    case whenUnlockedThisDeviceOnly
+    @available(iOS 4, macOS 10.9, tvOS 9, watchOS 2, *)
+    public static let whenUnlockedThisDeviceOnly: KeychainItemAccessibility = .init(rawValue: kSecAttrAccessibleWhenUnlockedThisDeviceOnly)
     
-    static func accessibilityForAttributeValue(_ keychainAttrValue: CFString) -> KeychainItemAccessibility? {
-        for (key, value) in keychainItemAccessibilityLookup {
-            if value == keychainAttrValue {
-                return key
-            }
-        }
-        
-        return nil
-    }
+    /**
+     A custom `KeychainItemAccessibility` instance, allowing for specific security attributes.
+     
+     You can use this to force, for instance, `kSecAttrAccessibleAlways`, despite being unsafe and unavailable in `KeychainItemAccessibility`.
+     */
+    public static func custom(_ accessibility: CFString) -> KeychainItemAccessibility { return .init(rawValue: accessibility) }
 }
 
-private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString] = {
-    var lookup: [KeychainItemAccessibility:CFString] = [
-        .afterFirstUnlock: kSecAttrAccessibleAfterFirstUnlock,
-        .afterFirstUnlockThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
-        .always: kSecAttrAccessibleAlways,
-        .whenPasscodeSetThisDeviceOnly: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-        .alwaysThisDeviceOnly : kSecAttrAccessibleAlwaysThisDeviceOnly,
-        .whenUnlocked: kSecAttrAccessibleWhenUnlocked,
-        .whenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
-    ]
-
-    return lookup
-}()
-
-extension KeychainItemAccessibility : KeychainAttrRepresentable {
-    internal var keychainAttrValue: CFString {
-        return keychainItemAccessibilityLookup[self]!
-    }
-}
+extension KeychainItemAccessibility: KeychainAttrRepresentable { }

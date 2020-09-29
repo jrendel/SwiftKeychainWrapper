@@ -109,7 +109,7 @@ open class KeychainWrapper {
             return nil
         }
     
-        return KeychainItemAccessibility.accessibilityForAttributeValue(accessibilityAttrValue as CFString)
+        return KeychainItemAccessibility(rawValue: accessibilityAttrValue as CFString)
     }
 
     /// Get the keys of all keychain entries matching the current ServiceName and AccessGroup if one is set.
@@ -322,10 +322,10 @@ open class KeychainWrapper {
         keychainQueryDictionary[SecValueData] = value
         
         if let accessibility = accessibility {
-            keychainQueryDictionary[SecAttrAccessible] = accessibility.keychainAttrValue
+            keychainQueryDictionary[SecAttrAccessible] = accessibility.rawValue
         } else {
             // Assign default protection - Protect the keychain entry so it's only valid when the device is unlocked
-            keychainQueryDictionary[SecAttrAccessible] = KeychainItemAccessibility.whenUnlocked.keychainAttrValue
+            keychainQueryDictionary[SecAttrAccessible] = KeychainItemAccessibility.whenUnlocked.rawValue
         }
         
         let status: OSStatus = SecItemAdd(keychainQueryDictionary as CFDictionary, nil)
@@ -420,7 +420,7 @@ open class KeychainWrapper {
         
         // on update, only set accessibility if passed in
         if let accessibility = accessibility {
-            keychainQueryDictionary[SecAttrAccessible] = accessibility.keychainAttrValue
+            keychainQueryDictionary[SecAttrAccessible] = accessibility.rawValue
         }
         
         // Update
@@ -448,7 +448,7 @@ open class KeychainWrapper {
         
         // Only set accessibiilty if its passed in, we don't want to default it here in case the user didn't want it set
         if let accessibility = accessibility {
-            keychainQueryDictionary[SecAttrAccessible] = accessibility.keychainAttrValue
+            keychainQueryDictionary[SecAttrAccessible] = accessibility.rawValue
         }
         
         // Set the keychain access group if defined
