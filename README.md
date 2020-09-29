@@ -79,7 +79,7 @@ KeychainWrapper.standard.remove(forKey: .myKey)
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
 
 ``` swift
-KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.standard.set("Some String", forKey: "myKey", accessible: .afterFirstUnlock)
 ```
 
 ## Synchronizable Option
@@ -87,15 +87,15 @@ KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: 
 By default, all items saved to keychain are not synchronizable, so they are not synced with the iCloud. To change this, an  `isSynchronizable` bool param can be set on all requests. You need the item to be synchronized with the iCloud if you want to have it on all of your devices:
  
 ``` swift
-KeychainWrapper.standard.set("Some String", forKey: "myKey", isSynchronizable: true)
+KeychainWrapper.standard.set("Some String", forKey: "myKey", synchronized: true)
 ```
 
 **Important:** You can't modify value for key if it was previously set with different accessibility option. Remove the value for key and set it with new accessibility option. (Otherwise the value will not change).  
 For example:
 ``` swift
-KeychainWrapper.standard.set("String one", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.standard.set("String one", forKey: "myKey", accessible: .afterFirstUnlock)
 KeychainWrapper.standard.removeObject(forKey: "myKey")
-KeychainWrapper.standard.set("String two", forKey: "myKey", withAccessibility: .Always)
+KeychainWrapper.standard.set("String two", forKey: "myKey", accessible: .afterFirstUnlockThisDeviceOnly)
 ```
 
 ## Installation
@@ -149,7 +149,7 @@ Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.sw
 
 ## Release History
 
-* 4.1
+* 4.0.1
 Added conditional logic for CGFloat accessories for when package is used where CGFloat is not available
 
 * 4.0
