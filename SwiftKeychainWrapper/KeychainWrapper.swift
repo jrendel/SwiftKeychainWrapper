@@ -27,19 +27,33 @@
 
 import Foundation
 
-
-private let SecMatchLimit: String! = kSecMatchLimit as String
-private let SecReturnData: String! = kSecReturnData as String
-private let SecReturnPersistentRef: String! = kSecReturnPersistentRef as String
-private let SecValueData: String! = kSecValueData as String
-private let SecAttrAccessible: String! = kSecAttrAccessible as String
-private let SecClass: String! = kSecClass as String
-private let SecAttrService: String! = kSecAttrService as String
-private let SecAttrGeneric: String! = kSecAttrGeneric as String
-private let SecAttrAccount: String! = kSecAttrAccount as String
-private let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
-private let SecReturnAttributes: String = kSecReturnAttributes as String
-private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
+/// A `struct` holding reference to all `CFString` identifiers.
+private struct SecConstants {
+    /// `kSecMatchLimit`
+    static let matchLimit = kSecMatchLimit
+    /// `kSecReturnData`
+    static let returnData = kSecReturnData
+    /// `kSecReturnPersistentRef`
+    static let reference = kSecReturnPersistentRef
+    /// `kSecValueData`
+    static let valueData = kSecValueData
+    /// `kSecAttrAccessible`
+    static let accessible = kSecAttrAccessible
+    /// `kSecClass`
+    static let `class` = kSecClass
+    /// `kSecAttrService`
+    static let service = kSecAttrService
+    /// `kSecAttrGeneric`
+    static let generic = kSecAttrGeneric
+    /// `kSecAttrAccount`
+    static let account = kSecAttrAccount
+    /// `kSecAttrAccessGroup`
+    static let accessGroup = kSecAttrAccessGroup
+    /// `kSecReturnAttributes`
+    static let attributes = kSecReturnAttributes
+    /// `kSecAttrSynchronizable`
+    static let synchronizable = kSecAttrSynchronizable
+}
 
 /// A `class` wrapping keychain access into a `Swift` container.
 /// It is designed to mimic `UserDefaults`, which is way more familiar to people.
@@ -47,24 +61,25 @@ open class KeychainWrapper {
     /// A shared instance of `KeychainWrapper`.
     @available(*, deprecated, renamed: "standard", message: "`defaultKeychainWrapper` will be removed in a future version")
     public static let defaultKeychainWrapper = KeychainWrapper.standard
-    
+
     /// A shared instance of `KeychainWrapper`.
     public static let standard = KeychainWrapper()
-    
+
     /// A `String` passed as the `kSecAttrService`, identifiying this keychain accessor
     /// When no `serviceName` is passed during `init`, `Self.defaultServiceName` is used instead.
     public private(set) var serviceName: String
-    
-    /// A `String` passed as the `kSecAttrAccessGroup`, identifying the access group for this keychain accessor, in order to share stored values between apps.
+
+    /// A `String` passed as the `kSecAttrAccessGroup`, identifying the access group for this keychain accessor,
+    /// in order to share stored values between apps.
     /// Defaults to `nil`.
     public private(set) var accessGroup: String?
-    
+
     /// A `String` used when no `serviceName` was passed during `init`.
     /// - note: This is implemented as a `class` read-only property, instead of a `static` one, so `KeychainWrapper` sub-`class`es can override it.
     open class var defaultServiceName: String { Bundle.main.bundleIdentifier ?? "SwiftKeychainWrapper" }
-    
+
     // MARK: Lifecycle
-    
+
     /// Init.
     ///
     /// - parameters:
@@ -74,9 +89,9 @@ open class KeychainWrapper {
         self.serviceName = serviceName ?? Self.defaultServiceName
         self.accessGroup = accessGroup
     }
-    
+
     // MARK: Accessories
-    
+
     /// Check for the existence of a stored object matching `key`.
     ///
     /// - parameters:
@@ -89,7 +104,7 @@ open class KeychainWrapper {
                        synchronized isSynchronizable: Bool = false) -> Bool {
         return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable) != nil
     }
-    
+
     /// Find the `KeychainItemAccessibility` for a given `key`.
     ///
     /// - parameter key: A valid `String`.
@@ -97,32 +112,32 @@ open class KeychainWrapper {
     open func accessibility(forKey key: String) -> KeychainItemAccessibility? {
         // Prepare query.
         var query = keychainQuery(forKey: key)
-        query.removeValue(forKey: SecAttrAccessible)
-        query[SecMatchLimit] = kSecMatchLimitOne
-        query[SecReturnAttributes] = kCFBooleanTrue
+        query.removeValue(forKey: SecConstants.accessible)
+        query[SecConstants.matchLimit] = kSecMatchLimitOne
+        query[SecConstants.attributes] = kCFBooleanTrue
         // Fetch result.
         var result: AnyObject?
         guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess else {
             return nil
         }
         // Return accessibility.
-        return (result as? [String: AnyObject])
-            .flatMap { ($0[SecAttrAccessible] as? String) as CFString? }
+        return (result as? [CFString: AnyObject])
+            .flatMap { ($0[SecConstants.accessible] as? String) as CFString? }
             .flatMap(KeychainItemAccessibility.accessibilityForAttributeValue)
     }
-    
+
     /// Return a set of keys stored in the keychain.
     ///
     /// - returns: A `Set` of `String` representing all stored keys.
     open func allKeys() -> Set<String> {
         // Prepare the query.
-        var query: [String: Any] = [
-            SecClass: kSecClassGenericPassword,
-            SecAttrService: serviceName,
-            SecReturnAttributes: kCFBooleanTrue!,
-            SecMatchLimit: kSecMatchLimitAll,
+        var query: [CFString: Any] = [
+            SecConstants.class: kSecClassGenericPassword,
+            SecConstants.service: serviceName,
+            SecConstants.attributes: kCFBooleanTrue!,
+            SecConstants.matchLimit: kSecMatchLimitAll
         ]
-        if let accessGroup = self.accessGroup { query[SecAttrAccessGroup] = accessGroup }
+        query[SecConstants.accessGroup] = accessGroup
         // Fetch results.
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
@@ -130,14 +145,14 @@ open class KeychainWrapper {
         // Return values.
         return (result as? [[AnyHashable: Any]])?
             .reduce(into: Set<String>()) { set, attributes in
-                guard let data = (attributes[SecAttrAccount] as? Data) ?? (attributes[kSecAttrAccount] as? Data),
+                guard let data = attributes[SecConstants.account] as? Data,
                       let key = String(data: data, encoding: .utf8) else { return }
                 set.insert(key)
             } ?? []
     }
-    
+
     // MARK: Getters
-    
+
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -150,7 +165,7 @@ open class KeychainWrapper {
                       synchronized isSynchronizable: Bool = false) -> Int? {
         return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.intValue
     }
-    
+
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -163,7 +178,7 @@ open class KeychainWrapper {
                     synchronized isSynchronizable: Bool = false) -> Float? {
         return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.floatValue
     }
-    
+
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -176,7 +191,7 @@ open class KeychainWrapper {
                      synchronized isSynchronizable: Bool = false) -> Double? {
         return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.doubleValue
     }
-    
+
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -189,7 +204,7 @@ open class KeychainWrapper {
                    synchronized isSynchronizable: Bool = false) -> Bool? {
         return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.boolValue
     }
-    
+
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -202,7 +217,7 @@ open class KeychainWrapper {
                      synchronized isSynchronizable: Bool = false) -> String? {
         return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable).flatMap { String(data: $0, encoding: .utf8) }
     }
-    
+
     /// Returns some instance matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -216,7 +231,7 @@ open class KeychainWrapper {
         return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
             .flatMap { NSKeyedUnarchiver.unarchiveObject(with: $0) }
     }
-    
+
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -229,15 +244,15 @@ open class KeychainWrapper {
                    synchronized isSynchronizable: Bool = false) -> Data? {
         // Prepare the query.
         var query = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-        query[SecMatchLimit] = kSecMatchLimitOne
-        query[SecReturnData] = kCFBooleanTrue
+        query[SecConstants.matchLimit] = kSecMatchLimitOne
+        query[SecConstants.returnData] = kCFBooleanTrue
         // Fetch results.
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
         // Return value.
         return status == noErr ? result as? Data : nil
     }
-    
+
     /// Returns a persistent data reference object for a specified key.
     ///
     /// - parameters:
@@ -250,17 +265,17 @@ open class KeychainWrapper {
                         synchronized isSynchronizable: Bool = false) -> Data? {
         // Prepare the query.
         var query = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-        query[SecMatchLimit] = kSecMatchLimitOne
-        query[SecReturnPersistentRef] = kCFBooleanTrue
+        query[SecConstants.matchLimit] = kSecMatchLimitOne
+        query[SecConstants.reference] = kCFBooleanTrue
         // Fetch results.
         var result: AnyObject?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
         // Return value.
         return status == noErr ? result as? Data : nil
     }
-    
+
     // MARK: Setters
-    
+
     /// Store `value` into the keychain.
     ///
     /// - parameters:
@@ -277,9 +292,9 @@ open class KeychainWrapper {
         switch value {
         case let data as Data:
             // Prepare the query.
-            var query: [String: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-            query[SecValueData] = data
-            query[SecAttrAccessible] = accessibility?.keychainAttrValue ?? KeychainItemAccessibility.whenUnlocked.keychainAttrValue
+            var query: [CFString: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+            query[SecConstants.valueData] = data
+            query[SecConstants.accessible] = accessibility?.keychainAttrValue ?? KeychainItemAccessibility.whenUnlocked.keychainAttrValue
             // Store results.
             let status: OSStatus = SecItemAdd(query as CFDictionary, nil)
             if status == errSecSuccess {
@@ -304,9 +319,9 @@ open class KeychainWrapper {
             return archivedData.flatMap { set($0, forKey: key, accessible: accessibility, synchronized: isSynchronizable) } ?? false
         }
     }
-    
+
     // MARK: Deletion
-    
+
     /// Remove an item matching `key` from the keychain.
     ///
     /// - parameters:
@@ -319,24 +334,24 @@ open class KeychainWrapper {
                            accessible accessibility: KeychainItemAccessibility? = nil,
                            synchronized isSynchronizable: Bool = false) -> Bool {
         // Prepare query.
-        let query: [String: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        let query: [CFString: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
         // Remove item.
         return SecItemDelete(query as CFDictionary) == errSecSuccess
     }
-    
+
     /// Remove all items from the keychain, added through this wrapper..
     ///
     /// - returns: `true` if it was successful, `false` otherwise.
     @discardableResult
     open func removeAllKeys() -> Bool {
         // Prepare query.
-        var keychainQueryDictionary: [String: Any] = [SecClass: kSecClassGenericPassword]
-        keychainQueryDictionary[SecAttrService] = serviceName
-        keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
+        var keychainQueryDictionary: [CFString: Any] = [SecConstants.class: kSecClassGenericPassword]
+        keychainQueryDictionary[SecConstants.service] = serviceName
+        keychainQueryDictionary[SecConstants.accessGroup] = accessGroup
         // Remove items.
         return SecItemDelete(keychainQueryDictionary as CFDictionary) == errSecSuccess
     }
-    
+
     /// Remove all keyhcain items, even the ones you did not add thorugh this wrapper.
     ///
     /// - warning: This may delete more than just the items you've added through `KeychainWrapper`.
@@ -347,18 +362,18 @@ open class KeychainWrapper {
         deleteKeychainSecClass(kSecClassKey) // Cryptographic key items
         deleteKeychainSecClass(kSecClassIdentity) // Identity items
     }
-    
-    // MARK:- Private Methods
-    
+
+    // MARK: - Private Methods
+
     /// Remove all items for a given Keychain Item Class
     ///
     /// - parameter secClass: A valid Keychain Item Class
     /// - returns: `true` if it was successful, `false` otherwise.
     @discardableResult
     private class func deleteKeychainSecClass(_ secClass: AnyObject) -> Bool {
-        return SecItemDelete([SecClass: secClass] as CFDictionary) == errSecSuccess
+        return SecItemDelete([SecConstants.class: secClass] as CFDictionary) == errSecSuccess
     }
-    
+
     /// Update `value` associated with `key`.
     ///
     /// - parameters:
@@ -372,13 +387,13 @@ open class KeychainWrapper {
                         accessible accessibility: KeychainItemAccessibility? = nil,
                         synchronized isSynchronizable: Bool = false) -> Bool {
         // Prepare query.
-        var query: [String: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-        query[SecAttrAccessible] = accessibility?.keychainAttrValue // Do not fallback in this case.
+        var query: [CFString: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        query[SecConstants.accessible] = accessibility?.keychainAttrValue // Do not fallback in this case.
         // Update attributes.
-        let updateDictionary = [SecValueData: value]
+        let updateDictionary = [SecConstants.valueData: value]
         return SecItemUpdate(query as CFDictionary, updateDictionary as CFDictionary) == errSecSuccess
     }
-    
+
     /// Return a valid dictionary from starting parameters.
     ///
     /// - parameters:
@@ -388,17 +403,17 @@ open class KeychainWrapper {
     /// - returns: A valid dictionary.
     private func keychainQuery(forKey key: String,
                                withAccessibility accessibility: KeychainItemAccessibility? = nil,
-                               isSynchronizable: Bool = false) -> [String: Any] {
+                               isSynchronizable: Bool = false) -> [CFString: Any] {
         // Prepare the query for a generic password (rather than a certificate, internet password, etc)
-        var query: [String: Any] = [SecClass: kSecClassGenericPassword]
-        query[SecAttrService] = serviceName
-        query[SecAttrAccessible] = accessibility?.keychainAttrValue
-        query[SecAttrAccessGroup] = accessGroup
+        var query: [CFString: Any] = [SecConstants.class: kSecClassGenericPassword]
+        query[SecConstants.service] = serviceName
+        query[SecConstants.accessible] = accessibility?.keychainAttrValue
+        query[SecConstants.accessGroup] = accessGroup
         // Uniquely identify the account who will be accessing the keychain
         let encodedIdentifier: Data? = key.data(using: String.Encoding.utf8)
-        query[SecAttrGeneric] = encodedIdentifier
-        query[SecAttrAccount] = encodedIdentifier
-        query[SecAttrSynchronizable] = isSynchronizable ? kCFBooleanTrue : kCFBooleanFalse
+        query[SecConstants.generic] = encodedIdentifier
+        query[SecConstants.account] = encodedIdentifier
+        query[SecConstants.synchronizable] = isSynchronizable ? kCFBooleanTrue : kCFBooleanFalse
         // Return dictionary.
         return query
     }

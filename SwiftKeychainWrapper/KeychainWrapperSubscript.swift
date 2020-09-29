@@ -96,7 +96,7 @@ public extension KeychainWrapper {
         }
     }
     #endif
-    
+
     /// Store or retrieve some `Data` in the keychain, matching `key`.
     ///
     /// - parameter key: A valid `Key`.

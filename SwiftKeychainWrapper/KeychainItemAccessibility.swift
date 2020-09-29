@@ -40,7 +40,7 @@ public enum KeychainItemAccessibility {
     */
     @available(iOS 4, *)
     case afterFirstUnlock
-    
+
     /**
      The data in the keychain item cannot be accessed after a restart until the device has been unlocked once by the user.
      
@@ -48,7 +48,7 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case afterFirstUnlockThisDeviceOnly
-    
+
     /**
      The data in the keychain item can always be accessed regardless of whether the device is locked.
      
@@ -56,7 +56,7 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case always
-    
+
     /**
      The data in the keychain can only be accessed when the device is unlocked. Only available if a passcode is set on the device.
      
@@ -64,7 +64,7 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 8, *)
     case whenPasscodeSetThisDeviceOnly
-    
+
     /**
      The data in the keychain item can always be accessed regardless of whether the device is locked.
      
@@ -72,7 +72,7 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case alwaysThisDeviceOnly
-    
+
     /**
      The data in the keychain item can be accessed only while the device is unlocked by the user.
      
@@ -82,7 +82,7 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case whenUnlocked
-    
+
     /**
      The data in the keychain item can be accessed only while the device is unlocked by the user.
      
@@ -90,25 +90,25 @@ public enum KeychainItemAccessibility {
      */
     @available(iOS 4, *)
     case whenUnlockedThisDeviceOnly
-    
+
     static func accessibilityForAttributeValue(_ keychainAttrValue: CFString) -> KeychainItemAccessibility? {
         for (key, value) in keychainItemAccessibilityLookup {
             if value == keychainAttrValue {
                 return key
             }
         }
-        
+
         return nil
     }
 }
 
-private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString] = {
-    var lookup: [KeychainItemAccessibility:CFString] = [
+private let keychainItemAccessibilityLookup: [KeychainItemAccessibility: CFString] = {
+    var lookup: [KeychainItemAccessibility: CFString] = [
         .afterFirstUnlock: kSecAttrAccessibleAfterFirstUnlock,
         .afterFirstUnlockThisDeviceOnly: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
         .always: kSecAttrAccessibleAlways,
         .whenPasscodeSetThisDeviceOnly: kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,
-        .alwaysThisDeviceOnly : kSecAttrAccessibleAlwaysThisDeviceOnly,
+        .alwaysThisDeviceOnly: kSecAttrAccessibleAlwaysThisDeviceOnly,
         .whenUnlocked: kSecAttrAccessibleWhenUnlocked,
         .whenUnlockedThisDeviceOnly: kSecAttrAccessibleWhenUnlockedThisDeviceOnly
     ]
@@ -116,7 +116,7 @@ private let keychainItemAccessibilityLookup: [KeychainItemAccessibility:CFString
     return lookup
 }()
 
-extension KeychainItemAccessibility : KeychainAttrRepresentable {
+extension KeychainItemAccessibility: KeychainAttrRepresentable {
     internal var keychainAttrValue: CFString {
         return keychainItemAccessibilityLookup[self]!
     }

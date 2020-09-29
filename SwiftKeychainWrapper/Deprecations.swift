@@ -11,7 +11,7 @@ import Foundation
 /// An `extension` for deprecated methods.
 public extension KeychainWrapper {
     // MARK: Getters
-    
+
     /// Check for the existence of a stored object matching `key`.
     ///
     /// - parameters:
@@ -25,7 +25,7 @@ public extension KeychainWrapper {
                   isSynchronizable: Bool = false) -> Bool {
         return contains(key: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Find the `KeychainItemAccessibility` for a given `key`.
     ///
     /// - parameter key: A valid `String`.
@@ -34,7 +34,7 @@ public extension KeychainWrapper {
     func accessibilityOfKey(_ key: String) -> KeychainItemAccessibility? {
         return accessibility(forKey: key)
     }
-    
+
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -45,7 +45,7 @@ public extension KeychainWrapper {
     func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Data? {
         return data(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -56,7 +56,7 @@ public extension KeychainWrapper {
     func data(forKey key: String, isSynchronizable: Bool) -> Data? {
         return data(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -68,7 +68,7 @@ public extension KeychainWrapper {
     func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> Data? {
         return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns an object matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -79,7 +79,7 @@ public extension KeychainWrapper {
     func object(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> NSCoding? {
         return object(forKey: key, accessible: accessibility, synchronized: false) as? NSCoding
     }
-    
+
     /// Returns an object matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -90,7 +90,7 @@ public extension KeychainWrapper {
     func object(forKey key: String, isSynchronizable: Bool) -> NSCoding? {
         return object(forKey: key, accessible: nil, synchronized: isSynchronizable) as? NSCoding
     }
-    
+
     /// Returns an object matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -102,7 +102,7 @@ public extension KeychainWrapper {
     func object(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> NSCoding? {
         return object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSCoding
     }
-    
+
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -113,7 +113,7 @@ public extension KeychainWrapper {
     func integer(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Int? {
         return integer(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -124,7 +124,7 @@ public extension KeychainWrapper {
     func integer(forKey key: String, isSynchronizable: Bool) -> Int? {
         return integer(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -136,7 +136,7 @@ public extension KeychainWrapper {
     func integer(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> Int? {
         return integer(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -147,7 +147,7 @@ public extension KeychainWrapper {
     func float(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Float? {
         return float(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -158,7 +158,7 @@ public extension KeychainWrapper {
     func float(forKey key: String, isSynchronizable: Bool) -> Float? {
         return float(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -170,7 +170,7 @@ public extension KeychainWrapper {
     func float(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> Float? {
         return float(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -181,7 +181,7 @@ public extension KeychainWrapper {
     func double(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Double? {
         return double(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -192,7 +192,7 @@ public extension KeychainWrapper {
     func double(forKey key: String, isSynchronizable: Bool) -> Double? {
         return double(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -204,7 +204,7 @@ public extension KeychainWrapper {
     func double(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> Double? {
         return double(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -215,7 +215,7 @@ public extension KeychainWrapper {
     func bool(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Bool? {
         return bool(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -226,7 +226,7 @@ public extension KeychainWrapper {
     func bool(forKey key: String, isSynchronizable: Bool) -> Bool? {
         return bool(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -238,7 +238,7 @@ public extension KeychainWrapper {
     func bool(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> Bool? {
         return bool(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -249,7 +249,7 @@ public extension KeychainWrapper {
     func string(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> String? {
         return string(forKey: key, accessible: accessibility, synchronized: false)
     }
-    
+
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -260,7 +260,7 @@ public extension KeychainWrapper {
     func string(forKey key: String, isSynchronizable: Bool) -> String? {
         return string(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -272,7 +272,7 @@ public extension KeychainWrapper {
     func string(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?, isSynchronizable: Bool) -> String? {
         return string(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     /// Returns a persistent data reference object for a specified key.
     ///
     /// - parameters:
@@ -284,9 +284,9 @@ public extension KeychainWrapper {
     func dataRef(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Data? {
         return reference(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     // MARK: Setters
-    
+
     /// Store `value` into the keychain.
     ///
     /// - parameters:
@@ -316,7 +316,7 @@ public extension KeychainWrapper {
                 isSynchronizable: Bool) -> Bool {
         return set(value, forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-    
+
     /// Store `value` into the keychain.
     ///
     /// - parameters:
@@ -333,9 +333,9 @@ public extension KeychainWrapper {
                 isSynchronizable: Bool) -> Bool {
         return set(value, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-    
+
     // MARK: Deletion
-    
+
     /// Remove an item matching `key` from the keychain.
     ///
     /// - parameters:
@@ -376,7 +376,7 @@ public extension KeychainWrapper {
                 isSynchronizable: Bool) -> Bool {
         return removeObject(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
-        
+
     /// Remove an item matching `key` from the keychain.
     ///
     /// - parameters:
