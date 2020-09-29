@@ -10,6 +10,8 @@ import Foundation
 
 /// An `extension` for deprecated methods.
 public extension KeychainWrapper {
+    // MARK: Getters
+    
     /// Check for the existence of a stored object matching `key`.
     ///
     /// - parameters:
@@ -41,7 +43,7 @@ public extension KeychainWrapper {
     func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Data? {
         return data(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -75,7 +77,7 @@ public extension KeychainWrapper {
     func object(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> NSCoding? {
         return object(forKey: key, accessible: accessibility, synchronized: false) as? NSCoding
     }
-
+    
     /// Returns an object matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -86,7 +88,7 @@ public extension KeychainWrapper {
     func object(forKey key: String, isSynchronizable: Bool) -> NSCoding? {
         return object(forKey: key, accessible: nil, synchronized: isSynchronizable) as? NSCoding
     }
-
+    
     /// Returns an object matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -109,7 +111,7 @@ public extension KeychainWrapper {
     func integer(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Int? {
         return integer(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -143,7 +145,7 @@ public extension KeychainWrapper {
     func float(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Float? {
         return float(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -154,7 +156,7 @@ public extension KeychainWrapper {
     func float(forKey key: String, isSynchronizable: Bool) -> Float? {
         return float(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-
+    
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -177,7 +179,7 @@ public extension KeychainWrapper {
     func double(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Double? {
         return double(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -211,7 +213,7 @@ public extension KeychainWrapper {
     func bool(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> Bool? {
         return bool(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -222,7 +224,7 @@ public extension KeychainWrapper {
     func bool(forKey key: String, isSynchronizable: Bool) -> Bool? {
         return bool(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-
+    
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -245,7 +247,7 @@ public extension KeychainWrapper {
     func string(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility?) -> String? {
         return string(forKey: key, accessible: accessibility, synchronized: false)
     }
-
+    
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -256,7 +258,7 @@ public extension KeychainWrapper {
     func string(forKey key: String, isSynchronizable: Bool) -> String? {
         return string(forKey: key, accessible: nil, synchronized: isSynchronizable)
     }
-
+    
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -279,5 +281,51 @@ public extension KeychainWrapper {
     @available(*, deprecated, renamed: "reference(forKey:accessible:synchronized:)")
     func dataRef(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Data? {
         return reference(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+    }
+    
+    // MARK: Setters
+    
+    /// Store `value` into the keychain.
+    ///
+    /// - parameters:
+    ///     - value: Some value.
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @discardableResult
+    func set<T>(_ value: T,
+                forKey key: String,
+                withAccessibility accessibility: KeychainItemAccessibility?) -> Bool {
+        return set(value, forKey: key, accessible: accessibility, synchronized: false)
+    }
+
+    /// Store `value` into the keychain.
+    ///
+    /// - parameters:
+    ///     - value: Some value.
+    ///     - key: A valid `String`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @discardableResult
+    func set<T>(_ value: T,
+                forKey key: String,
+                isSynchronizable: Bool) -> Bool {
+        return set(value, forKey: key, accessible: nil, synchronized: isSynchronizable)
+    }
+    
+    /// Store `value` into the keychain.
+    ///
+    /// - parameters:
+    ///     - value: Some value.
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @discardableResult
+    func set<T>(_ value: T,
+                forKey key: String,
+                withAccessibility accessibility: KeychainItemAccessibility?,
+                isSynchronizable: Bool) -> Bool {
+        return set(value, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 }
