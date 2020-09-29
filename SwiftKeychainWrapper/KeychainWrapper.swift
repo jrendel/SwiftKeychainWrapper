@@ -41,78 +41,77 @@ private let SecAttrAccessGroup: String! = kSecAttrAccessGroup as String
 private let SecReturnAttributes: String = kSecReturnAttributes as String
 private let SecAttrSynchronizable: String = kSecAttrSynchronizable as String
 
-/// KeychainWrapper is a class to help make Keychain access in Swift more straightforward. It is designed to make accessing the Keychain services more like using NSUserDefaults, which is much more familiar to people.
+/// A `class` wrapping keychain access into a `Swift` container.
+/// It is designed to mimic `UserDefaults`, which is way more familiar to people.
 open class KeychainWrapper {
-    
-    @available(*, deprecated, message: "KeychainWrapper.defaultKeychainWrapper is deprecated since version 2.2.1, use KeychainWrapper.standard instead")
+    /// A shared instance of `KeychainWrapper`.
+    @available(*, deprecated, renamed: "standard", message: "`defaultKeychainWrapper` will be removed in a future version")
     public static let defaultKeychainWrapper = KeychainWrapper.standard
     
-    /// Default keychain wrapper access
+    /// A shared instance of `KeychainWrapper`.
     public static let standard = KeychainWrapper()
     
-    /// ServiceName is used for the kSecAttrService property to uniquely identify this keychain accessor. If no service name is specified, KeychainWrapper will default to using the bundleIdentifier.
-    private (set) public var serviceName: String
+    /// A `String` passed as the `kSecAttrService`, identifiying this keychain accessor
+    /// When no `serviceName` is passed during `init`, `Self.defaultServiceName` is used instead.
+    public private(set) var serviceName: String
     
-    /// AccessGroup is used for the kSecAttrAccessGroup property to identify which Keychain Access Group this entry belongs to. This allows you to use the KeychainWrapper with shared keychain access between different applications.
-    private (set) public var accessGroup: String?
+    /// A `String` passed as the `kSecAttrAccessGroup`, identifying the access group for this keychain accessor, in order to share stored values between apps.
+    /// Defaults to `nil`.
+    public private(set) var accessGroup: String?
     
-    private static let defaultServiceName: String = {
-        return Bundle.main.bundleIdentifier ?? "SwiftKeychainWrapper"
-    }()
-
-    private convenience init() {
-        self.init(serviceName: KeychainWrapper.defaultServiceName)
-    }
+    /// A `String` used when no `serviceName` was passed during `init`.
+    /// - note: This is implemented as a `class` read-only property, instead of a `static` one, so `KeychainWrapper` sub-`class`es can override it.
+    open class var defaultServiceName: String { Bundle.main.bundleIdentifier ?? "SwiftKeychainWrapper" }
     
-    /// Create a custom instance of KeychainWrapper with a custom Service Name and optional custom access group.
+    /// Init.
     ///
-    /// - parameter serviceName: The ServiceName for this instance. Used to uniquely identify all keys stored using this keychain wrapper instance.
-    /// - parameter accessGroup: Optional unique AccessGroup for this instance. Use a matching AccessGroup between applications to allow shared keychain access.
-    public init(serviceName: String, accessGroup: String? = nil) {
-        self.serviceName = serviceName
+    /// - parameters:
+    ///     - serviceName: An optional `String`. Defaults to `nil`, meaning `Self.defaultServiceName` will be used as `kSecAttrService`.
+    ///     - accessGroup: An optional `String`. Defaults to `nil`, meaning no specific value will be passed to `kSecAttrAccessGroup`.
+    public init(serviceName: String? = nil, accessGroup: String? = nil) {
+        self.serviceName = serviceName ?? Self.defaultServiceName
         self.accessGroup = accessGroup
     }
-
-    // MARK:- Public Methods
     
-    /// Checks if keychain data exists for a specified key.
+    // MARK: Accessories
+    
+    /// Check for the existence of a stored object matching `key`.
     ///
-    /// - parameter forKey: The key to check for.
-    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
-    /// - returns: True if a value exists for the key. False otherwise.
-    open func hasValue(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        if let _ = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) {
-            return true
-        } else {
-            return false
-        }
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if a stored object was found, `false` otherwise.
+    open func contains(key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> Bool {
+        return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable) != nil
     }
     
-    open func accessibilityOfKey(_ key: String) -> KeychainItemAccessibility? {
-        var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key)
-
-        // Remove accessibility attribute
-        keychainQueryDictionary.removeValue(forKey: SecAttrAccessible)
-        
-        // Limit search results to one
-        keychainQueryDictionary[SecMatchLimit] = kSecMatchLimitOne
-
-        // Specify we want SecAttrAccessible returned
-        keychainQueryDictionary[SecReturnAttributes] = kCFBooleanTrue
-
-        // Search
+    /// Find the `KeychainItemAccessibility` for a given `key`.
+    ///
+    /// - parameter key: A valid `String`.
+    /// - returns: The related `KeychainItemAccessibility`, if a match was found, `nil` otherwise.
+    open func accessibility(forKey key: String) -> KeychainItemAccessibility? {
+        // Prepare query.
+        var query = setupKeychainQueryDictionary(forKey: key)
+        query.removeValue(forKey: SecAttrAccessible)
+        query[SecMatchLimit] = kSecMatchLimitOne
+        query[SecReturnAttributes] = kCFBooleanTrue
+        // Fetch result.
         var result: AnyObject?
-        let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
-
-        guard status == noErr, let resultsDictionary = result as? [String:AnyObject], let accessibilityAttrValue = resultsDictionary[SecAttrAccessible] as? String else {
+        guard SecItemCopyMatching(query as CFDictionary, &result) == errSecSuccess else {
             return nil
         }
-    
-        return KeychainItemAccessibility.accessibilityForAttributeValue(accessibilityAttrValue as CFString)
+        // Return accessibility.
+        return (result as? [String: AnyObject])
+            .flatMap { ($0[SecAttrAccessible] as? String) as CFString? }
+            .flatMap(KeychainItemAccessibility.accessibilityForAttributeValue)
     }
-
-    /// Get the keys of all keychain entries matching the current ServiceName and AccessGroup if one is set.
+    
+    /// Return a set of keys stored in the keychain.
+    ///
+    /// - returns: A `Set` of `String` representing all stored keys.
     open func allKeys() -> Set<String> {
         var keychainQueryDictionary: [String:Any] = [
             SecClass: kSecClassGenericPassword,
@@ -120,24 +119,24 @@ open class KeychainWrapper {
             SecReturnAttributes: kCFBooleanTrue!,
             SecMatchLimit: kSecMatchLimitAll,
         ]
-
+        
         if let accessGroup = self.accessGroup {
             keychainQueryDictionary[SecAttrAccessGroup] = accessGroup
         }
-
+        
         var result: AnyObject?
         let status = SecItemCopyMatching(keychainQueryDictionary as CFDictionary, &result)
-
+        
         guard status == errSecSuccess else { return [] }
-
+        
         var keys = Set<String>()
         if let results = result as? [[AnyHashable: Any]] {
             for attributes in results {
                 if let accountData = attributes[SecAttrAccount] as? Data,
-                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                   let key = String(data: accountData, encoding: String.Encoding.utf8) {
                     keys.insert(key)
                 } else if let accountData = attributes[kSecAttrAccount] as? Data,
-                    let key = String(data: accountData, encoding: String.Encoding.utf8) {
+                          let key = String(data: accountData, encoding: String.Encoding.utf8) {
                     keys.insert(key)
                 }
             }
@@ -145,76 +144,98 @@ open class KeychainWrapper {
         return keys
     }
     
-    // MARK: Public Getters
+    // MARK: Getters
     
-    open func integer(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Int? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
-            return nil
-        }
-        
-        return numberValue.intValue
-    }
-    
-    open func float(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Float? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
-            return nil
-        }
-        
-        return numberValue.floatValue
-    }
-    
-    open func double(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Double? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
-            return nil
-        }
-        
-        return numberValue.doubleValue
-    }
-    
-    open func bool(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
-            return nil
-        }
-        
-        return numberValue.boolValue
-    }
-    
-    /// Returns a string value for a specified key.
+    /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
-    /// - parameter forKey: The key to lookup data for.
-    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
-    /// - returns: The String associated with the key if it exists. If no data exists, or the data found cannot be encoded as a string, returns nil.
-    open func string(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> String? {
-        guard let keychainData = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
-            return nil
-        }
-        
-        return String(data: keychainData, encoding: String.Encoding.utf8) as String?
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: An `Int` if a stored object was found, `nil` otherwise.
+    open func integer(forKey key: String,
+                      accessible accessibility: KeychainItemAccessibility? = nil,
+                      synchronized isSynchronizable: Bool = false) -> Int? {
+        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.intValue
     }
     
-    /// Returns an object that conforms to NSCoding for a specified key.
+    /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
     ///
-    /// - parameter forKey: The key to lookup data for.
-    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
-    /// - returns: The decoded object associated with the key if it exists. If no data exists, or the data found cannot be decoded, returns nil.
-    open func object(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> NSCoding? {
-        guard let keychainData = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
-            return nil
-        }
-        
-        return NSKeyedUnarchiver.unarchiveObject(with: keychainData) as? NSCoding
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: A `Float` if a stored object was found, `nil` otherwise.
+    open func float(forKey key: String,
+                    accessible accessibility: KeychainItemAccessibility? = nil,
+                    synchronized isSynchronizable: Bool = false) -> Float? {
+        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.floatValue
     }
-
     
-    /// Returns a Data object for a specified key.
+    /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
     ///
-    /// - parameter forKey: The key to lookup data for.
-    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
-    /// - returns: The Data object associated with the key if it exists. If no data exists, returns nil.
-    open func data(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Data? {
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: A `Double` if a stored object was found, `nil` otherwise.
+    open func double(forKey key: String,
+                     accessible accessibility: KeychainItemAccessibility? = nil,
+                     synchronized isSynchronizable: Bool = false) -> Double? {
+        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.doubleValue
+    }
+    
+    /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: A `Bool` if a stored object was found, `nil` otherwise.
+    open func bool(forKey key: String,
+                   accessible accessibility: KeychainItemAccessibility? = nil,
+                   synchronized isSynchronizable: Bool = false) -> Bool? {
+        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.boolValue
+    }
+    
+    /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: A `String` if a stored object was found, `nil` otherwise.
+    open func string(forKey key: String,
+                     accessible accessibility: KeychainItemAccessibility? = nil,
+                     synchronized isSynchronizable: Bool = false) -> String? {
+        return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+            .flatMap { String(data: $0, encoding: .utf8) }
+    }
+    
+    /// Returns some instance matching `key`, `accessibility` and synchronization settings.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: Some instance stored in the keychain if found, `nil` otherwise.
+    open func object(forKey key: String,
+                     accessible accessibility: KeychainItemAccessibility? = nil,
+                     synchronized isSynchronizable: Bool = false) -> Any? {
+        return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+            .flatMap { NSKeyedUnarchiver.unarchiveObject(with: $0) }
+    }
+    
+    /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
+    ///
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: Some `Data` stored in the keychain if found, `nil` otherwise.
+    open func data(forKey key: String,
+                   accessible accessibility: KeychainItemAccessibility? = nil,
+                   synchronized isSynchronizable: Bool = false) -> Data? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
         
         // Limit search results to one
@@ -230,14 +251,16 @@ open class KeychainWrapper {
         return status == noErr ? result as? Data : nil
     }
     
-    
     /// Returns a persistent data reference object for a specified key.
     ///
-    /// - parameter forKey: The key to lookup data for.
-    /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
-    /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
-    /// - returns: The persistent data reference object associated with the key if it exists. If no data exists, returns nil.
-    open func dataRef(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Data? {
+    /// - parameters:
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: Some persistent `Data` reference if found, `nil` otherwise.
+    open func reference(forKey key: String,
+                        accessible accessibility: KeychainItemAccessibility? = nil,
+                        synchronized isSynchronizable: Bool = false) -> Data? {
         var keychainQueryDictionary = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
         
         // Limit search results to one
@@ -253,7 +276,7 @@ open class KeychainWrapper {
         return status == noErr ? result as? Data : nil
     }
     
-    // MARK: Public Setters
+    // MARK: Setters
     
     @discardableResult open func set(_ value: Int, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
         return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
@@ -270,7 +293,7 @@ open class KeychainWrapper {
     @discardableResult open func set(_ value: Bool, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
         return set(NSNumber(value: value), forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
-
+    
     /// Save a String value to the keychain associated with a specified key. If a String value already exists for the given key, the string will be overwritten with the new value.
     ///
     /// - parameter value: The String value to save.
@@ -285,7 +308,7 @@ open class KeychainWrapper {
             return false
         }
     }
-
+    
     /// Save an NSCoding compliant object to the keychain associated with a specified key. If an object already exists for the given key, the object will be overwritten with the new value.
     ///
     /// - parameter value: The NSCoding compliant object to save.
@@ -298,7 +321,7 @@ open class KeychainWrapper {
         
         return set(data, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
-
+    
     /// Save a Data object to the keychain associated with a specified key. If data already exists for the given key, the data will be overwritten with the new value.
     ///
     /// - parameter value: The Data object to save.
@@ -328,7 +351,7 @@ open class KeychainWrapper {
             return false
         }
     }
-
+    
     @available(*, deprecated, message: "remove is deprecated since version 2.2.1, use removeObject instead")
     @discardableResult open func remove(key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
         return removeObject(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
@@ -342,17 +365,17 @@ open class KeychainWrapper {
     /// - returns: True if successful, false otherwise.
     @discardableResult open func removeObject(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
         let keychainQueryDictionary: [String:Any] = setupKeychainQueryDictionary(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-
+        
         // Delete
         let status: OSStatus = SecItemDelete(keychainQueryDictionary as CFDictionary)
-
+        
         if status == errSecSuccess {
             return true
         } else {
             return false
         }
     }
-
+    
     /// Remove all keychain data added through KeychainWrapper. This will only delete items matching the currnt ServiceName and AccessGroup if one is set.
     @discardableResult open func removeAllKeys() -> Bool {
         // Setup dictionary to access keychain and specify we are using a generic password (rather than a certificate, internet password, etc)
@@ -386,7 +409,7 @@ open class KeychainWrapper {
         deleteKeychainSecClass(kSecClassKey) // Cryptographic key items
         deleteKeychainSecClass(kSecClassIdentity) // Identity items
     }
-
+    
     // MARK:- Private Methods
     
     /// Remove all items for a given Keychain Item Class
@@ -415,14 +438,14 @@ open class KeychainWrapper {
         
         // Update
         let status: OSStatus = SecItemUpdate(keychainQueryDictionary as CFDictionary, updateDictionary as CFDictionary)
-
+        
         if status == errSecSuccess {
             return true
         } else {
             return false
         }
     }
-
+    
     /// Setup the keychain query dictionary used to access the keychain on iOS for a specified key name. Takes into account the Service Name and Access Group if one is set.
     ///
     /// - parameter forKey: The key this query is for

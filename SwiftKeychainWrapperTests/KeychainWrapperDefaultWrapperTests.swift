@@ -184,7 +184,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
             return
         }
         
-        if KeychainWrapper.standard.dataRef(forKey: testKey) == nil {
+        if KeychainWrapper.standard.reference(forKey: testKey) == nil {
             XCTFail("Data references for Key not found")
         }
         
@@ -199,7 +199,7 @@ class KeychainWrapperDefaultWrapperTests: XCTestCase {
         let retrievedData = KeychainWrapper.standard.data(forKey: testKey)
         XCTAssertNil(retrievedData, "Data for Key should not exist")
         
-        let retrievedDataRef = KeychainWrapper.standard.dataRef(forKey: testKey)
+        let retrievedDataRef = KeychainWrapper.standard.reference(forKey: testKey)
         XCTAssertNil(retrievedDataRef, "Data ref for Key should not exist")
     }
 
