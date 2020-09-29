@@ -13,15 +13,19 @@ import CoreGraphics
 #endif
 
 public extension KeychainWrapper {
-        
+    /// Remove keychain object mathing `key`.
+    ///
+    /// - parameter key: A valid `Key`.
     func remove(forKey key: Key) {
         removeObject(forKey: key.rawValue)
     }
-    
 }
 
 public extension KeychainWrapper {
-    
+    /// Store or retrieve a `String` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `String`.
     subscript(key: Key) -> String? {
         get { return string(forKey: key) }
         set {
@@ -30,6 +34,10 @@ public extension KeychainWrapper {
         }
     }
 
+    /// Store or retrieve a `Bool` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Bool`.
     subscript(key: Key) -> Bool? {
         get { return bool(forKey: key) }
         set {
@@ -38,6 +46,10 @@ public extension KeychainWrapper {
         }
     }
 
+    /// Store or retrieve an `Int` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Int`.
     subscript(key: Key) -> Int? {
         get { return integer(forKey: key) }
         set {
@@ -46,6 +58,10 @@ public extension KeychainWrapper {
         }
     }
 
+    /// Store or retrieve a `Double` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Double`.
     subscript(key: Key) -> Double? {
         get { return double(forKey: key) }
         set {
@@ -54,6 +70,10 @@ public extension KeychainWrapper {
         }
     }
 
+    /// Store or retrieve a `Float` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Float`.
     subscript(key: Key) -> Float? {
         get { return float(forKey: key) }
         set {
@@ -63,6 +83,10 @@ public extension KeychainWrapper {
     }
 
     #if canImport(CoreGraphics)
+    /// Store or retrieve a `CGFloat` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `CGFloat`.
     subscript(key: Key) -> CGFloat? {
         get { return cgFloat(forKey: key) }
         set {
@@ -73,6 +97,10 @@ public extension KeychainWrapper {
     }
     #endif
     
+    /// Store or retrieve some `Data` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: Some optional `Data`.
     subscript(key: Key) -> Data? {
         get { return data(forKey: key) }
         set {
@@ -80,85 +108,74 @@ public extension KeychainWrapper {
             set(value, forKey: key.rawValue)
         }
     }
-
 }
 
-
 public extension KeychainWrapper {
-    
-    func data(forKey key: Key) -> Data? {
-        if let value = data(forKey: key.rawValue) {
-            return value
-        }
-        return nil
-    }
+    /// Retrieve some `Data` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: Some optional `Data`.
+    func data(forKey key: Key) -> Data? { return data(forKey: key.rawValue) }
 
-    func bool(forKey key: Key) -> Bool? {
-        if let value = bool(forKey: key.rawValue) {
-            return value
-        }
-        
-        return nil
-    }
+    /// Retrieve a `Bool` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Bool`.
+    func bool(forKey key: Key) -> Bool? { return bool(forKey: key.rawValue) }
 
-    func integer(forKey key: Key) -> Int? {
-        if let value = integer(forKey: key.rawValue) {
-            return value
-        }
-        
-        return nil
-    }
+    /// Retrieve a `Int` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Int`.
+    func integer(forKey key: Key) -> Int? { return integer(forKey: key.rawValue) }
 
-    func float(forKey key: Key) -> Float? {
-        if let value = float(forKey: key.rawValue) {
-            return value
-        }
-        
-        return nil
-    }
+    /// Retrieve a `Float` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Float`.
+    func float(forKey key: Key) -> Float? { return float(forKey: key.rawValue) }
 
     #if canImport(CoreGraphics)
-    func cgFloat(forKey key: Key) -> CGFloat? {
-        if let value = float(forKey: key) {
-            return CGFloat(value)
-        }
-        
-        return nil
-    }
+    /// Retrieve a `CGFloat` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `CGFloat`.
+    func cgFloat(forKey key: Key) -> CGFloat? { return double(forKey: key).flatMap(CGFloat.init) }
     #endif
 
-    func double(forKey key: Key) -> Double? {
-        if let value = double(forKey: key.rawValue) {
-            return value
-        }
-        
-        return nil
-    }
+    /// Retrieve a `Double` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `Double`.
+    func double(forKey key: Key) -> Double? { return double(forKey: key.rawValue) }
 
-    func string(forKey key: Key) -> String? {
-        if let value = string(forKey: key.rawValue) {
-            return value
-        }
-        
-        return nil
-    }
-
+    /// Retrieve a `String` in the keychain, matching `key`.
+    ///
+    /// - parameter key: A valid `Key`.
+    /// - returns: An optional `String`.
+    func string(forKey key: Key) -> String? { return string(forKey: key.rawValue) }
 }
 
-
 public extension KeychainWrapper {
-    
+    /// A `struct` used to persist common keys.
+    ///
+    /// ``` swift
+    /// extension KeychainWrapper.Key {
+    ///     static let myKey: KeychainWrapper.Key = "myKey"
+    /// }
+    /// ```
     struct Key: Hashable, RawRepresentable, ExpressibleByStringLiteral {
+        /// The underlying value.
+        public private(set) var rawValue: String
 
-        public var rawValue: String
+        /// Init.
+        ///
+        /// - parameter rawValue: A valid `String`.
+        public init(rawValue: String) { self.rawValue = rawValue }
 
-        public init(rawValue: String) {
-            self.rawValue = rawValue
-        }
-
-        public init(stringLiteral value: String) {
-            self.rawValue = value
-        }
+        /// Init.
+        /// 
+        /// - parameter value: A valid `String`.
+        public init(stringLiteral value: String) { self.rawValue = value }
     }
-    
 }
