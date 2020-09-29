@@ -204,7 +204,11 @@ open class KeychainWrapper {
             return nil
         }
         
-        return NSKeyedUnarchiver.unarchiveObject(with: keychainData) as? NSCoding
+        if #available(iOS 12.0, macOS 10.14, tvOS 12.0, watchOS 5.0, *) {
+            return (try? NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(keychainData)) as? NSCoding
+        } else {
+            return NSKeyedUnarchiver.unarchiveObject(with: keychainData) as? NSCoding
+        }
     }
 
     
@@ -294,8 +298,14 @@ open class KeychainWrapper {
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if the save was successful, false otherwise.
     @discardableResult open func set(_ value: NSCoding, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        let data = NSKeyedArchiver.archivedData(withRootObject: value)
+        let optionalData: Data?
+        if #available(iOS 12.0, macOS 10.14, tvOS 12.0, watchOS 5.0, *) {
+            optionalData = try? NSKeyedArchiver.archivedData(withRootObject: value, requiringSecureCoding: false)
+        } else {
+            optionalData = NSKeyedArchiver.archivedData(withRootObject: value)
+        }
         
+        guard let data = optionalData else { return false }
         return set(data, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
 
