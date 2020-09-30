@@ -27,6 +27,10 @@
 
 import Foundation
 
+#if canImport(CoreGraphics)
+import CoreGraphics
+#endif
+
 /// A `struct` holding reference to all `CFString` identifiers.
 private struct SecConstants {
     /// `kSecMatchLimit`
@@ -58,6 +62,14 @@ private struct SecConstants {
 /// A `class` wrapping keychain access into a `Swift` container.
 /// It is designed to mimic `UserDefaults`, which is way more familiar to people.
 open class KeychainWrapper {
+    /// An `enum` holding reference to keychain specific `Error`s.
+    public enum Error: Swift.Error {
+        /// A keychain specific error.
+        case status(OSStatus)
+        /// Invalid downcast.
+        case invalidCasting
+    }
+
     /// A shared instance of `KeychainWrapper`.
     @available(*, deprecated, renamed: "standard", message: "`defaultKeychainWrapper` will be removed in a future version")
     public static let defaultKeychainWrapper = KeychainWrapper.standard
@@ -153,6 +165,83 @@ open class KeychainWrapper {
 
     // MARK: Getters
 
+    /// Returns a stored object for a specified key.
+    ///
+    /// - parameters:
+    ///     - type: Some type.
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - throws: An instance of `KeychainWrapper.Error` or a `Swift.Error`.
+    /// - returns: The persisted object if found, `nil` otherwise.
+    open func unsafeGet<T>(_ type: T.Type,
+                           forKey key: String,
+                           accessible accessibility: KeychainItemAccessibility? = nil,
+                           synchronized isSynchronizable: Bool = false) throws -> T? {
+        // Downcast or throw.
+        func downcast<S>(_ value: S?) throws -> T? {
+            guard let value = value else { return nil }
+            guard let result = value as? T else { throw Error.invalidCasting }
+            return result
+        }
+
+        // Prepare the query.
+        var query = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
+        query[SecConstants.matchLimit] = kSecMatchLimitOne
+        query[SecConstants.returnData] = kCFBooleanTrue
+        // Fetch results.
+        var result: AnyObject?
+        let status = SecItemCopyMatching(query as CFDictionary, &result)
+        // Return value.
+        guard status == noErr else { throw Error.status(status) }
+        guard let data = result as? Data else { return nil }
+
+        // Check for type.
+        switch type {
+        case is Data.Type:
+            return data as? T
+        case is String.Type:
+            return try downcast(String(data: data, encoding: .utf8))
+        case is Int.Type:
+            return try downcast(unsafeGet(NSNumber.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)?.intValue)
+        case is Float.Type:
+            return try downcast(unsafeGet(NSNumber.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)?.floatValue)
+        case is Double.Type:
+            return try downcast(unsafeGet(NSNumber.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)?.doubleValue)
+        case is Bool.Type:
+            return try downcast(unsafeGet(NSNumber.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)?.boolValue)
+        #if canImport(CoreGraphics)
+        case is CGFloat.Type:
+            return try downcast(unsafeGet(Double.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable).flatMap(CGFloat.init))
+        #endif
+        default:
+            // Unarchive `data`.
+            var object: Any?
+            if #available(iOS 12.0, macOS 10.14, tvOS 12.0, watchOS 5.0, *) {
+                object = try NSKeyedUnarchiver.unarchiveTopLevelObjectWithData(data)
+            } else {
+                object = NSKeyedUnarchiver.unarchiveObject(with: data)
+            }
+            // Return value.
+            return try downcast(object)
+        }
+    }
+
+    /// Returns a stored object for a specified key.
+    ///
+    /// - parameters:
+    ///     - type: Some type.
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: The persisted object if found, `nil` otherwise.
+    public func get<T>(_ type: T.Type,
+                       forKey key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> T? {
+        return try? unsafeGet(type, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+    }
+
     /// Returns an `Int` matching `key`, `accessibility` and synchronization settings.
     ///
     /// - parameters:
@@ -160,10 +249,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: An `Int` if a stored object was found, `nil` otherwise.
-    open func integer(forKey key: String,
-                      accessible accessibility: KeychainItemAccessibility? = nil,
-                      synchronized isSynchronizable: Bool = false) -> Int? {
-        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.intValue
+    public func integer(forKey key: String,
+                        accessible accessibility: KeychainItemAccessibility? = nil,
+                        synchronized isSynchronizable: Bool = false) -> Int? {
+        return get(Int.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns a `Float` matching `key`, `accessibility` and synchronization settings.
@@ -173,10 +262,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: A `Float` if a stored object was found, `nil` otherwise.
-    open func float(forKey key: String,
-                    accessible accessibility: KeychainItemAccessibility? = nil,
-                    synchronized isSynchronizable: Bool = false) -> Float? {
-        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.floatValue
+    public func float(forKey key: String,
+                      accessible accessibility: KeychainItemAccessibility? = nil,
+                      synchronized isSynchronizable: Bool = false) -> Float? {
+        return get(Float.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns a `Double` matching `key`, `accessibility` and synchronization settings.
@@ -186,10 +275,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: A `Double` if a stored object was found, `nil` otherwise.
-    open func double(forKey key: String,
-                     accessible accessibility: KeychainItemAccessibility? = nil,
-                     synchronized isSynchronizable: Bool = false) -> Double? {
-        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.doubleValue
+    public func double(forKey key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> Double? {
+        return get(Double.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns a `Bool` matching `key`, `accessibility` and synchronization settings.
@@ -199,10 +288,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: A `Bool` if a stored object was found, `nil` otherwise.
-    open func bool(forKey key: String,
-                   accessible accessibility: KeychainItemAccessibility? = nil,
-                   synchronized isSynchronizable: Bool = false) -> Bool? {
-        return (object(forKey: key, accessible: accessibility, synchronized: isSynchronizable) as? NSNumber)?.boolValue
+    public func bool(forKey key: String,
+                     accessible accessibility: KeychainItemAccessibility? = nil,
+                     synchronized isSynchronizable: Bool = false) -> Bool? {
+        return get(Bool.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns a `String` matching `key`, `accessibility` and synchronization settings.
@@ -212,10 +301,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: A `String` if a stored object was found, `nil` otherwise.
-    open func string(forKey key: String,
-                     accessible accessibility: KeychainItemAccessibility? = nil,
-                     synchronized isSynchronizable: Bool = false) -> String? {
-        return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable).flatMap { String(data: $0, encoding: .utf8) }
+    public func string(forKey key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> String? {
+        return get(String.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns some instance matching `key`, `accessibility` and synchronization settings.
@@ -225,11 +314,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: Some instance stored in the keychain if found, `nil` otherwise.
-    open func object(forKey key: String,
-                     accessible accessibility: KeychainItemAccessibility? = nil,
-                     synchronized isSynchronizable: Bool = false) -> Any? {
-        return data(forKey: key, accessible: accessibility, synchronized: isSynchronizable)
-            .flatMap { NSKeyedUnarchiver.unarchiveObject(with: $0) }
+    public func object(forKey key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> Any? {
+        return get(Any.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns some `Data` matching `key`, `accessibility` and synchronization settings.
@@ -239,18 +327,10 @@ open class KeychainWrapper {
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
     /// - returns: Some `Data` stored in the keychain if found, `nil` otherwise.
-    open func data(forKey key: String,
-                   accessible accessibility: KeychainItemAccessibility? = nil,
-                   synchronized isSynchronizable: Bool = false) -> Data? {
-        // Prepare the query.
-        var query = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
-        query[SecConstants.matchLimit] = kSecMatchLimitOne
-        query[SecConstants.returnData] = kCFBooleanTrue
-        // Fetch results.
-        var result: AnyObject?
-        let status = SecItemCopyMatching(query as CFDictionary, &result)
-        // Return value.
-        return status == noErr ? result as? Data : nil
+    public func data(forKey key: String,
+                     accessible accessibility: KeychainItemAccessibility? = nil,
+                     synchronized isSynchronizable: Bool = false) -> Data? {
+        return get(Data.self, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
     }
 
     /// Returns a persistent data reference object for a specified key.
@@ -283,12 +363,11 @@ open class KeychainWrapper {
     ///     - key: A valid `String`.
     ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
     ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
-    /// - returns: `true` if it was successful, `false` otherwise.
-    @discardableResult
-    open func set<T>(_ value: T,
-                     forKey key: String,
-                     accessible accessibility: KeychainItemAccessibility? = nil,
-                     synchronized isSynchronizable: Bool = false) -> Bool {
+    /// - throws: An instance of `KeychainWrapper.Error`.
+    open func unsafeSet<T>(_ value: T,
+                           forKey key: String,
+                           accessible accessibility: KeychainItemAccessibility? = nil,
+                           synchronized isSynchronizable: Bool = false) throws {
         switch value {
         case let data as Data:
             // Prepare the query.
@@ -298,15 +377,15 @@ open class KeychainWrapper {
             // Store results.
             let status: OSStatus = SecItemAdd(query as CFDictionary, nil)
             if status == errSecSuccess {
-                return true
+                return
             } else if status == errSecDuplicateItem {
-                return update(data, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+                try update(data, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
             } else {
-                return false
+                throw Error.status(status)
             }
         case let string as String:
             // Encode `string`.
-            return string.data(using: .utf8).flatMap { set($0, forKey: key, accessible: accessibility, synchronized: isSynchronizable) } ?? false
+            try string.data(using: .utf8).flatMap { try unsafeSet($0, forKey: key, accessible: accessibility, synchronized: isSynchronizable) }
         default:
             // Archive `value`.
             var archivedData: Data?
@@ -316,7 +395,28 @@ open class KeychainWrapper {
                 archivedData = NSKeyedArchiver.archivedData(withRootObject: value)
             }
             // Store results.
-            return archivedData.flatMap { set($0, forKey: key, accessible: accessibility, synchronized: isSynchronizable) } ?? false
+            try archivedData.flatMap { try unsafeSet($0, forKey: key, accessible: accessibility, synchronized: isSynchronizable) }
+        }
+    }
+
+    /// Store `value` into the keychain.
+    ///
+    /// - parameters:
+    ///     - value: Some value.
+    ///     - key: A valid `String`.
+    ///     - accessibility: An optional instance of `KeychainItemAccessibility`. Defaults to `nil`.
+    ///     - isSynchronizable: A valid `Bool`. Defaults to `false`.
+    /// - returns: `true` if it was successful, `false` otherwise.
+    @discardableResult
+    public func set<T>(_ value: T,
+                       forKey key: String,
+                       accessible accessibility: KeychainItemAccessibility? = nil,
+                       synchronized isSynchronizable: Bool = false) -> Bool {
+        do {
+            try unsafeSet(value, forKey: key, accessible: accessibility, synchronized: isSynchronizable)
+            return true
+        } catch {
+            return false
         }
     }
 
@@ -385,13 +485,16 @@ open class KeychainWrapper {
     private func update(_ value: Data,
                         forKey key: String,
                         accessible accessibility: KeychainItemAccessibility? = nil,
-                        synchronized isSynchronizable: Bool = false) -> Bool {
+                        synchronized isSynchronizable: Bool = false) throws {
         // Prepare query.
         var query: [CFString: Any] = keychainQuery(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
         query[SecConstants.accessible] = accessibility?.keychainAttrValue // Do not fallback in this case.
         // Update attributes.
         let updateDictionary = [SecConstants.valueData: value]
-        return SecItemUpdate(query as CFDictionary, updateDictionary as CFDictionary) == errSecSuccess
+        let status = SecItemUpdate(query as CFDictionary, updateDictionary as CFDictionary)
+        // Return status.
+        guard status != errSecSuccess else { return }
+        throw Error.status(status)
     }
 
     /// Return a valid dictionary from starting parameters.
