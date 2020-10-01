@@ -1,6 +1,6 @@
 # SwiftKeychainWrapper
 
-A simple wrapper for the iOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
+A simple wrapper for the iOS / tvOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
 
 Provides singleton instance that is setup to work for most needs. Use `KeychainWrapper.standard` to access the singleton instance.
 
@@ -8,7 +8,7 @@ If you need to customize the keychain access to use a custom identifier or acces
 
 By default, the Keychain Wrapper saves data as a Generic Password type in the iOS Keychain. It saves items such that they can only be accessed when the app is unlocked and open. If you are not familiar with the iOS Keychain usage, this provides a safe default for using the keychain.
 
-Users that want to deviate from this default implementation, now can do so in in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
+Users that want to deviate from this default implementation, now can do so in version 2.0 and up. Each request to save/read a key value now allows you to specify the keychain accessibility for that key.
 
 ## General Usage
 
@@ -29,7 +29,7 @@ let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: "myKe
 
 ## Custom Instance
 
-When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keycahin under different identifiers.
+When the Keychain Wrapper is used, all keys are linked to a common identifier for your app, called the service name. By default this uses your main bundle identifier. However, you may also change it, or store multiple items to the keychain under different identifiers.
 
 To share keychain items between your applications, you may specify an access group and use that same access group in each application.
 
@@ -50,12 +50,52 @@ let retrievedString: String? = customKeychainWrapperInstance.string(forKey: "myK
 let removeSuccessful: Bool = customKeychainWrapperInstance.removeObject(forKey: "myKey")
 ```
 
+## Subscript usage
+
+Keychain can also be accessed with subscript as it is in dictionary. Keys can be predefined and listed in one place for convenience.
+
+Firstly, let's define the key to use later.
+
+``` swift
+extension KeychainWrapper.Key {
+    static let myKey: KeychainWrapper.Key = "myKey"
+}
+```
+
+And now we can use this key as follows:
+
+``` swift
+KeychainWrapper.standard[.myKey] = "some string"
+
+let myValue: String? = KeychainWrapper.standard[.myKey]
+
+KeychainWrapper.standard.remove(forKey: .myKey)
+
+```
+
+
 ## Accessibility Options
 
 By default, all items saved to keychain can only be accessed when the device is unlocked. To change this accessibility, an optional `withAccessibility` param can be set on all requests. The enum `KeychainItemAccessibilty` provides an easy way to select the accessibility level desired:
- 
+
 ``` swift
 KeychainWrapper.standard.set("Some String", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+```
+
+## Synchronizable Option
+
+By default, all items saved to keychain are not synchronizable, so they are not synced with the iCloud. To change this, an  `isSynchronizable` bool param can be set on all requests. You need the item to be synchronized with the iCloud if you want to have it on all of your devices:
+ 
+``` swift
+KeychainWrapper.standard.set("Some String", forKey: "myKey", isSynchronizable: true)
+```
+
+**Important:** You can't modify value for key if it was previously set with different accessibility option. Remove the value for key and set it with new accessibility option. (Otherwise the value will not change).  
+For example:
+``` swift
+KeychainWrapper.standard.set("String one", forKey: "myKey", withAccessibility: .AfterFirstUnlock)
+KeychainWrapper.standard.removeObject(forKey: "myKey")
+KeychainWrapper.standard.set("String two", forKey: "myKey", withAccessibility: .Always)
 ```
 
 ## Installation
@@ -91,11 +131,29 @@ Swift 2.3:
 github "jrendel/SwiftKeychainWrapper" == 2.1.1
 ```
 
+#### Swift Package Manager
+You can use [Swift Package Manager](https://swift.org/package-manager/) to install SwiftKeychainWrapper using Xcode:
+
+1. Open your project in Xcode
+
+2. Click "File" -> "Swift Packages" -> "Add Package Dependency..."
+
+3. Paste the following URL: https://github.com/jrendel/SwiftKeychainWrapper
+
+4. Click "Next" -> "Next" -> "Finish"
+
+
 #### Manually
 Download and drop ```KeychainWrapper.swift``` and ```KeychainItemAcessibility.swift``` into your project.
 
 
 ## Release History
+
+* 4.1
+Added conditional logic for CGFloat accessories for when package is used where CGFloat is not available
+
+* 4.0
+Updated with SPM support and other community PRs. Minimum iOS version is now 9.0. 
 
 * 3.4
 * Changed how Swift version is defined for CocoaPods
