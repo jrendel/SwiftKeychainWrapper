@@ -148,7 +148,7 @@ open class KeychainWrapper {
     // MARK: Public Getters
     
     open func integer(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Int? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
+        guard let numberValue = object(forKey: key, ofClass: NSNumber.self, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
@@ -156,7 +156,7 @@ open class KeychainWrapper {
     }
     
     open func float(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Float? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
+        guard let numberValue = object(forKey: key, ofClass: NSNumber.self, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
@@ -164,7 +164,7 @@ open class KeychainWrapper {
     }
     
     open func double(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Double? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
+        guard let numberValue = object(forKey: key, ofClass: NSNumber.self, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
@@ -172,7 +172,7 @@ open class KeychainWrapper {
     }
     
     open func bool(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool? {
-        guard let numberValue = object(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) as? NSNumber else {
+        guard let numberValue = object(forKey: key, ofClass: NSNumber.self, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
@@ -199,12 +199,12 @@ open class KeychainWrapper {
     /// - parameter withAccessibility: Optional accessibility to use when retrieving the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: The decoded object associated with the key if it exists. If no data exists, or the data found cannot be decoded, returns nil.
-    open func object(forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> NSCoding? {
+    open func object<DecodedObjectType>(forKey key: String, ofClass cls: DecodedObjectType.Type, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> DecodedObjectType? where DecodedObjectType : NSObject, DecodedObjectType : NSCoding {
         guard let keychainData = data(forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable) else {
             return nil
         }
         
-        return NSKeyedUnarchiver.unarchiveObject(with: keychainData) as? NSCoding
+        return try? NSKeyedUnarchiver.unarchivedObject(ofClass: cls, from: keychainData)
     }
 
     
@@ -293,9 +293,11 @@ open class KeychainWrapper {
     /// - parameter withAccessibility: Optional accessibility to use when setting the keychain item.
     /// - parameter isSynchronizable: A bool that describes if the item should be synchronizable, to be synched with the iCloud. If none is provided, will default to false
     /// - returns: True if the save was successful, false otherwise.
-    @discardableResult open func set(_ value: NSCoding, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool {
-        let data = NSKeyedArchiver.archivedData(withRootObject: value)
-        
+    @discardableResult open func set<T>(_ value: T, forKey key: String, withAccessibility accessibility: KeychainItemAccessibility? = nil, isSynchronizable: Bool = false) -> Bool where T : NSSecureCoding {
+        guard let data = try? NSKeyedArchiver.archivedData(withRootObject: value, requiringSecureCoding: true) else {
+            return false
+        }
+    
         return set(data, forKey: key, withAccessibility: accessibility, isSynchronizable: isSynchronizable)
     }
 
