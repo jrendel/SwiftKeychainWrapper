@@ -1,3 +1,5 @@
+:no_entry: [DEPRECATED] This library is not being kept up to date. This was created when Swift was first released as a simple way to work with the Keychain. But the approach was restricted and not suited to more advanced keychain usage.
+
 # SwiftKeychainWrapper
 
 A simple wrapper for the iOS / tvOS Keychain to allow you to use it in a similar fashion to User Defaults. Written in Swift.
